@@ -20,7 +20,8 @@ namespace CoffeBarManagement.Controllers
 
         public AccountController(JWTService jwtService,
             SignInManager<User> signInManager,
-            UserManager<User> userManager)
+            UserManager<User> userManager
+           )
         {
             _jwtService = jwtService;
             _signInManager = signInManager;
@@ -32,7 +33,7 @@ namespace CoffeBarManagement.Controllers
         public async Task<ActionResult<UserDto>> RefreshUserToken()
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.Email)?.Value);
-            return CreateApplicationUserDto(user);
+            return await CreateApplicationUserDto(user);
         }
 
 
@@ -49,7 +50,7 @@ namespace CoffeBarManagement.Controllers
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
             if(!result.Succeeded) return Unauthorized("Invalid username or password");
 
-            return CreateApplicationUserDto(user);
+            return await CreateApplicationUserDto(user);
         }
 
         [HttpPost("register")]
@@ -66,23 +67,40 @@ namespace CoffeBarManagement.Controllers
                 LastName = model.LastName.ToLower(),
                 UserName = model.Email.ToLower(),
                 Email = model.Email.ToLower(),
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                
             };
 
             var result = await _userManager.CreateAsync(userToAdd,model.Password);
+
+            var _roleAssigned = await _userManager.AddToRoleAsync(userToAdd, Dependencis.DEFAULT_ROLE);
+
             if (!result.Succeeded) return BadRequest(result.Errors);
+
+
 
             return Ok("Your account has been created, you can login!");
         }
 
-
-        private UserDto CreateApplicationUserDto(User user)
+        //private UserDto CreateApplicationUserDto(User user)
+        //{
+        //    return new UserDto
+        //    {
+        //        FirstName = user.FirstName,
+        //        LastName = user.LastName,
+        //        JWT = _jwtService.CreateJWT(user),
+        //    };
+        //}
+        private async Task<UserDto> CreateApplicationUserDto(User user)
         {
+            // Generate JWT token asynchronously
+            var token = await _jwtService.CreateJWT(user);
+
             return new UserDto
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                JWT = _jwtService.CreateJWT(user),
+                JWT = token
             };
         }
 
