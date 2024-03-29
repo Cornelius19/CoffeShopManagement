@@ -48,15 +48,15 @@ namespace CoffeBarManagement.Controllers
             if (user.EmailConfirmed == false) return Unauthorized("Please confirm your email");
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-            if(!result.Succeeded) return Unauthorized("Invalid username or password");
+            if (!result.Succeeded) return Unauthorized("Invalid username or password");
 
             return await CreateApplicationUserDto(user);
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register (RegisterDto model)
+        public async Task<IActionResult> Register(RegisterDto model)
         {
-            if(await CheckEmailExistAsync(model.Email))
+            if (await CheckEmailExistAsync(model.Email))
             {
                 return BadRequest($"An existing account is using {model.Email}, email address. Please try with another email address!");
             }
@@ -68,10 +68,10 @@ namespace CoffeBarManagement.Controllers
                 UserName = model.Email.ToLower(),
                 Email = model.Email.ToLower(),
                 EmailConfirmed = true,
-                
+
             };
 
-            var result = await _userManager.CreateAsync(userToAdd,model.Password);
+            var result = await _userManager.CreateAsync(userToAdd, model.Password);
 
             var _roleAssigned = await _userManager.AddToRoleAsync(userToAdd, Dependencis.DEFAULT_ROLE);
 
@@ -81,6 +81,27 @@ namespace CoffeBarManagement.Controllers
 
             return Ok("Your account has been created, you can login!");
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("get-users")]
+        public async Task<List<User>> GetAllUsers()
+        {
+            var users = new List<User>();
+            users = await _userManager.Users.ToListAsync(); // Get all users
+
+            var userToShow = users.Select(x => new User
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Email = x.Email,
+            }).ToList();
+
+            return userToShow;
+        }
+
+
+
 
         //private UserDto CreateApplicationUserDto(User user)
         //{
