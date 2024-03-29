@@ -1,5 +1,7 @@
+using CoffeBarManagement;
 using CoffeBarManagement.Data;
-using CoffeBarManagement.Models;
+using CoffeBarManagement.Data.IdentityDbContext;
+using CoffeBarManagement.Models.IdentityModels;
 using CoffeBarManagement.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +20,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<Context>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddDbContext<ApplicationContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationConnection"));
 });
 
 builder.Services.AddScoped<JWTService>();//for injecting our jwtService inside our controlers
@@ -67,19 +73,43 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-//    var roles = new[] { "Admin", "Employee", "Client" };
 
-//    foreach (var role in roles)
-//    {
-//        if (!await roleManager.RoleExistsAsync(role))
-//        {
-//            await roleManager.CreateAsync(new IdentityRole(role));
-//        }
-//    }
-//}
+//Create our roles in case they don't exist
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roles = new[] { "Admin", "Employee", "Client" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
+
+//Create admin account in case it doesn't exist
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
 
-app.Run();
+    var adminCreating = new User
+    {
+        FirstName = "Corneliu".ToLower(),
+        LastName = "Museteanu".ToLower(),
+        UserName = "corneliu@gmail.com".ToLower(),
+        Email = "corneliu@gmail.com".ToLower(),
+        EmailConfirmed = true
+    };
+
+    var checkIfExist = await userManager.FindByEmailAsync(adminCreating.Email);
+    if(checkIfExist == null)
+    {
+        await userManager.CreateAsync(adminCreating, "P@ssword1!");
+        await userManager.AddToRoleAsync(adminCreating, Dependencis.ADMIN_ROLE);
+    }
+}
+    app.Run();

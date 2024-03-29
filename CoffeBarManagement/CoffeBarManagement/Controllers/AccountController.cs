@@ -1,5 +1,7 @@
-﻿using CoffeBarManagement.DTOs.Account;
-using CoffeBarManagement.Models;
+﻿using CoffeBarManagement.Data;
+using CoffeBarManagement.DTOs.Account;
+using CoffeBarManagement.Models.IdentityModels;
+using CoffeBarManagement.Models.Models;
 using CoffeBarManagement.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,15 +19,18 @@ namespace CoffeBarManagement.Controllers
         private readonly JWTService _jwtService;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly ApplicationContext _applicationContext;
 
         public AccountController(JWTService jwtService,
             SignInManager<User> signInManager,
-            UserManager<User> userManager
+            UserManager<User> userManager,
+            ApplicationContext applicationContext
            )
         {
             _jwtService = jwtService;
             _signInManager = signInManager;
             _userManager = userManager;
+            _applicationContext = applicationContext;
         }
 
         [Authorize]
@@ -77,41 +82,21 @@ namespace CoffeBarManagement.Controllers
 
             if (!result.Succeeded) return BadRequest(result.Errors);
 
+            var userToAddInClient = new Client
+            {
+                FirstName = model.FirstName.ToLower(),
+                LastName = model.LastName.ToLower(),
+                Email = model.Email.ToLower(),
+                UserId = userToAdd.Id,
+            };
+            
+            _applicationContext.Clients.Add(userToAddInClient);
+            await _applicationContext.SaveChangesAsync();
+
 
 
             return Ok("Your account has been created, you can login!");
         }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet("get-users")]
-        public async Task<List<User>> GetAllUsers()
-        {
-            var users = new List<User>();
-            users = await _userManager.Users.ToListAsync(); // Get all users
-
-            var userToShow = users.Select(x => new User
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Email = x.Email,
-            }).ToList();
-
-            return userToShow;
-        }
-
-
-
-
-        //private UserDto CreateApplicationUserDto(User user)
-        //{
-        //    return new UserDto
-        //    {
-        //        FirstName = user.FirstName,
-        //        LastName = user.LastName,
-        //        JWT = _jwtService.CreateJWT(user),
-        //    };
-        //}
         private async Task<UserDto> CreateApplicationUserDto(User user)
         {
             // Generate JWT token asynchronously
