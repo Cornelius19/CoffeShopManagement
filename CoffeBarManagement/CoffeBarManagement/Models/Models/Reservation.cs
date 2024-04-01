@@ -19,6 +19,12 @@ public partial class Reservation
 
     public int? TableId { get; set; }
 
+    public string FirstName { get; set; }
+
+    public string LastName { get; set; }
+
+    public string PhoneNumber { get; set; }
+
     public virtual Client Client { get; set; }
 
     public virtual Table Table { get; set; }

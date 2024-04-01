@@ -41,7 +41,6 @@ public partial class ApplicationContext : DbContext
     public virtual DbSet<Table> Tables { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=CORNELIU\\SQLEXPRESS;Database=CoffeBarManagementData;Trusted_Connection=True;MultipleActiveResultSets=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -260,7 +259,22 @@ public partial class ApplicationContext : DbContext
             entity.Property(e => e.ReservationId).HasColumnName("reservation_Id");
             entity.Property(e => e.ClientId).HasColumnName("client_Id");
             entity.Property(e => e.Duration).HasColumnName("duration");
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValueSql("(NULL)")
+                .HasColumnName("firstName");
             entity.Property(e => e.GuestNumber).HasColumnName("guest_Number");
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValueSql("(NULL)")
+                .HasColumnName("lastName");
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValueSql("(NULL)")
+                .HasColumnName("phoneNumber");
             entity.Property(e => e.ReservationDate)
                 .HasColumnType("datetime")
                 .HasColumnName("reservation_Date");

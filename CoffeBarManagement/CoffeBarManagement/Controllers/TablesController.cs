@@ -1,5 +1,5 @@
 ﻿using CoffeBarManagement.Data;
-using CoffeBarManagement.DTOs.Account;
+using CoffeBarManagement.DTOs.Table;
 using CoffeBarManagement.Models.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
