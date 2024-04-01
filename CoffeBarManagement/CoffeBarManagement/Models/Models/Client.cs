@@ -1,18 +1,23 @@
-﻿using CoffeBarManagement.Models.IdentityModels;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace CoffeBarManagement.Models.Models
+namespace CoffeBarManagement.Models.Models;
+
+public partial class Client
 {
-    public class Client
-    {
-        [Key]
-        public int User_Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
+    public int ClientId { get; set; }
 
-        public string UserId { get; set; } //Foreing key to User from identity
+    public string FirstName { get; set; }
 
-    }
+    public string LastName { get; set; }
+
+    public string Email { get; set; }
+
+    public string UserId { get; set; }
+
+    public string PhoneNumber { get; set; }
+
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }

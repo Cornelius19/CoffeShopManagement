@@ -14,6 +14,10 @@ namespace CoffeBarManagement.DTOs.Account
         [RegularExpression("^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$", ErrorMessage = "Invalid email address!")]
         public string Email { get; set; }
         [Required]
+        [StringLength(15, MinimumLength =10, ErrorMessage ="Invalid phone number")]
+        public string PhoneNumber { get; set; }
+
+        [Required]
         [StringLength(30, MinimumLength = 6, ErrorMessage = "Password must be at least {2}, and maximum {1} characters")]
         public string Password { get; set; }
 

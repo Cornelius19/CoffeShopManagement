@@ -1,0 +1,27 @@
+{
+  "cod_comanda": "se geneara in db",
+  "data_comanda": "data",
+  "cod_angajat": "1",
+  "detalii comanda": [
+    {
+      "cod_produs": "2",
+      "cantitate": 2,
+      "pret_unitar": 1.2
+    },
+    {
+      "cod_produs": "2",
+      "cantitate": 2,
+      "pret_unitar": 1.2
+    },
+    {
+      "cod_produs": "2",
+      "cantitate": 2,
+      "pret_unitar": 1.2
+    },
+    {
+      "cod_produs": "2",
+      "cantitate": 2,
+      "pret_unitar": 1.2
+    }
+  ]
+}

@@ -73,7 +73,6 @@ namespace CoffeBarManagement.Controllers
                 UserName = model.Email.ToLower(),
                 Email = model.Email.ToLower(),
                 EmailConfirmed = true,
-
             };
 
             var result = await _userManager.CreateAsync(userToAdd, model.Password);
@@ -87,13 +86,12 @@ namespace CoffeBarManagement.Controllers
                 FirstName = model.FirstName.ToLower(),
                 LastName = model.LastName.ToLower(),
                 Email = model.Email.ToLower(),
+                PhoneNumber = model.PhoneNumber.ToLower(),
                 UserId = userToAdd.Id,
             };
             
             _applicationContext.Clients.Add(userToAddInClient);
             await _applicationContext.SaveChangesAsync();
-
-
 
             return Ok("Your account has been created, you can login!");
         }
@@ -101,9 +99,20 @@ namespace CoffeBarManagement.Controllers
         {
             // Generate JWT token asynchronously
             var token = await _jwtService.CreateJWT(user);
-
+            var client = _applicationContext.Clients.Where(q => q.UserId == user.Id).FirstOrDefault();
+            var employee = _applicationContext.Employees.Where(q => q.UserId == user.Id).FirstOrDefault();
+            var userId = 0;
+            if (client != null)
+            {
+                userId = client.ClientId;
+            }
+            if (employee != null)
+            {
+                userId = employee.EmployeeId;
+            }
             return new UserDto
             {
+                UserId = userId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 JWT = token
