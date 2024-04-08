@@ -24,6 +24,7 @@ namespace CoffeBarManagement.Controllers
             this._userManager = userManager;
         }
 
+
         [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
         [HttpPost("create-reservation-client/{id}")]
         public async Task<IActionResult> CreateReservation(CreateReservationDto model,int id)
@@ -42,10 +43,13 @@ namespace CoffeBarManagement.Controllers
                 LastName = clientDetails.LastName,
                 PhoneNumber = clientDetails.PhoneNumber
             };
+            if (!CheckReservationDate(model.Reservationdate)) return BadRequest("Huston we got a reservation date that is in the past send Time Machine :)!");
+            if (!CheckTablecapacity(model.TableId, model.GuestNumber)) { return BadRequest("The guest number is bigger than the table capacity, use another table!"); }
             await _applicationContext.AddAsync<Reservation>(reservationToAdd);
             _applicationContext.SaveChanges();
             return Ok("Reservation was added successfuly!");
         }
+
 
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpPost("create-reservation-employee")]
@@ -62,6 +66,8 @@ namespace CoffeBarManagement.Controllers
                 LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber
             };
+            if (!CheckReservationDate(model.Reservationdate)) return BadRequest("Huston we got a reservation date that is in the past send Time Machine :)!");
+            if (!CheckTablecapacity(model.TableId, model.GuestNumber)) { return BadRequest("The guest number is bigger than the table capacity, use another table!"); }
             try
             {
                 await _applicationContext.AddAsync<Reservation>(reservationToAdd);
@@ -98,6 +104,8 @@ namespace CoffeBarManagement.Controllers
                 return emptyList;
             }
         }
+
+
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpGet("get-confirmed-reservations")]
         public async Task<List<GetReservationDto>> GetConfirmedReservations()
@@ -134,6 +142,50 @@ namespace CoffeBarManagement.Controllers
                 return emptyList;
             }
         }
+
+
+        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [HttpGet("get-future-reservations")]
+        public async Task<List<GetReservationDto>> GetFurturedReservations()
+        {
+            var list = new List<GetReservationDto>();
+            var emptyList = new List<GetReservationDto>();
+            var allReservations = await _applicationContext.Reservations.ToListAsync();
+            foreach (var reservation in allReservations)
+            {
+                if (CheckReservationDate(reservation.ReservationDate)) 
+                {
+                    if (reservation.ReservationStatus == true)
+                    {
+                        var reservationDto = new GetReservationDto
+                        {
+                            ReservationId = reservation.ReservationId,
+                            Reservationdate = reservation.ReservationDate,
+                            GuestNumber = reservation.GuestNumber,
+                            FirstName = reservation.FirstName,
+                            LastName = reservation.LastName,
+                            PhoneNumber = reservation.PhoneNumber,
+                            ReservationStatus = true,
+                            Duration = reservation.Duration,
+                            TableNumber = reservation.TableId,
+
+                        };
+                        list.Add(reservationDto);
+                    }
+                }
+                
+            }
+            if (allReservations.Count != 0)
+            {
+                return list;
+            }
+            else
+            {
+                return emptyList;
+            }
+        }
+
+
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpPut("confirm-reservation/{id}")]
         public async Task<IActionResult> ConfirmReservation(int id)
@@ -152,8 +204,9 @@ namespace CoffeBarManagement.Controllers
             return Ok("Reservation confirmed!");
         }
 
+
         [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
-        [HttpGet("confirmed-reservations-client/{id}")]
+        [HttpGet("reservations-client/{id}")]
         public async Task<List<GetReservationDto>> GetConfirmedReservations(int id)
         {
             var clientReservations = await _applicationContext.Reservations.Where(q => q.ClientId == id).ToListAsync();
@@ -163,6 +216,7 @@ namespace CoffeBarManagement.Controllers
             {
                 var reservationDto = new GetReservationDto
                 {
+                    ReservationId = reservation.ReservationId,
                     Reservationdate = reservation.ReservationDate,
                     GuestNumber = reservation.GuestNumber,
                     FirstName = reservation.FirstName,
@@ -177,5 +231,53 @@ namespace CoffeBarManagement.Controllers
             return reservationList;
 
         }
-    }
+
+        [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
+        [HttpDelete("delete-reservation/{userId}/{reservationId}")]
+        public async Task<IActionResult> DeleteReservation(int userId, int reservationId)
+        {
+            var result = await _applicationContext.Reservations.FindAsync(reservationId);
+            if(result == null) { return BadRequest("Such a reservation does not exist!"); }
+            var checkDate = CheckReservationDate(result.ReservationDate);
+            if (!checkDate)
+            {
+                return BadRequest("You can't cancel reservation from the past!");
+            }
+            try
+            {
+                _applicationContext.Reservations.Remove(result);
+                await _applicationContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+            return Ok("Reservation was succsesfully deleted!");
+
+
+        }
+
+
+
+
+        private bool CheckTablecapacity(int table_id, int capacity)
+        {
+            var result = _applicationContext.Tables.Find(table_id);
+            if(result == null) { return false;}
+            if(result.Capacity < capacity)
+            {
+                return false;
+            }
+            return true;
+        }
+        private bool CheckReservationDate(DateTime reservationDate)
+        {
+            var now = DateTime.Now;
+            int result = DateTime.Compare(reservationDate, now);
+            if(result <= 0 ) return false;
+            return true;
+        }
+    }   
+
 }

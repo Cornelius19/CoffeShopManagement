@@ -26,8 +26,8 @@ namespace CoffeBarManagement.Controllers
         public async Task<IActionResult> AddNewProduct(ProductDto model)
         {
             //check if a product with same name already exist (because evenfor similar products we can change the name like cola330ml cola1500ml and stuff like this)
-            var result = await _applicationContext.Products.Where(p=>p.Name == model.Name).FirstOrDefaultAsync();
-            if(result != null) { return BadRequest("A prduct with this name already exist!"); }
+            var result = await _applicationContext.Products.Where(p => p.Name == model.Name).FirstOrDefaultAsync();
+            if (result != null) { return BadRequest("A prduct with this name already exist!"); }
             try
             {
                 var productToAdd = new Product
@@ -79,6 +79,7 @@ namespace CoffeBarManagement.Controllers
                     UnitPrice = model.UnitPrice,
                     UnitMeasure = model.UnitMeasure.ToLower(),
                     AvailableForUser = model.AvailableForUser,
+                    ComplexProduct = true,
                     CategoryId = model.CategoryId,
                     Quantity = 0,
                     SupplyCheck = 0,
@@ -96,7 +97,7 @@ namespace CoffeBarManagement.Controllers
                     await _applicationContext.ComplexProductsComponents.AddAsync(componentProduct);
                     await _applicationContext.SaveChangesAsync();
                 }
-                
+
             }
             catch
             {
@@ -104,6 +105,34 @@ namespace CoffeBarManagement.Controllers
             }
             return Ok($"Product {model.Name} was successfuly added!");
         }
+
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpGet("get-stock")]
+        public async Task<List<Product>> GetStock()
+        {
+            return await _applicationContext.Products.ToListAsync();
+        }
+
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpGet("supply-check")]
+        public async Task<List<Product>> SupplyCheck()
+        {
+            var reportProductList = new List<Product>();
+            var productsToCheck = await _applicationContext.Products.ToListAsync();
+            if(productsToCheck.Count <= 0)
+            {
+                return new List<Product>();
+            }
+            foreach (var product in productsToCheck)
+            {
+                if(product.Quantity <= product.SupplyCheck & product.ComplexProduct == false) 
+                {
+                    reportProductList.Add(product);
+                }
+            }
+            return reportProductList;
+        }
+
 
 
     }

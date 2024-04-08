@@ -37,7 +37,7 @@ namespace CoffeBarManagement.Services
         //    var tokenDescriptor = new SecurityTokenDescriptor
         //    {
         //        Subject = new ClaimsIdentity(userClaims),
-        //        Expires = DateTime.UtcNow.AddDays(int.Parse(_config["JWT:ExpiresInDays"])),
+        //        Expires = DateTime.Now.AddDays(int.Parse(_config["JWT:ExpiresInDays"])),
         //        SigningCredentials = credentials,
         //        Issuer = _config["JWT:Issuer"]
         //    };
@@ -73,7 +73,7 @@ namespace CoffeBarManagement.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(int.Parse(_config["JWT:ExpiresInDays"])),
+                Expires = DateTime.Now.AddDays(int.Parse(_config["JWT:ExpiresInDays"])),
                 SigningCredentials = credentials,
                 Issuer = _config["JWT:Issuer"]
             };

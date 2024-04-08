@@ -31,5 +31,18 @@ namespace CoffeBarManagement.Controllers
             await _applicationContext.SaveChangesAsync();
             return Ok("Table was succseffuly added!");
         }
+
+        [HttpPut("change-table-capacity/{tableId}")]
+        public async Task<IActionResult> ChangeTableCapacity(TabelDto model, int tableId)
+        {
+            var result = await _applicationContext.Tables.FindAsync(tableId);
+            if (result == null)
+            {
+                return BadRequest("Such a table does not exist!");
+            }
+            result.Capacity = model.Capacity;
+            await _applicationContext.SaveChangesAsync();
+            return Ok($"New capacity for the table {tableId} is {model.Capacity} :D");
+        }
     }
 }

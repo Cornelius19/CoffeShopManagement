@@ -1,8 +1,6 @@
-﻿using CoffeBarManagement.Contracts;
-
-namespace CoffeBarManagement.DTOs.Product
+﻿namespace CoffeBarManagement.Contracts
 {
-    public class ProductDto
+    public abstract class GenericProduct
     {
         public string Name { get; set; }
         public double? UnitPrice { get; set; }

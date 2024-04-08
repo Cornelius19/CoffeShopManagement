@@ -8,6 +8,6 @@ namespace CoffeBarManagement.Models.IdentityModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public DateTime DateCreated { get; set; } = DateTime.Now;
     }
 }

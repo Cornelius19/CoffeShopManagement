@@ -14,7 +14,7 @@ namespace CoffeBarManagement.DTOs.Account
         [RegularExpression("^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$", ErrorMessage = "Invalid email address!")]
         public string Email { get; set; }
         [Required]
-        [StringLength(15, MinimumLength =10, ErrorMessage ="Invalid phone number")]
+        [RegularExpression("^\\+40[1-9][0-9]{8,9}$", ErrorMessage ="Invalid phone number!")]
         public string PhoneNumber { get; set; }
 
         [Required]
@@ -23,3 +23,4 @@ namespace CoffeBarManagement.DTOs.Account
 
     }
 }
+

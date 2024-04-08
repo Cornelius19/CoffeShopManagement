@@ -10,7 +10,7 @@ namespace CoffeBarManagement.DTOs.Product
 
         public bool? AvailableForUser { get; set; }
 
-        public bool? ComplexProduct { get; set; } = true;
+        public bool? ComplexProduct { get; set; }
 
         public int? CategoryId { get; set; }
 
