@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace CoffeBarManagement.Controllers
 {
@@ -257,6 +258,37 @@ namespace CoffeBarManagement.Controllers
 
 
         }
+
+        [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
+        [HttpGet("get-active-reservations-client/{userId}")]
+        public async Task<List<GetReservationDto>> GetFutureReservations(int userId)
+        {
+            var futureReservations = new List<GetReservationDto>();
+            var results = await _applicationContext.Reservations.Where(q => q.ClientId == userId).ToListAsync();
+            if(results == null) return new List<GetReservationDto> { };
+            foreach(var reservation in results)
+            {
+                if (CheckReservationDate(reservation.ReservationDate))
+                {
+                        var reservationDto = new GetReservationDto
+                        {
+                            ReservationId = reservation.ReservationId,
+                            Reservationdate = reservation.ReservationDate,
+                            GuestNumber = reservation.GuestNumber,
+                            FirstName = reservation.FirstName,
+                            LastName = reservation.LastName,
+                            PhoneNumber = reservation.PhoneNumber,
+                            ReservationStatus = reservation.ReservationStatus,
+                            Duration = reservation.Duration,
+                            TableNumber = reservation.TableId,
+
+                        };
+                        futureReservations.Add(reservationDto);   
+                }
+            }
+            return futureReservations;
+        }
+
 
 
 

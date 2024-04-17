@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-center">
+    <!--d-flex and justify-content-center is for centered content in bootstrap 5 -->
+    <div class="col-12 col-lg-5">
+        <main class="form-signin">
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <div class="text-center mb-4">
+                    <h3 class="mb-3 font-weight-normal">Login</h3>
+                </div>
+                <div class="form-floating mb-3">
+                    <input formControlName="email" type="text" placeholder="Email" class="form-control"
+                        [class.is-invalid]="isSubmited && loginForm.get('email')?.errors">
+                    <label for="email">Email</label>
+                    <span class="text-danger" *ngIf="isSubmited && loginForm.get('email')?.hasError('required')">
+                        Email is required!
+                    </span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input formControlName="password" type="password" placeholder="Password" class="form-control"
+                    [class.is-invalid]="isSubmited && loginForm.get('password')?.errors">
+                    <label for="password">Password</label>
+                    <span class="text-danger" *ngIf="isSubmited && loginForm.get('password')?.hasError('required')">
+                        Password is required
+                    </span>
+                </div>
+
+                <div class="d-grid mt-4 px-1">
+                    <button class="btn btn-lg btn-info" type="submit">Log in</button>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-6 mt-4 text-center">
+                    <a routerLink="/account/register" class="btn btn-link">Don't have account?</a>
+                </div>
+                <div class="col-6 mt-4 text-center">
+                    <a routerLink="account/forget-password" class="btn btn-link">Forgot password</a>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>

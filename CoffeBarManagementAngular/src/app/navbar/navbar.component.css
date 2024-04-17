@@ -1,0 +1,18 @@
+.active{
+    color: rgb(0, 67, 252) !important;
+}
+.right-dropdown-toggle {
+    order: 3; /* Adjust the order to your preference */
+}
+
+@media (max-width: 991.98px) {
+    .right-dropdown-toggle {
+        margin-left: auto;
+        margin-right: 15px; /* Adjust the margin as needed */
+    }
+    
+    .navbar-nav.ms-auto {
+        margin-left: auto;
+        margin-right: 0;
+    }
+}

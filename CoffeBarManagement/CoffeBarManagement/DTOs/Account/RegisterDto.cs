@@ -18,7 +18,7 @@ namespace CoffeBarManagement.DTOs.Account
         public string PhoneNumber { get; set; }
 
         [Required]
-        [StringLength(30, MinimumLength = 6, ErrorMessage = "Password must be at least {2}, and maximum {1} characters")]
+        [StringLength(30, MinimumLength = 8, ErrorMessage = "Password must be at least {2}, and maximum {1} characters")]
         public string Password { get; set; }
 
     }

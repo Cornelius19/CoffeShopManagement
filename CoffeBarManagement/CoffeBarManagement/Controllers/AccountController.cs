@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace CoffeBarManagement.Controllers
@@ -45,10 +46,10 @@ namespace CoffeBarManagement.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto model)
         {
-            var user = await _userManager.FindByNameAsync(model.UserName);
+            var user = await _userManager.FindByNameAsync(model.Email);
             if (user == null)
             {
-                return Unauthorized("Invalid username or password");
+                return Unauthorized(new JsonResult(new {title = "Error", message = "Invalid email or password!"}));
             }
             if (user.EmailConfirmed == false) return Unauthorized("Please confirm your email");
 
@@ -63,7 +64,7 @@ namespace CoffeBarManagement.Controllers
         {
             if (await CheckEmailExistAsync(model.Email))
             {
-                return BadRequest($"An existing account is using {model.Email}, email address. Please try with another email address!");
+                return BadRequest(new JsonResult(new { title = "Email registered", message = "This email is already used by another user!" }));
             }
 
             var userToAdd = new User
@@ -93,7 +94,7 @@ namespace CoffeBarManagement.Controllers
             _applicationContext.Clients.Add(userToAddInClient);
             await _applicationContext.SaveChangesAsync();
 
-            return Ok("Your account has been created, you can login!");
+            return Ok(new JsonResult(new {title = "Account created", message = "Your account was created!"}));
         }
         private async Task<UserDto> CreateApplicationUserDto(User user)
         {
