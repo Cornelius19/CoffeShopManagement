@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { passwordMatchValidator } from '../../../assets/validators/password-match';
+import { passwordMatchValidator } from '../../shared/validators/password-match';
 import { SharedService } from '../../shared/shared.service';
 import { Router } from '@angular/router';
 

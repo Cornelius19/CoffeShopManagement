@@ -17,7 +17,7 @@
                         <a class="nav-link " routerLink="/reservation" routerLinkActive="active"><strong>Reservation</strong></a>
                     </li>
                 </ul>
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" *ngIf="(accountService.user$ | async) === null">
                     <li class="nav-item">
                         <a class="nav-link  " routerLink="/account/login" routerLinkActive="active"><strong>Login</strong></a>
                     </li>
@@ -25,6 +25,20 @@
                         <a class="nav-link " routerLink="/account/register" routerLinkActive="active"><strong>Register</strong></a>
                     </li>
                 </ul>
+                <ul class="navbar-nav" *ngIf="(accountService.user$ | async) as user">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Account
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">{{user.firstName}}</a></li>
+                            <li><a class="dropdown-item" href="#">{{user.lastName}}</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" (click)="logout()" >Log out</a></li>
+                        </ul>
+                        </li>
+                </ul>
+                
         </div>
         
     </div>

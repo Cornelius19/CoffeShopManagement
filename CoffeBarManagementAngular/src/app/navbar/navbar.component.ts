@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AccountService } from '../account/account.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,5 +8,9 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
+  constructor(public accountService:AccountService){}
 
+  logout(){
+    this.accountService.user$ === null;
+  }
 }

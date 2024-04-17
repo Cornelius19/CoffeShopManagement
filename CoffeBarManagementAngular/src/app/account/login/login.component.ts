@@ -35,8 +35,6 @@ export class LoginComponent implements OnInit{
     if(this.loginForm.valid){
       this.accountService.login(this.loginForm.value).subscribe({
         next: (response) => {
-          console.log(response);
-          
         },
         error: (error) => {
           this.sharedService.showNotification(false,error.error.value.title, error.error.value.message)
