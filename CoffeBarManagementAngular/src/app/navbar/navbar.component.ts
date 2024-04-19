@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from '../account/account.service';
+import { Roles } from '../../dependencies/roles';
 
 @Component({
   selector: 'app-navbar',
@@ -8,9 +9,9 @@ import { AccountService } from '../account/account.service';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  constructor(public accountService:AccountService){}
+  constructor(public accountService:AccountService, public roles: Roles){}
 
   logout(){
-    this.accountService.user$ === null;
+    this.accountService.logout();
   }
 }

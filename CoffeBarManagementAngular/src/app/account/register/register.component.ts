@@ -8,6 +8,9 @@ import {
 import { passwordMatchValidator } from '../../shared/validators/password-match';
 import { SharedService } from '../../shared/shared.service';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
+import { NotExpr } from '@angular/compiler';
+import { User } from '../../shared/models/user';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +27,18 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private sharedService: SharedService,
     private router: Router
-  ) {}
+  ) {
+
+    //this part of code is to restrict access to the register component in case the user is already logged in it also appear in the login page
+    this.accountService.user$.pipe(take(1)).subscribe({
+      next: (user : User | null) => {
+        if(user){
+          this.router.navigateByUrl('/')
+        }
+      }
+    })
+
+  }
 
   ngOnInit(): void {
     this.initializeForm();

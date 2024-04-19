@@ -13,8 +13,11 @@
                     <li class="nav-item">
                         <a class="nav-link " routerLink="/menu" routerLinkActive="active"><strong>Menu</strong></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="(accountService.user$ | async) !== null ">
                         <a class="nav-link " routerLink="/reservation" routerLinkActive="active"><strong>Reservation</strong></a>
+                    </li>
+                    <li class="nav-item" *ngIf="((accountService.user$ | async) !== null) && (accountService.getUserRole() === roles.Admin1)">
+                        <a class="nav-link " routerLink="/dashboard" routerLinkActive="active"><strong>Dashboard</strong></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav" *ngIf="(accountService.user$ | async) === null">
@@ -24,6 +27,7 @@
                     <li class="nav-item">
                         <a class="nav-link " routerLink="/account/register" routerLinkActive="active"><strong>Register</strong></a>
                     </li>
+                    
                 </ul>
                 <ul class="navbar-nav" *ngIf="(accountService.user$ | async) as user">
                     <li class="nav-item dropdown">
@@ -34,7 +38,7 @@
                             <li><a class="dropdown-item" href="#">{{user.firstName}}</a></li>
                             <li><a class="dropdown-item" href="#">{{user.lastName}}</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" (click)="logout()" >Log out</a></li>
+                            <li><a class="dropdown-item" style="cursor: pointer;" (click)="logout()" >Log out</a></li>
                         </ul>
                         </li>
                 </ul>

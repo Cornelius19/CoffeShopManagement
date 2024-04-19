@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { SharedService } from '../../shared/shared.service';
+import { take } from 'rxjs';
+import { User } from '../../shared/models/user';
+import { Roles } from '../../../dependencies/roles';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +20,17 @@ export class LoginComponent implements OnInit{
   constructor(private router: Router,
     private accountService: AccountService,
     private formBuilder: FormBuilder,
-    private sharedService: SharedService
-  ){}
+    private sharedService: SharedService,
+    private roles: Roles
+  ){
+    this.accountService.user$.pipe(take(1)).subscribe({
+      next: (user: User | null) => {
+        if(user){
+          this.router.navigateByUrl('/')
+        }
+      }
+    })
+  }
   ngOnInit(): void {
     this.initializeForm();
   }
@@ -35,10 +47,23 @@ export class LoginComponent implements OnInit{
     if(this.loginForm.valid){
       this.accountService.login(this.loginForm.value).subscribe({
         next: (response) => {
+          switch(this.accountService.getUserRole()){
+            case this.roles.Admin1:{
+              this.router.navigateByUrl('/dashboard');
+              break;
+            }
+            case this.roles.Client1:{
+              this.router.navigateByUrl('/');
+              break;
+            }
+            case this.roles.Employee1:{
+              this.router.navigateByUrl('/menu');
+              break;
+            }
+          }      
         },
         error: (error) => {
-          this.sharedService.showNotification(false,error.error.value.title, error.error.value.message)
-          this.loginForm.reset();
+          this.sharedService.showNotification(false,error.error.value.title, error.error.value.message);
         }
       });
     }

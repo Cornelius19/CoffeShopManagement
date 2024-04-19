@@ -54,7 +54,7 @@ namespace CoffeBarManagement.Controllers
             if (user.EmailConfirmed == false) return Unauthorized("Please confirm your email");
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-            if (!result.Succeeded) return Unauthorized("Invalid username or password");
+            if (!result.Succeeded) return Unauthorized(new JsonResult(new { title = "Error", message = "Invalid email or password!" }));
 
             return await CreateApplicationUserDto(user);
         }
