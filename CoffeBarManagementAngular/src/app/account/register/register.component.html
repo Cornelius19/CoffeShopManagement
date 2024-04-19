@@ -62,9 +62,18 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input formControlName="password" type="password" placeholder="Password" class="form-control"
+                    <input formControlName="password" type="{{showPassword ? 'text' : 'password' }}"
+                        placeholder="Password" class="form-control"
                         [class.is-invalid]="submitted && registerForm.get('password')?.errors">
                     <label for="password">Password</label>
+                    <ng-template #passwordHiddenTemplate>
+                        <span (click)="togglePasswordVisible()" style="cursor: pointer;">
+                            <fa-icon [icon]="faEye" class="input-icon"></fa-icon>
+                        </span>
+                    </ng-template>
+                    <span (click)="togglePasswordVisible()" style="cursor: pointer;"
+                        *ngIf="!showPassword; else passwordHiddenTemplate"><fa-icon [icon]="faEyeClosed"
+                            class="input-icon"></fa-icon> </span>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('password')?.hasError('required')">
                         Password is required
                     </span>
@@ -76,7 +85,8 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input formControlName="repassword" type="password" placeholder="RePassword" class="form-control"
+                    <input formControlName="repassword" type="{{showPassword ? 'text' : 'password' }}"
+                        placeholder="RePassword" class="form-control"
                         [class.is-invalid]="submitted && registerForm.get('repassword')?.errors?.['mismatch']">
                     <label for="repassword">RePassword</label>
                     <span class="text-danger" *ngIf="submitted &&
@@ -89,7 +99,8 @@
                     <button class="btn btn-lg btn-info" type="submit">Create Account</button>
                 </div>
 
-                <div class=" justify-content-center d-grid mt-4 mb-4 px-1 "> <a class="link" routerLink="/account/login"> Already have an account?</a> </div>
+                <div class=" justify-content-center d-grid mt-4 mb-4 px-1 "> <a class="link"
+                        routerLink="/account/login"> Already have an account?</a> </div>
             </form>
         </main>
     </div>

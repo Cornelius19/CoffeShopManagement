@@ -16,9 +16,18 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input formControlName="password" type="password" placeholder="Password" class="form-control"
-                    [class.is-invalid]="isSubmited && loginForm.get('password')?.errors">
-                    <label for="password">Password</label>
+                    <input formControlName="password" type="{{showPassword ? 'text' : 'password' }}"
+                        placeholder="Password" class="form-control"
+                        [class.is-invalid]="isSubmited && loginForm.get('password')?.errors">
+                    <label for="password">Password </label>
+                    <ng-template #passwordHiddenTemplate>
+                        <span (click)="togglePasswordVisible()" style="cursor: pointer;">
+                            <fa-icon [icon]="faEye" class="input-icon"></fa-icon>
+                        </span>
+                    </ng-template>
+                    <span (click)="togglePasswordVisible()" style="cursor: pointer;"
+                        *ngIf="!showPassword; else passwordHiddenTemplate"><fa-icon [icon]="faEyeClosed"
+                            class="input-icon"></fa-icon> </span>
                     <span class="text-danger" *ngIf="isSubmited && loginForm.get('password')?.hasError('required')">
                         Password is required
                     </span>
