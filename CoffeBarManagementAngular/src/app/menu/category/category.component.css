@@ -1,0 +1,9 @@
+.card{
+    transition: .2s;
+    cursor: pointer;
+    scale: 0.7;
+    background-color: rgba(219, 219, 219, 0.589);
+}
+.card:hover{
+    transform: translateY(-10px);
+}

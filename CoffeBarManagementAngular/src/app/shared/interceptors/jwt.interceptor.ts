@@ -11,7 +11,6 @@ export class JwtInterceptor implements HttpInterceptor {
 
     constructor(){}
 
-
     //for set headers for every api call to have the authorization header in case the user is logged in
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let JWT : string = '';
@@ -30,6 +29,4 @@ export class JwtInterceptor implements HttpInterceptor {
     }
     return next.handle(request)
   }
-  
-
 };

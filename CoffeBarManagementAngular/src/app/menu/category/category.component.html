@@ -1,0 +1,22 @@
+<div class="container d-flex justify-content-center">
+    <div class="row">
+        <div class="col">
+            <h1>Select a category</h1>
+            <p class="text-center">There you will find all the products!</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-4" *ngFor="let category of categoryList">
+            <div class="card" [routerLink]="['/menu', 'items', category.categoryId]">
+                <img src="/assets/images/sdbar-high-resolution-logo-black-transparent.png" alt="">
+                <div class="card-body">
+                    <h4 class="text-center">{{category.categoryName}}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

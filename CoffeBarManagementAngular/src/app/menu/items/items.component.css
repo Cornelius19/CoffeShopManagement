@@ -1,0 +1,9 @@
+.card{
+    background-color: rgb(216, 214, 214);
+    cursor: pointer;
+    transition: .2s;
+    border: 1px solid;
+}
+.card:hover{
+    transform: scale(1.01)
+}

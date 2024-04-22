@@ -12,7 +12,6 @@ namespace CoffeBarManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly ApplicationContext _applicationContext;
@@ -119,18 +118,39 @@ namespace CoffeBarManagement.Controllers
         {
             var reportProductList = new List<Product>();
             var productsToCheck = await _applicationContext.Products.ToListAsync();
-            if(productsToCheck.Count <= 0)
+            if (productsToCheck.Count <= 0)
             {
                 return new List<Product>();
             }
             foreach (var product in productsToCheck)
             {
-                if(product.Quantity <= product.SupplyCheck & product.ComplexProduct == false) 
+                if (product.Quantity <= product.SupplyCheck & product.ComplexProduct == false)
                 {
                     reportProductList.Add(product);
                 }
             }
             return reportProductList;
+        }
+
+        [HttpGet("get-menu-products/{categoryId}")]
+        public async Task<List<GetMenuProductDto>> GetMenuProducts(int categoryId)
+        {
+            var result = await _applicationContext.Products.Where(q => q.CategoryId == categoryId && q.AvailableForUser == true).ToListAsync();
+            if(result == null) return new List<GetMenuProductDto>();
+            var categoryProducts = new List<GetMenuProductDto>();
+            foreach (var item in result)
+            {
+                var product = new GetMenuProductDto
+                {
+                    ProductId = item.ProductId,
+                    ProductName = item.Name,
+                    ProductPrice = item.UnitPrice,
+                    ProductAvailability = item.Quantity,
+                    ProductSupplyCheck = item.SupplyCheck
+                };
+                categoryProducts.Add(product);
+            }
+            return categoryProducts;
         }
 
 

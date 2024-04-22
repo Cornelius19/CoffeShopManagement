@@ -12,21 +12,6 @@ export class RoleGuard {
 
   constructor(private accountService : AccountService, private router : Router, private sharedService: SharedService){}
 
-
-  // canActivate(router: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<boolean> {
-  //   return this.accountService.user$.pipe(
-  //     map((user:User | null) => {
-  //       if(user){
-  //         return true;
-  //       }else{
-  //         this.sharedService.showNotification(false,'Authorize page','You are not authorized, please log in!');
-  //         this.router.navigate(['account/login'], {queryParams: {return: state.url}});
-  //         return false;
-  //       }
-  //     })
-  //   );
-  // }
-
   canActivate(router: ActivatedRouteSnapshot, state: RouterStateSnapshot):boolean {
     const requiredRoles = router.data['roles'] as Array<string>;
     const userRole = this.accountService.getUserRole();

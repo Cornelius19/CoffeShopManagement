@@ -41,13 +41,21 @@ namespace CoffeBarManagement.Controllers
         }
 
 
-
-        [Authorize(Roles = "Admin,Employee")]
         [HttpGet("get-categories")]
-        public async Task<List<Category>> GetCategorys()
+        public async Task<List<GetCategoryDto>> GetCategorys()
         {
             var categorys = await _applicationContext.Categories.ToListAsync();
-            return categorys;
+            var getCategory = new List<GetCategoryDto>();
+            foreach (var category in categorys) 
+            {
+                var categoryToShow = new GetCategoryDto
+                {
+                    CategoryId = category.CategoryId,
+                    CategoryName = category.CategoryName
+                };
+                getCategory.Add(categoryToShow);
+            }
+            return getCategory;
         }
     }
 }

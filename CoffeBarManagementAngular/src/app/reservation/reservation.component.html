@@ -1,1 +1,28 @@
-<p>reservation works!</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">FirstName</th>
+            <th scope="col">LastName</th>
+            <th scope="col">Reservation Date</th>
+            <th scope="col">Phone number</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Table number</th>
+            <th scope="col">Guest number</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let reservation of allReservations">
+            <th scope="row">{{reservation.reservationId}}</th>
+            <td>{{reservation.firstName}}</td>
+            <td>{{reservation.lastName}}</td>
+            <td>{{reservation.reservationDate | date:'medium'}}</td>
+            <td>{{reservation.phoneNumber}}</td>
+            <td>{{reservation.duration}}</td>
+            <td>{{reservation.tableNumber}}</td>
+            <td>{{reservation.guestNumber}}</td>
+            <td>{{reservation.reservationStatus}}</td>
+        </tr>
+    </tbody>
+</table>
