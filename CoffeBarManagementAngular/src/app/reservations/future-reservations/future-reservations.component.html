@@ -1,0 +1,29 @@
+<table class="table">
+    <thead>
+        <tr class="text-center">
+            <th scope="col">FirstName</th>
+            <th scope="col">LastName</th>
+            <th scope="col">Reservation Date</th>
+            <th scope="col">Phone number</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Table number</th>
+            <th scope="col">Guest number</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="text-center" *ngFor="let reservation of allReservations">
+            <td>{{reservation.firstName}}</td>
+            <td>{{reservation.lastName}}</td>
+            <td>{{reservation.reservationDate | date:'medium'}}</td>
+            <td>{{reservation.phoneNumber}}</td>
+            <td>{{reservation.duration}} hour</td>
+            <td>{{reservation.tableNumber}}</td>
+            <td>{{reservation.guestNumber}}</td>
+            <td *ngIf="reservation.reservationStatus; else elseBlock">Confirmat</td>
+            <ng-template #elseBlock>
+                <td>Neconfirmat</td>
+            </ng-template>
+        </tr>
+    </tbody>
+</table>

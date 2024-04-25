@@ -1,7 +1,7 @@
-export interface GetProducts{
-    productId:number;
-    productName:string;
-    productPrice: number;
-    productAvailability:number;
-    productSupplyCheck:number;
+export interface GetProducts {
+  productId: number;
+  productName: string;
+  productPrice: number;
+  productAvailability: number;
+  productSupplyCheck: number;
 }

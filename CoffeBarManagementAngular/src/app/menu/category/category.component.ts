@@ -20,7 +20,6 @@ export class CategoryComponent implements OnInit {
     this.menuService.getAllCategorys().subscribe({
       next: (response:any) => {
         this.categoryList = response;
-        console.log(this.categoryList);
       },
       error: (error) => {
         console.log(error);

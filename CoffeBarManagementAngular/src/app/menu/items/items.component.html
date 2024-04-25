@@ -6,16 +6,21 @@
         </div>
     </div>
 </div>
-    <div class="container">
-        <div class="col-md-12"  *ngFor="let item of items">
-            <div class="card mb-4">
-                <div class="card-body ">
-                    <div class="row">
-                        <h5 class="col-md-6">{{item.productName}}</h5>
-                        <p class="col-md-4"></p>
-                        <h5 class="col-md-2 text-end">Price: {{item.productPrice}}$</h5>
-                    </div>
+<div class="container">
+    <div class="col-md-12" *ngFor="let item of items">
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="row">
+                    <h5 class="col-md-6">{{item.productName}}</h5>
+                    <p class="col-md-4"></p>
+                    <h5 class="col-md-2 text-end">Price: {{item.productPrice}}$</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <button class="btn btn-primary" (click)="addToCart(item.productId)" id="{{item.productId}}">Add to cart</button>
                 </div>
             </div>
         </div>
     </div>
+</div>

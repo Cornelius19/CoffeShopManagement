@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace CoffeBarManagement.Controllers
 {
@@ -44,11 +45,18 @@ namespace CoffeBarManagement.Controllers
                 LastName = clientDetails.LastName,
                 PhoneNumber = clientDetails.PhoneNumber
             };
-            if (!CheckReservationDate(model.Reservationdate)) return BadRequest("Huston we got a reservation date that is in the past send Time Machine :)!");
-            if (!CheckTablecapacity(model.TableId, model.GuestNumber)) { return BadRequest("The guest number is bigger than the table capacity, use another table!"); }
+            if (model.Reservationdate.Hour > 20 || model.Reservationdate.Hour < 8) return BadRequest(new JsonResult(new { title = "Reservation Error",message = "You can make a reservation between 08:00 - 20:00" }));
+            
+            if(await CheckReservationAvailabilyty(model)){
+                return BadRequest(new JsonResult(new { title="Reservation already exist!", message = "There is a reservation already for that period of time, please select another table, or another time!" }));
+            }
+                var checkTableExist = await _applicationContext.Tables.FindAsync(model.TableId);
+            if(checkTableExist == null) return NotFound(new JsonResult(new {title = "Inexisting table",message = "Such a table does not exist!"}));
+            if (!CheckReservationDate(model.Reservationdate)) return BadRequest(new JsonResult(new { title = "Date error", message = "Huston we got a reservation date that is in the past send Time Machine :)!" }));
+            if (!CheckTablecapacity(model.TableId, model.GuestNumber)) { return BadRequest(new JsonResult(new { title="Guest Number to big!",message = "The guest number is bigger than the table capacity, use another table!" })); }
             await _applicationContext.AddAsync<Reservation>(reservationToAdd);
             _applicationContext.SaveChanges();
-            return Ok("Reservation was added successfuly!");
+            return Ok(new JsonResult(new {title = "Reservation created!", message = "You can check your reservations in AllReservations!"}));
         }
 
 
@@ -67,7 +75,11 @@ namespace CoffeBarManagement.Controllers
                 LastName = model.LastName,
                 PhoneNumber = model.PhoneNumber
             };
-            if (!CheckReservationDate(model.Reservationdate)) return BadRequest("Huston we got a reservation date that is in the past send Time Machine :)!");
+            if (await CheckReservationAvailabilyty(model))
+            {
+                return BadRequest(new JsonResult(new { title = "Reservation already exist!", message = "There is a reservation already for that period of time, please select another table, or another time!" }));
+            }
+            if (CheckReservationDate(model.Reservationdate)) return BadRequest(new JsonResult(new { title = "Invalid Date",message="Huston we got a new reservation for the past, send the time machine!!!"}));
             if (!CheckTablecapacity(model.TableId, model.GuestNumber)) { return BadRequest("The guest number is bigger than the table capacity, use another table!"); }
             try
             {
@@ -309,6 +321,29 @@ namespace CoffeBarManagement.Controllers
             int result = DateTime.Compare(reservationDate, now);
             if(result <= 0 ) return false;
             return true;
+        }
+
+        private async Task<bool> CheckReservationAvailabilyty(CreateReservationDto reservation)
+        {
+            var reservationsToCheck = await _applicationContext.Reservations.Where(r => r.TableId == reservation.TableId).ToListAsync();
+            foreach (var rez in reservationsToCheck) 
+            {     
+                int checkStart = DateTime.Compare(reservation.Reservationdate, rez.ReservationDate.AddMinutes(-5));
+                int checkEnd = DateTime.Compare(reservation.Reservationdate, rez.ReservationDate.AddHours((int)rez.Duration).AddMinutes(5)); 
+                int checkBeforeStart = DateTime.Compare(reservation.Reservationdate.AddHours(reservation.Duration),rez.ReservationDate.AddMinutes(-5));
+                int checkBeforeEnd = DateTime.Compare(reservation.Reservationdate.AddHours(reservation.Duration),rez.ReservationDate.AddHours((int)rez.Duration).AddMinutes(5));
+
+                if (checkStart != -1 && checkEnd == -1)
+                {
+                    return true;
+                }
+                if (checkBeforeStart == 1 && checkBeforeEnd == -1)
+                {
+                    return true ;
+                }
+                
+            }
+            return false;
         }
     }   
 

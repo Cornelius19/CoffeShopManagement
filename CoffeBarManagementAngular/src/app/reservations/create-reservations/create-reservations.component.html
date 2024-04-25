@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+    <div class="col-12 col-lg-5">
+        <main class="form-reservation">
+            <div class="text-center mb-5">
+                <h3>Create your new reservation!</h3>
+                <p>For more complex reservations please call us! +4071666273</p>
+            </div>
+            <form [formGroup]="reservationForm" (ngSubmit)="createReservation()">
+                <div class="form-floating mb-3">
+                    <input formControlName="guestNumber" type="number" max="10" min="1" placeholder="number" class="form-control"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('guestNumber')?.errors">
+                    <label for="number">Select guest number</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <select formControlName="tableNumber" class="form-select"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('tableNumber')?.errors">
+                        <option *ngFor="let table of tableList" value="{{table.tableID}}">Masa: {{table.tableID}} Nr max de persoane: {{table.capacity}}</option>
+                    </select>
+                    <label for="number">Select table number</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input formControlName="duration" type="number" min="1" max="4" placeholder="number" class="form-control"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('duration')?.errors">
+                    <label for="number">How many hours you will stay</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input formControlName="reservationDate" type="date" placeholder="date" class="form-control"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('reservationDate')?.errors">
+                    <label for="date">Select reservation date</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input formControlName="reservationTime" type="time" min="08:00" max="22:00" placeholder="date" class="form-control"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('reservationTime')?.errors">
+                    <label for="date">Select your time</label>
+                </div>
+                <div class="d-grid mt-4 px-1">
+                    <button class="btn btn-lg btn-info">Create reservation</button>
+                </div>
+
+            </form>
+        </main>
+    </div>
+</div>

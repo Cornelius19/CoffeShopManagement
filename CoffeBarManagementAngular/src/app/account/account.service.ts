@@ -17,6 +17,8 @@ export class AccountService {
   private userSource = new ReplaySubject<User | null>(1); //is an observabale that is gonna be either an user or an null
   user$ = this.userSource.asObservable();
 
+  
+
 
   refreshUser(jwt:string | null){
     if(jwt === null){

@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row col-12">
+        <div class="col-8">
+            <h3>Product list</h3>
+        </div>
+        <div class="col-4">
+            <h3>Items count: </h3>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <hr>
+    </div>
+    <div class="row col-12">
+        <div class="col-8">
+            <table class="table table-hover col-8">
+                <thead>
+                    <tr>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Final Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of ordersService.cartList ">
+                        <td>{{item.productName}}</td>
+                        <td>{{item.unitPrice | number:'1.2-2'}}$</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.total | number:'1.2-2'}}$</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <h3>Final price: {{ordersService.totalPrice | number:'1.2-2'}} $</h3>
+            <button class="btn btn-success">Create order!</button>
+        </div>
+    </div>
+</div>
