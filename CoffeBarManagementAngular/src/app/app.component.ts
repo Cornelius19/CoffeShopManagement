@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from './account/account.service';
+import { OrdersService } from './orders/orders.service';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +8,13 @@ import { AccountService } from './account/account.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  constructor(private accountService: AccountService){}
+  constructor(private accountService: AccountService,private oredersService: OrdersService){}
   
   
   ngOnInit(): void {
     //on refresh the page is gonna call the refresh jwtoken that is gonna be stored in localstorage
     this.refreshUser();
+    this.oredersService.getCounter();
   }
 
   private refreshUser(){

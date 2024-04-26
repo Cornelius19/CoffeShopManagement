@@ -10,7 +10,7 @@ const routes: Routes = [
   {path: '', component:HomeComponent},
   {path: 'account', loadChildren: () => import ('./account/account.module').then(module => module.AccountModule)}, //lazy loading  
   {path: 'menu', loadChildren: () => import ('./menu/menu.module').then(module => module.MenuModule)}, //lazy loading  
-  {path: 'orders', loadChildren: () => import ('./orders/orders.module').then(module => module.OrdersModule)}, //lazy loading  
+  {path: 'orders', loadChildren: () => import ('./orders/orders.module').then(module => module.OrdersModule), canActivate: [RoleGuard], data: {roles: [Roles.Admin,Roles.Client]}}, //lazy loading  
 
   {path: 'not-found', component:NotFoundComponent},
   {path: 'reservations', loadChildren:() => import('./reservations/reservations.module').then(module => module.ReservationsModule), canActivate: [RoleGuard], data: {roles: [Roles.Admin,Roles.Client]}},

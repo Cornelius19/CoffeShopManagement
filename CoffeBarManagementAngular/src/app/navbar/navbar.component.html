@@ -62,7 +62,7 @@
 
             <ul class="navbar-nav" *ngIf="(accountService.user$ | async) as user">
                 <li class="nav-item">
-                    <a class="nav-link " routerLink="/orders/cart" routerLinkActive="active"><strong>Cart </strong><span *ngIf="ordersService.cartCounter != 0" class="badge bg-dark rounded-pill">{{ordersService.cartCounter}}</span></a>
+                    <a class="nav-link " routerLink="/orders/cart" routerLinkActive="active"><strong>Cart </strong><span *ngIf="ordersService.counter != 0" class="badge bg-dark rounded-pill">{{ordersService.counter}}</span></a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"

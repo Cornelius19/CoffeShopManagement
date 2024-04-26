@@ -3,4 +3,5 @@ export const environment = {
   appUrl: 'http://localhost:5064',
   userKey: 'AppUser',
   cartKey: 'CartProducts',
+  counterKey:'CartProductsCounter'
 };

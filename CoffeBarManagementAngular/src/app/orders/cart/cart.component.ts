@@ -1,6 +1,6 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OrdersService } from '../orders.service';
-import { LowerCasePipe } from '@angular/common';
+import { CartProduct } from '../../shared/models/cartProduct';
 
 @Component({
   selector: 'app-cart',
@@ -13,10 +13,15 @@ export class CartComponent implements OnInit {
   
   public cartCounter: number = 0;
 
+  cartList : CartProduct[] = this.ordersService.getCartItemsToList();
 
   ngOnInit(): void {
     this.ordersService.getTotalPrice();
-    console.log(this.ordersService.cartList);
+  }
+
+  resetList(){
+    this.ordersService.clearCart();
+    this.ordersService.getCounter();
   }
 
 }

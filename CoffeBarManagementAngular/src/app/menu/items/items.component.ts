@@ -5,6 +5,7 @@ import { GetProducts } from '../../shared/models/getProducts';
 import { OrdersService } from '../../orders/orders.service';
 import { CartProduct } from '../../shared/models/cartProduct';
 import { SharedService } from '../../shared/shared.service';
+import { AccountService } from '../../account/account.service';
 
 @Component({
   selector: 'app-items',
@@ -17,6 +18,7 @@ export class ItemsComponent implements OnInit {
     private route: ActivatedRoute,
     private ordersService: OrdersService,
     private sharedService: SharedService,
+    public accountService: AccountService
   ) {}
 
   public items: GetProducts[] = [];
@@ -44,17 +46,20 @@ export class ItemsComponent implements OnInit {
   }
 
   addToCart(itemProductId: number) {
-    const existingProduct = this.ordersService.cartList.find(
-      (p) => p.productId === itemProductId,
-    );
+    let productListFromStorage: CartProduct[] = [];
+    productListFromStorage = this.ordersService.getCartItemsToList();
+    console.log(productListFromStorage);
+    const existingProduct = productListFromStorage.find((p) => p.productId === itemProductId);
     if (existingProduct) {
       existingProduct.quantity++;
-      existingProduct.total =
-        existingProduct.quantity * existingProduct.unitPrice;
+      existingProduct.total = existingProduct.quantity * existingProduct.unitPrice;
+      this.ordersService.addCartItemsToLocalStorage(productListFromStorage);
+      this.ordersService.updateCartCounter(productListFromStorage);
+      this.ordersService.getCounter();
       this.sharedService.showNotification(
         true,
         'Quantity modified',
-        `Now quntity is set to ${existingProduct.quantity}!`,
+        `Now quntity for ${existingProduct.productName} is set to ${existingProduct.quantity}!`,
       );
     } else {
       const item = this.items.find((i) => i.productId == itemProductId);
@@ -66,22 +71,15 @@ export class ItemsComponent implements OnInit {
           quantity: 1,
           total: item.productPrice,
         };
-        this.ordersService.cartList.push(addItemToCart);
-        this.sharedService.showNotification(
-          true,
-          'Success',
-          `Item was added to the cart!`,
-        );
+        productListFromStorage.push(addItemToCart);
+        this.ordersService.addCartItemsToLocalStorage(productListFromStorage);
+        this.ordersService.updateCartCounter(productListFromStorage);
+        this.ordersService.getCounter();
+        this.sharedService.showNotification(true, 'Congrats!', `${addItemToCart.productName} was added to the cart!`);
       } else {
-        this.sharedService.showNotification(
-          false,
-          'Error',
-          'You are trying somehow a produs that does not exist!',
-        );
+        this.sharedService.showNotification(false, 'Error', 'You are trying somehow a produs that does not exist!');
         return;
       }
-      console.log(this.ordersService.cartList);
-      this.ordersService.updateCartCounter();
     }
   }
 }
