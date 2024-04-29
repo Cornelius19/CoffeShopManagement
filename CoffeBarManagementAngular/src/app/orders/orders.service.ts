@@ -1,24 +1,17 @@
 import { Injectable, createPlatformFactory } from '@angular/core';
 import { CartProduct } from '../shared/models/cartProduct';
 import { environment } from '../../environments/environment.development';
+import { HttpClient } from '@angular/common/http';
+import { NewClientOrder } from '../shared/models/newClientOrder';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrdersService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  totalPrice: number = 0;
+
   counter:number = 0;
-
-  getTotalPrice() {
-    const cartList: CartProduct[] = this.getCartItemsToList()
-    if (cartList) {
-      for (let item of cartList) {
-        this.totalPrice += item.total;
-      }
-    }
-  }
 
   getCounter(){
     const counterString = localStorage.getItem(environment.counterKey);
@@ -68,5 +61,13 @@ export class OrdersService {
   clearCart(): void {
     localStorage.removeItem(environment.counterKey);
     localStorage.removeItem(environment.cartKey);
+  }
+
+  getOrderHistory(userId: number){
+    return this.http.get(`${environment.appUrl}/api/orders/get-my-orders/${userId}`);
+  }
+
+  createNewClientOrder(model: NewClientOrder, userId: number, tableId: number){
+      return this.http.post(`${environment.appUrl}/api/orders/new-client-order/${userId}/${tableId}`,model);
   }
 }

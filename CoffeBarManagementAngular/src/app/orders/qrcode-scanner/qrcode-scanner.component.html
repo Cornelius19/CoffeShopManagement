@@ -1,0 +1,35 @@
+<!-- For camera -->
+<!-- <div class="container" style="max-width: 100%;">
+    <h3 class="text-center">Please scan the qr code from the table to identify the table number! Thank you!</h3>
+    <div class="container mt-5" style="max-width: 50%;">
+        <ngx-scanner-qrcode #action="scanner" [config]="{ isBeep: false }"></ngx-scanner-qrcode>
+        Loading -->
+<!-- <p *ngIf="action.isLoading">⌛ Loading...</p>
+        
+    </div>
+</div> -->
+
+
+<div class="container text-center" style="max-width: 70%;">
+    <h3>Please scan the qr code from the table where says table number. Thank you! </h3>
+
+
+
+    <!-- ngx-scanner-qrcode -->
+    <ngx-scanner-qrcode #action="scanner" [config]="config" (event)="onEvent($event, action)"></ngx-scanner-qrcode>
+    <!-- loading -->
+    <p *ngIf="action.isLoading">⌛ Loading...</p>
+
+    <!-- devices -->
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-lg-4 col-xl-3 my-1 mx-auto">
+            <select #select1 (change)="action.playDevice(select1.value)" class="form-select form-select-md">
+                <option *ngFor="let c of action.devices.value; let i = index" [value]="c.deviceId"
+                    [selected]="i == action.deviceIndexActive">{{c.label}}camera front/back</option>
+            </select>
+        </div>
+        <div>
+            <button *ngIf="action.data.value.length > 0" id="triggerButton">Your Button</button>
+        </div>
+    </div>
+</div>

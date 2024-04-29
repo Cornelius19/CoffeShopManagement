@@ -4,7 +4,7 @@
             <h3>Product list</h3>
         </div>
         <div class="col-4">
-            <h3>Items count: </h3>
+            <h3>Items count: {{ordersService.counter}} </h3>
         </div>
     </div>
     <div class="row mt-3">
@@ -32,9 +32,9 @@
             </table>
         </div>
         <div class="col-lg-4 col-md-12">
-            <form (submit)="resetList()">
-                <h3>Final price: {{ordersService.totalPrice | number:'1.2-2'}} $</h3>
-                <button class="btn btn-success" type="submit">Create order!</button>
+            <form>
+                <h3>Final price: {{total | number:'1.2-2'}} $</h3>
+                <button class="btn btn-success" *ngIf="cartList.length > 0" type="submit" [routerLink]="'/orders/qr-scanner'" >Create order!</button>
             </form>
             
         </div>

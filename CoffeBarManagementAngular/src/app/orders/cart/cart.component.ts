@@ -5,23 +5,23 @@ import { CartProduct } from '../../shared/models/cartProduct';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css'
+  styleUrl: './cart.component.css',
 })
 export class CartComponent implements OnInit {
-  
-  constructor(public ordersService : OrdersService){}
-  
-  public cartCounter: number = 0;
+  constructor(public ordersService: OrdersService) {}
 
-  cartList : CartProduct[] = this.ordersService.getCartItemsToList();
+  public cartCounter: number = 0;
+  public total: number = 0;
+
+  cartList: CartProduct[] = this.ordersService.getCartItemsToList();
 
   ngOnInit(): void {
-    this.ordersService.getTotalPrice();
+    this.totalPrice();
   }
 
-  resetList(){
-    this.ordersService.clearCart();
-    this.ordersService.getCounter();
+  totalPrice(){
+    for(let item of this.cartList){
+      this.total = this.total + item.total;
+    }
   }
-
 }

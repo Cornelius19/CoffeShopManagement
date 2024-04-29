@@ -1,7 +1,8 @@
 export const environment = {
   production: false,
-  appUrl: 'http://localhost:5064',
+  appUrl: 'http://192.168.0.70:5064',
   userKey: 'AppUser',
   cartKey: 'CartProducts',
-  counterKey:'CartProductsCounter'
+  counterKey: 'CartProductsCounter',
+  tableID: 'TableID',
 };

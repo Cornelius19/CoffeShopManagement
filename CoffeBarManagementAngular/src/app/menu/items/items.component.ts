@@ -48,7 +48,6 @@ export class ItemsComponent implements OnInit {
   addToCart(itemProductId: number) {
     let productListFromStorage: CartProduct[] = [];
     productListFromStorage = this.ordersService.getCartItemsToList();
-    console.log(productListFromStorage);
     const existingProduct = productListFromStorage.find((p) => p.productId === itemProductId);
     if (existingProduct) {
       existingProduct.quantity++;

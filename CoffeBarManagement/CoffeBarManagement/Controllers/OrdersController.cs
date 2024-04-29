@@ -27,10 +27,10 @@ namespace CoffeBarManagement.Controllers
         [HttpPost("new-client-order/{clientId}/{tableId}")]
         public async Task<IActionResult> NewClientOrder(ClientOrderDto model, int clientId, int tableId)
         {
-            var unfinishedOrders = await _applicationContext.Orders.ToListAsync();
+            var unfinishedOrders = await _applicationContext.Orders.Where(q => q.ClientId == clientId).ToListAsync();
             foreach (var order in unfinishedOrders)
             {
-                if (order.OrderStatus <= 3) return BadRequest("An unfinished order exist for your account you can add new produts to that order or finish the previeous one!");
+                if (order.OrderStatus <= 3 ) return BadRequest(new JsonResult(new { title = "Unifinished order exist!", message = "An unfinished order exist for your account you can add new produts to that order or finish the previeous one!" }));
             }
 
             var orderToAdd = new Order
@@ -59,7 +59,7 @@ namespace CoffeBarManagement.Controllers
                 await _applicationContext.SaveChangesAsync();
             }
 
-            return Ok("Your order was register!");
+            return Ok(new JsonResult(new {title = "Order sent", message = "Order was succesfully registered, you can see it in active orders! :D"}));
 
         }
 
@@ -202,6 +202,79 @@ namespace CoffeBarManagement.Controllers
             }
             return orderList;
         }
+
+
+        [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
+        [HttpGet("active-order/{clientId}")]
+        public async Task<GetClientOrderDto> GetActiveOrder(int clientId)
+        {
+            var order = await _applicationContext.Orders.Where(q => q.ClientId == clientId && q.OrderStatus != 4 && q.OrderStatus != 5).FirstOrDefaultAsync();
+            if(order == null) return null;
+
+            var employee = await _applicationContext.Employees.FindAsync(order.EmployeeId);
+            string employeeName = string.Empty;
+            if (employee != null)
+            {
+                employeeName = employee.FirstName;
+            }
+            else
+            {
+                employeeName = "";
+            }
+            var product = _applicationContext.OrderProducts.Where(q => q.OrderId == order.OrderId);
+            var list = new List<OrderProductInformationDto>();
+            foreach (var item in product)
+            {
+                var productName = await _applicationContext.Products.FindAsync(item.ProductId);
+                var productOrder = new OrderProductInformationDto
+                {
+                    ProductName = productName.Name,
+                    UnitPrice = item.UnitPrice,
+                    Quantity = item.Quantity,
+                };
+                //total += (double)(item.UnitPrice * Convert.ToDouble(item.Quantity));
+                list.Add(productOrder);
+            }
+
+            string statusName = string.Empty;
+
+            switch (order.OrderStatus)
+            {
+                case 1:
+                    statusName = "Pending";
+                    break;
+                case 2:
+                    statusName = "Accepted";
+                    break;
+                case 3:
+                    statusName = "Delivered";
+                    break;
+                case 4:
+                    statusName = "Finished";
+                    break;
+                case 5:
+                    statusName = "Cancelled";
+                    break;
+            }
+
+            var clientOrder = new GetClientOrderDto
+            {
+                OrderId = order.OrderId,
+                OrderDate = order.OrderDate,
+                TableId = order.TableId,
+                EmployeeName = employeeName,
+                Status = statusName,
+                products = list,
+                //Total = total,
+            };
+            return clientOrder;
+        }
+
+
+
+
+
+
 
         [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
         [HttpPost("add-new-product-to-order/{clientId}/{orderId}")]
@@ -484,8 +557,6 @@ namespace CoffeBarManagement.Controllers
             return Ok("Order was finished successfuly!");
 
         }
-
-
 
     }
 }
