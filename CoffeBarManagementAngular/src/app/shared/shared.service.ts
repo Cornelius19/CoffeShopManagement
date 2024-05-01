@@ -23,6 +23,17 @@ export class SharedService {
     this.bsModalRef = this.modalService.show(NotificationComponent, initialState)
   }
 
+  selectQuantity(isSuccess: boolean, title: string, message: string){
+    const initialState: ModalOptions = {
+      initialState: {
+        isSuccess,
+        title,
+        message
+      }
+    };
+    this.bsModalRef = this.modalService.show(NotificationComponent, initialState)
+  }
+
   
   getUserId() {
     const userDetails = localStorage.getItem(environment.userKey);

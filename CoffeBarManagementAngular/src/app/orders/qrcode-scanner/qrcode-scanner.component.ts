@@ -80,6 +80,7 @@ export class QRCodeScannerComponent implements OnInit, OnDestroy, AfterViewInit 
     createNewClientOrder() {
         const userId = this.sharedService.getUserId();
         const stringTalbeId = localStorage.getItem(environment.tableID);
+        const orderIDString = localStorage.getItem(environment.orderID);
         if (userId && stringTalbeId) {
             const tableId = parseInt(stringTalbeId);
             const listToConvert = this.ordersService.getCartItemsToList();
@@ -97,19 +98,38 @@ export class QRCodeScannerComponent implements OnInit, OnDestroy, AfterViewInit 
                     const modelToSend: NewClientOrder = {
                         products: model,
                     };
-                    this.ordersService.createNewClientOrder(modelToSend, userId, tableId).subscribe({
-                        next: (response: any) => {
-                            this.sharedService.showNotification(true, response.value.title, response.value.message);
-                            this.resetList();
-                            localStorage.removeItem(environment.tableID);
-                            this.router.navigateByUrl('/orders/active-order');
-                        },
-                        error: (error) => {
-                            this.sharedService.showNotification(false, error.error.value.title, error.error.value.message);
-                            localStorage.removeItem(environment.tableID);
-                            this.router.navigateByUrl('/orders/cart');
-                        },
-                    });
+                    if(orderIDString){
+                        const orderIDNumber = parseInt(orderIDString);
+                        this.ordersService.addNewProductsToOrder(modelToSend,userId,orderIDNumber,tableId).subscribe({
+                            next: (response:any) => {
+                                console.log(response);
+                                this.resetList();
+                                this.sharedService.showNotification(true, response.value.title, response.value.message);
+                                localStorage.removeItem(environment.tableID);
+                                this.router.navigateByUrl('/orders/active-order');
+                            },
+                            error:error => {
+                                console.log(error);
+                                localStorage.removeItem(environment.tableID);
+                                this.router.navigateByUrl('/orders/cart');
+                            }
+                        })
+                    }
+                    else{
+                        this.ordersService.createNewClientOrder(modelToSend, userId, tableId).subscribe({
+                            next: (response: any) => {
+                                this.sharedService.showNotification(true, response.value.title, response.value.message);
+                                this.resetList();
+                                localStorage.removeItem(environment.tableID);
+                                this.router.navigateByUrl('/orders/active-order');
+                            },
+                            error: (error) => {
+                                this.sharedService.showNotification(false, error.error.value.title, error.error.value.message);
+                                localStorage.removeItem(environment.tableID);
+                                this.router.navigateByUrl('/orders/cart');
+                            },
+                        });
+                    }
                 }
             } else {
                 console.error('The product list is missing!');

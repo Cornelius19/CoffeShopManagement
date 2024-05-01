@@ -55,6 +55,21 @@ namespace CoffeBarManagement.Controllers
                     UnitPrice = product.unitPrice,
                     Quantity = product.quantity,
                 };
+                var productDetails = await _applicationContext.Products.FindAsync(product.productId);
+                if (productDetails == null) { return BadRequest("Something went to the left!"); }
+                if (productDetails.Quantity < product.quantity) return BadRequest($"We don't have so much {productDetails.Name}!");
+                if (productDetails.ComplexProduct == false)
+                {
+                    productDetails.Quantity -= product.quantity;
+                    var stockBalanceRecord = new StockBalance
+                    {
+                        BalanceDate = DateTime.Now,
+                        ProductId = productDetails.ProductId,
+                        RemoveQuantity = product.quantity,
+                        RemoveCategoryId = 1,
+                    };
+                    await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
+                }
                 await _applicationContext.OrderProducts.AddAsync(orderProduct);
                 await _applicationContext.SaveChangesAsync();
             }
@@ -139,7 +154,7 @@ namespace CoffeBarManagement.Controllers
         {
             //double total = 0;
             var orderList = new List<GetClientOrderDto>();
-            var result = await _applicationContext.Orders.Where(q => q.ClientId == id).ToListAsync();
+            var result = await _applicationContext.Orders.Where(q => q.ClientId == id && (  q.OrderStatus == 4 || q.OrderStatus == 5)).ToListAsync();
             foreach (var order in result)
             {
                 var employee = await _applicationContext.Employees.FindAsync(order.EmployeeId);
@@ -277,26 +292,40 @@ namespace CoffeBarManagement.Controllers
 
 
         [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
-        [HttpPost("add-new-product-to-order/{clientId}/{orderId}")]
-        public async Task<IActionResult> AddNewProduct(ClientOrderDto model, int clientId, int orderId)
+        [HttpPost("add-new-product-to-order/{clientId}/{orderId}/{tableId}")]
+        public async Task<IActionResult> AddNewProduct(ClientOrderDto model, int clientId, int orderId, int tableId)
         {
             var CheckOrderExist = await _applicationContext.Orders.Where(q => q.OrderId == orderId & q.ClientId == clientId & q.OrderStatus <= 3).FirstOrDefaultAsync();
             if (CheckOrderExist == null) { return BadRequest("Such an order does not exist or it is not your order!"); }
-            if (CheckOrderExist.OrderStatus == 1) return BadRequest("Before add some new products order must be confirmed!");
-            CheckOrderExist.OrderStatus = 2;
+            if (CheckOrderExist.TableId != tableId) { return BadRequest("The table id is not the same!"); }
+            CheckOrderExist.OrderStatus = 1;
 
             foreach (var product in model.Products)
             {
-                var productToAdd = new OrderProduct
-                {
-                    OrderId = orderId,
-                    ProductId = product.productId,
-                    Quantity = product.quantity,
-                    UnitPrice = product.unitPrice,
-                };
                 var productDetails = await _applicationContext.Products.FindAsync(product.productId);
                 if (productDetails == null) { return BadRequest("Something went to the left!"); }
-                if (productDetails.Quantity < product.quantity) return BadRequest($"We don't have so much {productDetails.Name}!");
+                if(productDetails.ComplexProduct == false)
+                {
+                    if (productDetails.Quantity < product.quantity) return BadRequest($"We don't have so much {productDetails.Name}!");
+                }
+                var checkProductExistInOrder = await _applicationContext.OrderProducts.Where(q => q.OrderId == orderId  && q.ProductId == product.productId).FirstOrDefaultAsync();
+                if(checkProductExistInOrder == null)
+                {
+                    var productToAdd = new OrderProduct
+                    {
+                        OrderId = orderId,
+                        ProductId = product.productId,
+                        Quantity = product.quantity,
+                        UnitPrice = product.unitPrice,
+                    };
+                    await _applicationContext.OrderProducts.AddAsync(productToAdd);
+                }
+                else
+                {
+                    checkProductExistInOrder.Quantity += product.quantity;
+                    await _applicationContext.SaveChangesAsync();
+                }
+                
                 if (productDetails.ComplexProduct == false)
                 {
                     productDetails.Quantity -= product.quantity;
@@ -310,11 +339,11 @@ namespace CoffeBarManagement.Controllers
 
                     await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
                 }
-                await _applicationContext.OrderProducts.AddAsync(productToAdd);
+                
                 await _applicationContext.SaveChangesAsync();
             }
 
-            return Ok("The new products was added to your order!");
+            return Ok(new JsonResult(new { title = "Success", message = "The new products was added to your order!" }));
         }
 
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
@@ -495,11 +524,11 @@ namespace CoffeBarManagement.Controllers
         {
             var orderToFinish = await _applicationContext.Orders.Where(q => q.ClientId == userId & q.OrderId == orderId).FirstOrDefaultAsync();
             if (orderToFinish == null) { return NotFound(); }
-            if (orderToFinish.OrderStatus != 3) return BadRequest("In order to finish this order, all products from the order must be delivered!");
+            if (orderToFinish.OrderStatus != 3) return BadRequest(new JsonResult( new{ title = "Order not delivered", message = "In order to finish this order, all products from the order must be delivered!" }));
             orderToFinish.OrderStatus = 4;
             orderToFinish.Tips = model.Tips;
             await _applicationContext.SaveChangesAsync();
-            return Ok("Order was finished successfuly!");
+            return Ok(new JsonResult(new {message = "Order was finished successfuly!" }));
 
         }
 

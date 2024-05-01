@@ -6,7 +6,7 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
 import { OrdersRoutingModule } from './orders-routing.module';
 import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
 import { QRCodeScannerComponent } from './qrcode-scanner/qrcode-scanner.component';
-
+import { PaymentPageComponent } from './payment-page/payment-page.component';
 LOAD_WASM().subscribe();
 
 @NgModule({
@@ -15,6 +15,7 @@ LOAD_WASM().subscribe();
     ActiveOrderComponent,
     OrderHistoryComponent,
     QRCodeScannerComponent,
+    PaymentPageComponent,
   ],
   imports: [
     CommonModule,

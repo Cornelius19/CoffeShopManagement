@@ -1,4 +1,4 @@
-<table class="table">
+<!-- <table class="table">
     <thead>
         <tr class="text-center">
             <th scope="col">FirstName</th>
@@ -26,4 +26,31 @@
             </ng-template>
         </tr>
     </tbody>
-</table>
+</table> -->
+
+<div class="container">
+    <h3 class="text-center">Reservation history</h3>
+    <div class="row justify-content-center">
+        @for (reservation of allReservations; track $index) {
+        <div class="col-md-4 col-sm-12 mt-3 mb-5">
+            <h6>{{$index+1}}.Reservation id: #{{reservation.reservationId}}</h6>
+            <div style="margin-left: 5%;">
+                <h6>FirstName: {{reservation.firstName}}</h6>
+                <h6>LastName: {{reservation.lastName}}</h6>
+                <h6>Reservation Date: {{reservation.reservationDate | date:'medium'}}</h6>
+                <h6>PhoneNumber: {{reservation.phoneNumber}}</h6>
+                <h6>Duration: {{reservation.duration}} hour</h6>
+                <h6>Table number: {{reservation.tableNumber}}</h6>
+                <h6>Guest number: {{reservation.guestNumber}}</h6>
+                @if (reservation.reservationStatus) {
+                    <h6 class="text-warning">Status: Pending</h6>
+                }@else {
+                    <h6 class="text-primary">Status: Confirmed</h6>
+                }
+            </div>
+        </div>
+        <hr>
+        }
+    </div>
+
+</div>

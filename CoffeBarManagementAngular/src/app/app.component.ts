@@ -8,13 +8,13 @@ import { OrdersService } from './orders/orders.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  constructor(private accountService: AccountService,private oredersService: OrdersService){}
+  constructor(private accountService: AccountService,private ordersService: OrdersService){}
   
   
   ngOnInit(): void {
-    //on refresh the page is gonna call the refresh jwtoken that is gonna be stored in localstorage
+    //on refresh the page is gonna call the refresh jwtToken that is gonna be stored in localStorage
     this.refreshUser();
-    this.oredersService.getCounter();
+    this.ordersService.getCounter();
   }
 
   private refreshUser(){
