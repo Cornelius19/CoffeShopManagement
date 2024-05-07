@@ -79,8 +79,8 @@ namespace CoffeBarManagement.Controllers
             {
                 return BadRequest(new JsonResult(new { title = "Reservation already exist!", message = "There is a reservation already for that period of time, please select another table, or another time!" }));
             }
-            if (CheckReservationDate(model.Reservationdate)) return BadRequest(new JsonResult(new { title = "Invalid Date",message="Huston we got a new reservation for the past, send the time machine!!!"}));
-            if (!CheckTablecapacity(model.TableId, model.GuestNumber)) { return BadRequest("The guest number is bigger than the table capacity, use another table!"); }
+            if (!CheckReservationDate(model.Reservationdate)) return BadRequest(new JsonResult(new { title = "Invalid Date",message="Huston we got a new reservation for the past, send the time machine!!!"}));
+            if (!CheckTablecapacity(model.TableId, model.GuestNumber)) { return BadRequest(new JsonResult(new { title = "Capacity error!" , message = "The guest number is bigger than the table capacity, use another table!" })); }
             try
             {
                 await _applicationContext.AddAsync<Reservation>(reservationToAdd);
@@ -90,7 +90,7 @@ namespace CoffeBarManagement.Controllers
             {
                 return BadRequest("Something went wrong for adding a new reservation");
             }
-            return Ok("Reservation was added successfuly!");
+            return Ok(new JsonResult(new { message = "Reservation was added successfuly!" }));
         }
 
 
@@ -100,7 +100,7 @@ namespace CoffeBarManagement.Controllers
         {
             var list = new List<Reservation>();
             var emptyList = new List<Reservation>();
-            var allReservations = await _applicationContext.Reservations.ToListAsync();
+            var allReservations = await _applicationContext.Reservations.Where(q => q.ReservationDate > DateTime.UtcNow).ToListAsync();
             foreach (var reservation in allReservations)
             {
                 if (reservation.ReservationStatus == false)
@@ -166,7 +166,8 @@ namespace CoffeBarManagement.Controllers
             var allReservations = await _applicationContext.Reservations.ToListAsync();
             foreach (var reservation in allReservations)
             {
-                if (CheckReservationDate(reservation.ReservationDate)) 
+                var checkReservation = DateTime.Compare(reservation.ReservationDate, DateTime.UtcNow);
+                if (checkReservation >= 0) 
                 {
                     if (reservation.ReservationStatus == true)
                     {
@@ -214,7 +215,7 @@ namespace CoffeBarManagement.Controllers
             {
                 return BadRequest("Such a reservation does not exist!");
             }
-            return Ok("Reservation confirmed!");
+            return Ok(new JsonResult(new {message = $"Reservation number {id} was confirmed!"}));
         }
 
 
@@ -301,12 +302,37 @@ namespace CoffeBarManagement.Controllers
             return futureReservations;
         }
 
-
+        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [HttpGet("get-all-reservations-employee")]
+        public async Task<List<GetReservationDto>> GetAllReservationEmployee()
+        {
+            var allReservations = await _applicationContext.Reservations.ToListAsync();
+            var allReservationsToShow = new List<GetReservationDto>();
+            if (allReservations == null) return new List<GetReservationDto>();
+            foreach(var reservation in allReservations)
+            {
+                var reservationToAdd = new GetReservationDto
+                {
+                    ReservationId = reservation.ReservationId,
+                    Reservationdate = reservation.ReservationDate,
+                    GuestNumber = reservation.GuestNumber,
+                    FirstName = reservation.FirstName,
+                    LastName = reservation.LastName,
+                    PhoneNumber = reservation.PhoneNumber,
+                    ReservationStatus = reservation.ReservationStatus,
+                    Duration = reservation.Duration,
+                    TableNumber = reservation.TableId,
+                };
+                allReservationsToShow.Add(reservationToAdd);
+            }
+            return allReservationsToShow;
+        }
 
 
 
         private bool CheckTablecapacity(int table_id, int capacity)
         {
+            if (table_id == 0) return true;
             var result = _applicationContext.Tables.Find(table_id);
             if(result == null) { return false;}
             if(result.Capacity < capacity)

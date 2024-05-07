@@ -36,8 +36,4 @@ export class ReservationsService {
       model
     );
   }
-
-  getAllTables(){
-    return this.http.get(`${environment.appUrl}/api/tables/get-all-tables`);
-  }
 }

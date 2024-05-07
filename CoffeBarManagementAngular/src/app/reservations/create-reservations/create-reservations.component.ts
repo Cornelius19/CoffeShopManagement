@@ -46,7 +46,7 @@ export class CreateReservationsComponent implements OnInit {
   }
 
   getAllTables() {
-    this.reservationService.getAllTables().subscribe({
+    this.sharedService.getAllTables().subscribe({
       next: (response: any) => {
         this.tableList = response;
       },
@@ -80,10 +80,10 @@ export class CreateReservationsComponent implements OnInit {
         .padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
       // Combine date and time
-      const datetimeString: string = `${dateString}T${hours}:${minutes}:${seconds}`;
+      const dateTimeString: string = `${dateString}T${hours}:${minutes}:${seconds}`;
 
       const model: CreateReservation = {
-        reservationDate: datetimeString,
+        reservationDate: dateTimeString,
         guestNumber: this.reservationForm.value.guestNumber,
         duration: this.reservationForm.value.duration,
         tableId: this.reservationForm.value.tableNumber,

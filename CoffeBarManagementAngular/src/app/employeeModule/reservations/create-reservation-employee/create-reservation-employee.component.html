@@ -1,0 +1,57 @@
+<div class="d-flex justify-content-center">
+    <div class="col-12 col-lg-5">
+        <main class="form-reservation">
+            <div class="text-center mb-5">
+                <h3>Create reservation!</h3>
+            </div>
+            <form [formGroup]="reservationForm" (ngSubmit)="createReservation()">
+                <div class="form-floating mb-3">
+                    <input formControlName="firstName" type="text" placeholder="firstName" id="firstName" class="form-control"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('firstName')?.errors">
+                    <label for="firstName">First name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input formControlName="lastName" type="text" placeholder="lastName" id="lastName" class="form-control"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('lastName')?.errors">
+                    <label for="lastName">Last name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input formControlName="phoneNumber" type="text" placeholder="phoneNumber" id="phoneNumber" class="form-control"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('phoneNumber')?.errors">
+                    <label for="phoneNumber">Phone number</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input formControlName="guestNumber" type="number" max="99" min="1" placeholder="number" id="guestNumber" class="form-control"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('guestNumber')?.errors">
+                    <label for="guestNumber">Select guest number</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <select formControlName="tableId" class="form-select" id="tableId"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('tableId')?.errors">
+                        <option *ngFor="let table of tableList" value="{{table.tableID}}">Table: {{table.tableID}} Capacity: {{table.capacity}}</option>
+                    </select>
+                    <label for="tableId">Select table number</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input formControlName="duration" type="number" min="1" max="14" placeholder="duration" id="duration" class="form-control"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('duration')?.errors">
+                    <label for="duration">Duration</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input formControlName="reservationDate" type="date" placeholder="reservationDate" id="reservationDate" class="form-control"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('reservationDate')?.errors">
+                    <label for="reservationDate">Select reservation date</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input formControlName="reservationTime" type="time" min="08:00" max="22:00" placeholder="reservationTime" id="reservationTime" class="form-control"
+                    [class.is-invalid]="isSubmitted && reservationForm.get('reservationTime')?.errors">
+                    <label for="reservationTime">Select start time</label>
+                </div>
+                <div class="d-grid mt-4 px-1">
+                    <button class="btn btn-lg btn-info mb-5">Create reservation</button>
+                </div>
+
+            </form>
+        </main>
+    </div>
+</div>

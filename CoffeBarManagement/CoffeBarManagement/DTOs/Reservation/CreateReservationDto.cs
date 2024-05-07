@@ -7,7 +7,7 @@ namespace CoffeBarManagement.DTOs.Reservation
         [Required]
         public DateTime Reservationdate { get; set; }
         [Required]
-        [Range(1, 10)]
+        [Range(1, 99)]
         public int GuestNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -16,7 +16,6 @@ namespace CoffeBarManagement.DTOs.Reservation
         [Required]
         public int Duration { get; set; }
         //public int? ClientId { get; set; }//value from userDto after login
-        [Required]
         public int TableId { get; set; }
 
     }

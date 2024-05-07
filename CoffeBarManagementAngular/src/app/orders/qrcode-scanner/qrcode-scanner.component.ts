@@ -81,6 +81,8 @@ export class QRCodeScannerComponent implements OnInit, OnDestroy, AfterViewInit 
         const userId = this.sharedService.getUserId();
         const stringTalbeId = localStorage.getItem(environment.tableID);
         const orderIDString = localStorage.getItem(environment.orderID);
+        console.log(orderIDString);
+        
         if (userId && stringTalbeId) {
             const tableId = parseInt(stringTalbeId);
             const listToConvert = this.ordersService.getCartItemsToList();

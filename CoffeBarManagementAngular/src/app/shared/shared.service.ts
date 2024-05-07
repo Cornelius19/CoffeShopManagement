@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { NotificationComponent } from './components/errors/models/notification/notification.component';
 import { User } from './models/user';
 import { environment } from '../../environments/environment.development';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { environment } from '../../environments/environment.development';
 export class SharedService {
   bsModalRef?: BsModalRef;
 
-  constructor(private modalService: BsModalService) { }
+  constructor(private modalService: BsModalService, private http: HttpClient) { }
 
   showNotification(isSuccess: boolean, title: string, message: string){
     const initialState: ModalOptions = {
@@ -42,6 +43,10 @@ export class SharedService {
       return user.userId;
     }
     return null;
+  }
+
+  getAllTables(){
+    return this.http.get(`${environment.appUrl}/api/tables/get-all-tables`);
   }
 
 }

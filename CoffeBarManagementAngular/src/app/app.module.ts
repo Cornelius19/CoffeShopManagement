@@ -10,6 +10,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SideBarComponent } from './side-bar/side-bar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,13 +18,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FooterComponent,
     HomeComponent,
     DashboardComponent,
+    SideBarComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
     FontAwesomeModule,
-    
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true} // for using the interceptor

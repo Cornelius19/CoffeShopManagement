@@ -10,7 +10,6 @@ import { OrdersService } from '../orders/orders.service';
 })
 export class NavbarComponent implements OnInit {
     constructor(public accountService: AccountService, public roles: Roles, public ordersService: OrdersService) {}
-
     ngOnInit(): void {
         this.ordersService.getCounter();
     }

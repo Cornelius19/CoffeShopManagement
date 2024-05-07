@@ -1,0 +1,26 @@
+<div class="container">
+    <h3 class="text-center">Please select a date to see reservations!</h3>
+    <div class="row justify-content-center">
+        @for (reservation of allReservations; track $index) {
+        <div class="col-md-7 col-sm-12 mt-3">
+            <h6>{{$index+1}}.Reservation id: #{{reservation.reservationId}}</h6>
+            <div style="margin-left: 5%;">
+                <h6>FirstName: {{reservation.firstName}}</h6>
+                <h6>LastName: {{reservation.lastName}}</h6>
+                <h6>Reservation Date: {{reservation.reservationDate | date:'medium'}}</h6>
+                <h6>PhoneNumber: {{reservation.phoneNumber}}</h6>
+                <h6>Duration: {{reservation.duration}} hour</h6>
+                <h6>Table number: {{reservation.tableNumber}}</h6>
+                <h6>Guest number: {{reservation.guestNumber}}</h6>
+                @if (reservation.reservationStatus === false) {
+                    <h6 class="text-warning mb-5">Status: Pending</h6>
+                }@else {
+                    <h6 class="text-primary mb-5">Status: Confirmed</h6>
+                }
+            </div>
+        </div>
+        <hr>
+        }
+    </div>
+
+</div>

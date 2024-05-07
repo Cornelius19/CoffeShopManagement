@@ -30,6 +30,8 @@ export class ActiveOrderComponent implements OnInit {
 
   tips:number = 0;
 
+
+  //one way data binding
   keyup(value:string){
     this.tips = parseFloat(value);
     if(value != ''){
@@ -48,17 +50,20 @@ export class ActiveOrderComponent implements OnInit {
         const tips:FinishOrderDto = {
           tips:this.tips
         }
-        this.ordersService.finishTheOrder(tips,userId,orderId).subscribe({
-          next: (response:any) => {
-            //console.log(response);
-            this.router.navigateByUrl('/orders/payment-page');
-            this.sharedService.showNotification(true, response.value.title, response.value.message);
-          },
-          error: error => {
-            //console.log(error);
-            this.sharedService.showNotification(false, error.error.value.title, error.error.value.message);
-          }
-        })
+        if(confirm('Are you sure about this?')){
+          this.ordersService.finishTheOrder(tips,userId,orderId).subscribe({
+            next: (response:any) => {
+              //console.log(response);
+              this.router.navigateByUrl('/orders/payment-page');
+              this.sharedService.showNotification(true, 'Success!', response.value.message);
+              localStorage.removeItem(environment.orderID);
+            },
+            error: error => {
+              //console.log(error);
+              this.sharedService.showNotification(false, error.error.value.title, error.error.value.message);
+            }
+          })
+        }
       }
     }
     

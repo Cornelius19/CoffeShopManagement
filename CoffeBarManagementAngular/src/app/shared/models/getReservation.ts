@@ -5,7 +5,7 @@ export interface GetReservation {
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  reservationStatus: number;
+  reservationStatus: boolean;
   duration: number;
   tableNumber: number;
 }

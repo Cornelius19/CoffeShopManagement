@@ -14,12 +14,12 @@ export class AllReservationsComponent implements OnInit {
   public allReservations: GetReservation[] = [];
 
   ngOnInit(): void {
-    this.getReservationsbyId();
+    this.getReservationsById();
   }
 
   data: any[] = [];
 
-  private getReservationsbyId() {
+  private getReservationsById() {
     this.reservationService.getReservations().subscribe({
       next: (response: any[]) => {
         this.allReservations = response.map((reservation) => {

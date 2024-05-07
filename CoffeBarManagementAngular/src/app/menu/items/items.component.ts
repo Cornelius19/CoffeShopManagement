@@ -60,7 +60,7 @@ export class ItemsComponent implements OnInit {
             this.sharedService.showNotification(
                 true,
                 'Quantity modified',
-                `Now quntity for ${existingProduct.productName} is set to ${existingProduct.quantity}!`,
+                `Now quantity for ${existingProduct.productName} is set to ${existingProduct.quantity}!`,
             );
         } else {
             const item = this.items.find((i) => i.productId == itemProductId);
@@ -78,7 +78,7 @@ export class ItemsComponent implements OnInit {
                 this.ordersService.getCounter();
                 this.sharedService.showNotification(true, 'Congrats!', `${addItemToCart.productName} was added to the cart!`);
             } else {
-                this.sharedService.showNotification(false, 'Error', 'You are trying somehow a produs that does not exist!');
+                this.sharedService.showNotification(false, 'Error', 'You are trying to add to the cart somehow a product that does not exist!');
                 return;
             }
         }

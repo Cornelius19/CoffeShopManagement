@@ -66,7 +66,6 @@ export class LoginComponent implements OnInit {
               break;
             }
             case this.roles.Employee1: {
-              this.router.navigateByUrl('/menu');
               break;
             }
           }
