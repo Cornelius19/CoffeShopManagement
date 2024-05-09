@@ -26,6 +26,6 @@ export class ReservationsEmployeeService {
     }
 
     getAllReservations(){
-        return this.http.get(`${environment.appUrl}/api/reservations/get-all-reservations-employee`);
+        return this.http.get<any>(`${environment.appUrl}/api/reservations/get-all-reservations-employee`);
     }
 }

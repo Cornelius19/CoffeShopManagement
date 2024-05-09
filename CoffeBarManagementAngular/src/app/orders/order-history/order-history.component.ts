@@ -1,13 +1,12 @@
-import { Component, OnInit, setTestabilityGetter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OrdersService } from '../orders.service';
 import { SharedService } from '../../shared/shared.service';
 import { OrderDto } from '../../shared/models/orderDto';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { style } from '@angular/animations';
 import { auto } from '@popperjs/core';
-
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 
 @Component({
     selector: 'app-order-history',
@@ -39,8 +38,8 @@ export class OrderHistoryComponent implements OnInit {
 
     generateReceiptPDF(order: OrderDto) {
         let totalSum: number = 0;
-        for(let prod of order.products){
-            totalSum = totalSum + (prod.quantity * prod.unitPrice);
+        for (let prod of order.products) {
+            totalSum = totalSum + prod.quantity * prod.unitPrice;
         }
         const pageSize = {
             width: 300, // specify width in points (1/72 inch)
@@ -57,14 +56,14 @@ export class OrderHistoryComponent implements OnInit {
                 { text: `Order status: ${order.status}` },
                 { text: `Products:` },
                 {
-                    ul: order.products.map((prod) => [
-                        `Name:${prod.productName}`,  
-                        `Quan: ${prod.quantity}`,
-                        `Price: ${prod.unitPrice}`
-                    ]),
+                    ol: order.products.map((prod) => [`Name:${prod.productName}`, `Quantity: ${prod.quantity}`, `Price: ${prod.unitPrice}`]),
                 },
-                { text: `Total to pay: ${totalSum }$` },
+                { text: '------------------------------' },
+                { text: `Total: ${totalSum.toFixed(2)}$`, style: 'header' },
             ],
+            styles: {
+                header: { fontSize: 20, bold: true }
+            }
         };
 
         pdfMake.createPdf(docDefinition).open();

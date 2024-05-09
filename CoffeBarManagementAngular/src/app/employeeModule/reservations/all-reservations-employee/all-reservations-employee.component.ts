@@ -9,7 +9,7 @@ import { GetReservation } from '../../../shared/models/getReservation';
 })
 export class AllReservationsEmployeeComponent implements OnInit {
 
-  constructor(private reservationEmployeeSevice: ReservationsEmployeeService){}
+  constructor(private reservationEmployeeService: ReservationsEmployeeService){}
   
   allReservations : GetReservation[] = [];
 
@@ -18,9 +18,21 @@ export class AllReservationsEmployeeComponent implements OnInit {
   }
 
   getAllReservations(){
-    this.reservationEmployeeSevice.getAllReservations().subscribe({
-      next: (response:any) => {
-        this.allReservations = response;
+    this.reservationEmployeeService.getAllReservations().subscribe({
+      next: (response:any[]) => {
+        this.allReservations = response.map((reservation) => {
+          return {
+            reservationId: reservation.reservationId,
+            reservationDate: new Date(reservation.reservationdate),
+            guestNumber: reservation.guestNumber,
+            firstName: reservation.firstName,
+            lastName: reservation.lastName,
+            phoneNumber: reservation.phoneNumber,
+            reservationStatus: reservation.reservationStatus,
+            duration: reservation.duration,
+            tableNumber: reservation.tableNumber,
+          }
+        });
       },
       error: error => {
         console.log(error);
