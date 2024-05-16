@@ -18,7 +18,13 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <button class="btn btn-primary" [disabled]="(accountService.user$ | async) == null" (click)="addToCart(item.productId)" id="{{item.productId}}">Add to cart</button>
+                    <button class="btn btn-primary" [disabled]="((accountService.user$ | async) == null) || ((item.productAvailability === 0 && item.complexProduct == false)) " (click)="addToCart(item.productId)" id="{{item.productId}}">Add to cart</button>
+                    @if (item.productAvailability === 0 && item.complexProduct == false) {
+                        <span style="color: rgb(253, 97, 0);">We are sorry to inform you that this products isn't available right now!</span>
+                    }
+                    @if( item.productAvailability != 0 && item.productAvailability < item.productSupplyCheck){
+                        <span style="color: rgb(253, 97, 0);">Only {{item.productAvailability}} left!</span>
+                    }
                 </div>
             </div>
         </div>

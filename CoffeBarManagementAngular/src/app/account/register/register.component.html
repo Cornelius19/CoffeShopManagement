@@ -2,12 +2,12 @@
     <!--d-flex and justify-content-center is for centered content in bootstrap 5 -->
     <div class="col-12 col-lg-5">
         <main class="form-signin">
-            <form [formGroup]="registerForm" (ngSubmit)="register()" autocomplete="off">
+            <form [formGroup]="registerForm" (ngSubmit)="register()" autocomplete="false">
                 <div class="text-center mb-4">
                     <h3 class="mb-3 font-weight-normal">Register</h3>
                 </div>
                 <div class="form-floating mb-3">
-                    <input formControlName="firstName" type="text" placeholder="FirstName" class="form-control"
+                    <input formControlName="firstName" id="firstName" type="text" placeholder="FirstName" class="form-control"
                         [class.is-invalid]="submitted && registerForm.get('firstName')?.errors">
                     <label for="firstName">First Name</label>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('firstName')?.hasError('required')">
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input formControlName="lastName" type="text" placeholder="LastName" class="form-control"
+                    <input formControlName="lastName" id="lastName" type="text" placeholder="LastName" class="form-control"
                         [class.is-invalid]="submitted && registerForm.get('lastName')?.errors">
                     <label for="lastName">Last Name</label>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('lastName')?.hasError('required')">
@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input formControlName="email" type="text" placeholder="Email" class="form-control"
+                    <input formControlName="email" type="text" id="email" placeholder="Email" class="form-control"
                         [class.is-invalid]="submitted && registerForm.get('email')?.errors">
                     <label for="email">Email</label>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('email')?.hasError('required')">
@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input formControlName="phoneNumber" type="text" placeholder="PhoneNumber" class="form-control"
+                    <input formControlName="phoneNumber" id="phoneNumber" type="text" placeholder="PhoneNumber" class="form-control"
                         [class.is-invalid]="submitted && registerForm.get('phoneNumber')?.errors">
                     <label for="phoneNumber">Phone Number</label>
                     <span class="text-danger"
@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input formControlName="password" type="{{showPassword ? 'text' : 'password' }}"
+                    <input formControlName="password" id="password" type="{{showPassword ? 'text' : 'password' }}"
                         placeholder="Password" class="form-control"
                         [class.is-invalid]="submitted && registerForm.get('password')?.errors">
                     <label for="password">Password</label>
@@ -85,7 +85,7 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input formControlName="repassword" type="{{showPassword ? 'text' : 'password' }}"
+                    <input formControlName="repassword" id="repassword" type="{{showPassword ? 'text' : 'password' }}"
                         placeholder="RePassword" class="form-control"
                         [class.is-invalid]="submitted && registerForm.get('repassword')?.errors?.['mismatch']">
                     <label for="repassword">RePassword</label>

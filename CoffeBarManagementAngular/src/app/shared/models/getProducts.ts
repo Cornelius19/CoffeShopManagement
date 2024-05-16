@@ -4,4 +4,5 @@ export interface GetProducts {
   productPrice: number;
   productAvailability: number;
   productSupplyCheck: number;
+  complexProduct : boolean;
 }

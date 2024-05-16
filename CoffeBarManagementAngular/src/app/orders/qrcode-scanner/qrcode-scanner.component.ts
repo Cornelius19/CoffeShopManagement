@@ -79,12 +79,10 @@ export class QRCodeScannerComponent implements OnInit, OnDestroy, AfterViewInit 
 
     createNewClientOrder() {
         const userId = this.sharedService.getUserId();
-        const stringTalbeId = localStorage.getItem(environment.tableID);
+        const stringTableId = localStorage.getItem(environment.tableID);
         const orderIDString = localStorage.getItem(environment.orderID);
-        console.log(orderIDString);
-        
-        if (userId && stringTalbeId) {
-            const tableId = parseInt(stringTalbeId);
+        if (userId && stringTableId) {
+            const tableId = parseInt(stringTableId);
             const listToConvert = this.ordersService.getCartItemsToList();
             if (listToConvert) {
                 const model: OrderProductsClient[] = [];
@@ -104,7 +102,6 @@ export class QRCodeScannerComponent implements OnInit, OnDestroy, AfterViewInit 
                         const orderIDNumber = parseInt(orderIDString);
                         this.ordersService.addNewProductsToOrder(modelToSend,userId,orderIDNumber,tableId).subscribe({
                             next: (response:any) => {
-                                console.log(response);
                                 this.resetList();
                                 this.sharedService.showNotification(true, response.value.title, response.value.message);
                                 localStorage.removeItem(environment.tableID);
@@ -137,7 +134,7 @@ export class QRCodeScannerComponent implements OnInit, OnDestroy, AfterViewInit 
                 console.error('The product list is missing!');
             }
         } else {
-            console.error('Somthing went wrong!');
+            console.error('Something went wrong!');
         }
     }
 

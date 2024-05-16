@@ -146,7 +146,8 @@ namespace CoffeBarManagement.Controllers
                     ProductName = item.Name,
                     ProductPrice = item.UnitPrice,
                     ProductAvailability = item.Quantity,
-                    ProductSupplyCheck = item.SupplyCheck
+                    ProductSupplyCheck = item.SupplyCheck,
+                    ComplexProduct = item.ComplexProduct
                 };
                 categoryProducts.Add(product);
             }

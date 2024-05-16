@@ -262,7 +262,7 @@ namespace CoffeBarManagement.Controllers
                 _applicationContext.Reservations.Remove(result);
                 await _applicationContext.SaveChangesAsync();
             }
-            catch (Exception e)
+            catch
             {
                 return BadRequest("Something went wrong!");
             }

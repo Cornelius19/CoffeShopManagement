@@ -7,5 +7,7 @@
         public double? ProductPrice { get; set; }
         public int? ProductAvailability { get; set; }
         public int? ProductSupplyCheck { get; set; }
+
+        public bool? ComplexProduct { get; set; }
     }
 }
