@@ -40,9 +40,6 @@ public partial class ApplicationContext : DbContext
 
     public virtual DbSet<Table> Tables { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=CORNELIUS\\SQLEXPRESS;Database=CoffeBarManagementData;Trusted_Connection=True;MultipleActiveResultSets=True;TrustServerCertificate=True");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
