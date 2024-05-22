@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center rounded acrylic shadow p-3">
     <!--d-flex and justify-content-center is for centered content in bootstrap 5 -->
     <div class="col-12 col-lg-5">
         <main class="form-signin">
@@ -7,30 +7,38 @@
                     <h3 class="mb-3 font-weight-normal">Login</h3>
                 </div>
                 <div class="form-floating mb-3">
-                    <input formControlName="email" type="text" placeholder="Email" id="email" autocomplete="false" class="form-control"
-                        [class.is-invalid]="isSubmited && loginForm.get('email')?.errors">
+                    <input
+                        formControlName="email"
+                        type="text"
+                        placeholder="Email"
+                        id="email"
+                        autocomplete="false"
+                        class="form-control"
+                        [class.is-invalid]="isSubmited && loginForm.get('email')?.errors"
+                    />
                     <label for="email">Email</label>
-                    <span class="text-danger" *ngIf="isSubmited && loginForm.get('email')?.hasError('required')">
-                        Email is required!
-                    </span>
+                    <span class="text-danger" *ngIf="isSubmited && loginForm.get('email')?.hasError('required')"> Email is required! </span>
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input formControlName="password" id="password" type="{{showPassword ? 'text' : 'password' }}"
-                        placeholder="Password" class="form-control"
-                        [class.is-invalid]="isSubmited && loginForm.get('password')?.errors">
+                    <input
+                        formControlName="password"
+                        id="password"
+                        type="{{ showPassword ? 'text' : 'password' }}"
+                        placeholder="Password"
+                        class="form-control"
+                        [class.is-invalid]="isSubmited && loginForm.get('password')?.errors"
+                    />
                     <label for="password">Password </label>
                     <ng-template #passwordHiddenTemplate>
-                        <span (click)="togglePasswordVisible()" style="cursor: pointer;">
+                        <span (click)="togglePasswordVisible()" style="cursor: pointer">
                             <fa-icon [icon]="faEye" class="input-icon"></fa-icon>
                         </span>
                     </ng-template>
-                    <span (click)="togglePasswordVisible()" style="cursor: pointer;"
-                        *ngIf="!showPassword; else passwordHiddenTemplate"><fa-icon [icon]="faEyeClosed"
-                            class="input-icon"></fa-icon> </span>
-                    <span class="text-danger" *ngIf="isSubmited && loginForm.get('password')?.hasError('required')">
-                        Password is required
+                    <span (click)="togglePasswordVisible()" style="cursor: pointer" *ngIf="!showPassword; else passwordHiddenTemplate"
+                        ><fa-icon [icon]="faEyeClosed" class="input-icon"></fa-icon>
                     </span>
+                    <span class="text-danger" *ngIf="isSubmited && loginForm.get('password')?.hasError('required')"> Password is required </span>
                 </div>
 
                 <div class="d-grid mt-4 px-1">
@@ -45,7 +53,6 @@
                     <a routerLink="account/forget-password" class="btn btn-link">Forgot password</a>
                 </div>
             </div>
-
         </main>
     </div>
 </div>

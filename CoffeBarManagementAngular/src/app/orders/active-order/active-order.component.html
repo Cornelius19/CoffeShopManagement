@@ -1,9 +1,9 @@
-<div class="container col-md-6 col-sm-12">
+<div class="container col-md-6 col-sm-12 acrylic shadow">
     <h2 class="text-center" *ngIf="activeOrder == null">You do not have an active order!</h2>
     <div class="mt-5" style="max-width: 100%;" *ngIf="activeOrder != null">
         <h2 class="mb-3">Order summary</h2>
         <h6>Order id: {{activeOrder.orderId}}</h6>
-        <h6>Order date: {{activeOrder.orderDate}}</h6>
+        <h6>Order date: {{activeOrder.orderDate | date:'medium'}}</h6>
         <h6>Table number: {{activeOrder.tableId}}</h6>
         <h6 *ngIf="activeOrder.employeeName === ''">Employee name: "Waiting for confirmation"</h6>
         <h6 *ngIf="activeOrder.employeeName !== ''">Employee name: "{{activeOrder.employeeName}}"</h6>
