@@ -13,7 +13,7 @@ namespace CoffeBarManagement.Controllers
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminController : ControllerBase
+    public class AdminController : ControllerBase 
     {
         private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;

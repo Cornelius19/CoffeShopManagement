@@ -2,7 +2,7 @@
     transition: .2s;
     cursor: pointer;
     scale: 0.7;
-    background-color: rgba(219, 219, 219, 0.589);
+    background-color: rgba(209, 209, 209, 0.917);
 }
 .card:hover{
     transform: translateY(-10px);

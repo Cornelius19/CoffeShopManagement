@@ -38,7 +38,7 @@ export class ItemsComponent implements OnInit {
             this.menuService.getProductsByCategory(id).subscribe({
                 next: (response: any) => {
                     this.items = response;
-                    console.log(this.items);
+                    // console.log(this.items);
                     
                 },
                 error: (error) => {

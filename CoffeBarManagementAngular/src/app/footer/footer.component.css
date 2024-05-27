@@ -1,7 +1,0 @@
-.bottom {
-  z-index: 999;
-  position:fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: rgb(212, 212, 212);
-  }
