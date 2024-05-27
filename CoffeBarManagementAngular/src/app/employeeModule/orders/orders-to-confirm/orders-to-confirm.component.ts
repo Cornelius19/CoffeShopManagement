@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeOrderService } from '../employee-order.service';
 import { OrderDto } from '../../../shared/models/orderDto';
+import { SharedService } from '../../../shared/shared.service';
 
 @Component({
   selector: 'app-orders-to-confirm',
@@ -9,7 +10,9 @@ import { OrderDto } from '../../../shared/models/orderDto';
 })
 export class OrdersToConfirmComponent implements OnInit {
   
-  constructor(private employeeOrderService : EmployeeOrderService){}
+  constructor(private employeeOrderService : EmployeeOrderService,
+    private sharedService: SharedService
+  ){}
   ordersToConfirm : OrderDto [] = [];
 
 
@@ -40,8 +43,27 @@ export class OrdersToConfirmComponent implements OnInit {
     });
   }
 
-  confirmOrder(){
-    
+  confirmOrder(orderId : number){
+    if(confirm('Sure about this?')){
+      const userId = this.sharedService.getUserId();
+      if(userId){
+        this.employeeOrderService.confirmOrder(userId,orderId).subscribe({
+          next: (response:any) => {
+            this.sharedService.showNotification(true,'Success',response.value.message);
+            console.log(response);
+          },
+          error: error => {
+            this.sharedService.showNotification(false,'Failed',error.value.value.message);
+            console.log(error);
+          }
+        })
+
+      }
+    }
+  }
+
+  refuseOrder(id : number){
+
   }
 
 

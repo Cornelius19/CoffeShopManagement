@@ -376,10 +376,10 @@ namespace CoffeBarManagement.Controllers
         public async Task<IActionResult> ConfirmOrder(int employeeId, int orderId)
         {
             var result = await _applicationContext.Orders.FindAsync(orderId);
-            if (result == null) return BadRequest("Such an order does not exist!");
+            if (result == null) return BadRequest(new JsonResult(new {message = "Such an order does not exist!" }));
             if (result.OrderStatus != 1)
             {
-                return BadRequest("This order is already confirmed!");
+                return BadRequest(new JsonResult(new {message = "This order is already confirmed!" }));
             }
 
             result.OrderStatus += 1;
@@ -388,10 +388,10 @@ namespace CoffeBarManagement.Controllers
             foreach (var product in orderProducts)
             {
                 var productDetails = await _applicationContext.Products.FindAsync(product.ProductId);
-                if (productDetails == null) { return BadRequest("Somthing went wrong!"); }
+                if (productDetails == null) { return BadRequest(new JsonResult(new { message = "Somthing went wrong!" })); }
                 if (productDetails.ComplexProduct == false)
                 {
-                    if (productDetails.Quantity < product.Quantity) return BadRequest($"We don't have so much {productDetails.Name}!");
+                    if (productDetails.Quantity < product.Quantity) return BadRequest(new JsonResult(new { message = $"We don't have so much {productDetails.Name}!" }));
                     productDetails.Quantity -= product.Quantity;
 
                     var stockBalanceRecord = new StockBalance
@@ -406,7 +406,7 @@ namespace CoffeBarManagement.Controllers
                     await _applicationContext.SaveChangesAsync();
                 }
             }
-            return Ok("Order is confirmed!");
+            return Ok(new JsonResult(new { message = "Order is confirmed!" }));
         }
 
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]

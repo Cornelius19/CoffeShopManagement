@@ -1,5 +1,5 @@
 .acrylic {
-    padding: 4em 6em;
+    padding: 1em 1em;
     position: relative;
     background: #f1f1f18e;
     -webkit-backdrop-filter: blur(10px);
@@ -13,4 +13,7 @@
     opacity: 1;
     background-repeat: no-repeat;
     background-size: cover;
+    position: sticky;
+    background-attachment:fixed;
+    background-position: center;
 }

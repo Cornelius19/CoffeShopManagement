@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container acrylic shadow">
     @if (ordersToConfirm.length === 0) {
     <h3 class="text-center">There are no orders to confirm!</h3>
     }
@@ -26,8 +26,8 @@
                         <h6> - Total: {{(product.unitPrice * product.quantity)| number:'1.2-2'}} $</h6>
                     </div>
                     }
-                    <button class="col-12 btn btn-primary mt-3" (click)="confirmOrder()">Confirm</button>
-                    <button class="col-12 btn btn-primary mt-3" (click)="confirmOrder()">Confirm</button>
+                    <button class="col-12 btn btn-primary mt-3" (click)="confirmOrder(item.orderId)">Confirm</button>
+                    <button class="col-12 btn btn-danger mt-3" (click)="refuseOrder(item.orderId)">Cancel</button>
                 </div>
             </div>
         </div>
