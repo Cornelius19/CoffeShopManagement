@@ -55,8 +55,7 @@
               "RelativeToolTip": "CoffeBarManagement\\Properties\\launchSettings.json",
               "ViewState": "AQIAABUAAAAAAAAAAAAAABoAAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-05-27T07:53:48.35Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-27T07:53:48.35Z"
             },
             {
               "$type": "Document",
@@ -68,8 +67,7 @@
               "RelativeToolTip": "CoffeBarManagement\\test.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-05-27T07:53:29.661Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-27T07:53:29.661Z"
             },
             {
               "$type": "Document",
@@ -81,8 +79,7 @@
               "RelativeToolTip": "CoffeBarManagement\\Controllers\\AdminController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-18T06:50:49.69Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-18T06:50:49.69Z"
             }
           ]
         }
