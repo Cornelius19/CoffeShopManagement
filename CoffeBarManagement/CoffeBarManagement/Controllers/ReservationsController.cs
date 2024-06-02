@@ -17,10 +17,10 @@ namespace CoffeBarManagement.Controllers
     [Authorize]
     public class ReservationsController : ControllerBase
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly Data.ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
 
-        public ReservationsController(ApplicationContext applicationContext, UserManager<User> userManager)
+        public ReservationsController(Data.ApplicationContext applicationContext, UserManager<User> userManager)
         {
             this._applicationContext = applicationContext;
             this._userManager = userManager;

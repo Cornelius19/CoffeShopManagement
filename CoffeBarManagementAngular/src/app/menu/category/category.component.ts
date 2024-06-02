@@ -1,29 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../menu.service';
-import { GetCategorys } from '../../shared/models/getCategory';
+import { GetCategories } from '../../shared/models/getCategories';
 
 @Component({
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrl: './category.component.css',
+    selector: 'app-category',
+    templateUrl: './category.component.html',
+    styleUrl: './category.component.css',
 })
 export class CategoryComponent implements OnInit {
-  constructor(private menuService: MenuService) {}
+    constructor(private menuService: MenuService) {}
 
-  public categoryList : GetCategorys[] = [];
+    public categoryList: GetCategories[] = [];
 
-  ngOnInit(): void {
-    this.getCategorys();
-  }
+    ngOnInit(): void {
+        this.getCategories();
+    }
 
-  getCategorys() {
-    this.menuService.getAllCategorys().subscribe({
-      next: (response:any) => {
-        this.categoryList = response;
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
+    getCategories() {
+        this.menuService.getMenuCategories().subscribe({
+            next: (response: any) => {
+                this.categoryList = response;
+            },
+            error: (error) => {
+                console.log(error);
+            },
+        });
+    }
 }

@@ -14,9 +14,9 @@ namespace CoffeBarManagement.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly Data.ApplicationContext _applicationContext;
 
-        public ProductsController(ApplicationContext applicationContext)
+        public ProductsController(Data.ApplicationContext applicationContext)
         {
             _applicationContext = applicationContext;
         }
@@ -31,7 +31,7 @@ namespace CoffeBarManagement.Controllers
             {
                 var productToAdd = new Product
                 {
-                    Name = model.Name.ToLower(),
+                    Name = model.Name,
                     UnitPrice = model.UnitPrice,
                     UnitMeasure = model.UnitMeasure.ToLower(),
                     AvailableForUser = model.AvailableForUser,
@@ -74,7 +74,7 @@ namespace CoffeBarManagement.Controllers
             {
                 var productToAdd = new Product
                 {
-                    Name = model.Name.ToLower(),
+                    Name = model.Name,
                     UnitPrice = model.UnitPrice,
                     UnitMeasure = model.UnitMeasure.ToLower(),
                     AvailableForUser = model.AvailableForUser,

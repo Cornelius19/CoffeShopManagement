@@ -13,9 +13,9 @@ namespace CoffeBarManagement.Controllers
     [ApiController]
     public class TablesController : ControllerBase
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly Data.ApplicationContext _applicationContext;
 
-        public TablesController(ApplicationContext applicationContext)
+        public TablesController(Data.ApplicationContext applicationContext)
         {
             _applicationContext = applicationContext;
         }

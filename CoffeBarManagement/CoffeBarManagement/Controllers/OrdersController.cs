@@ -16,9 +16,9 @@ namespace CoffeBarManagement.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly Data.ApplicationContext _applicationContext;
 
-        public OrdersController(ApplicationContext applicationContext)
+        public OrdersController(Data.ApplicationContext applicationContext)
         {
             _applicationContext = applicationContext;
         }

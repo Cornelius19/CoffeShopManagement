@@ -12,9 +12,9 @@ namespace CoffeBarManagement.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly Data.ApplicationContext _applicationContext;
 
-        public CategoryController(ApplicationContext applicationContext)
+        public CategoryController(Data.ApplicationContext applicationContext)
         {
             _applicationContext = applicationContext;
         }
@@ -27,6 +27,7 @@ namespace CoffeBarManagement.Controllers
             var categoryToAdd = new Category
             {
                 CategoryName = model.Name,
+                AvailableMenu = model.AvailableMenu,
             };
             try
             {
@@ -41,8 +42,8 @@ namespace CoffeBarManagement.Controllers
         }
 
 
-        [HttpGet("get-categories")]
-        public async Task<List<GetCategoryDto>> GetCategorys()
+        [HttpGet("get-all-categories")]
+        public async Task<List<GetCategoryDto>> GetAllCategorys()
         {
             var categorys = await _applicationContext.Categories.ToListAsync();
             var getCategory = new List<GetCategoryDto>();
@@ -51,9 +52,31 @@ namespace CoffeBarManagement.Controllers
                 var categoryToShow = new GetCategoryDto
                 {
                     CategoryId = category.CategoryId,
-                    CategoryName = category.CategoryName
+                    CategoryName = category.CategoryName,
+                    AvailableMenu = category.AvailableMenu
                 };
                 getCategory.Add(categoryToShow);
+            }
+            return getCategory;
+        }
+
+        [HttpGet("get-menu-categories")]
+        public async Task<List<GetCategoryDto>> GetMenuCategorys()
+        {
+            var categorys = await _applicationContext.Categories.ToListAsync();
+            var getCategory = new List<GetCategoryDto>();
+            foreach (var category in categorys)
+            {
+                if(category.AvailableMenu == true)
+                {
+                    var categoryToShow = new GetCategoryDto
+                    {
+                        CategoryId = category.CategoryId,
+                        CategoryName = category.CategoryName,
+                        AvailableMenu = category.AvailableMenu
+                    };
+                    getCategory.Add(categoryToShow);
+                }
             }
             return getCategory;
         }

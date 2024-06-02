@@ -51,6 +51,9 @@ public partial class ApplicationContext : DbContext
             entity.ToTable("Category");
 
             entity.Property(e => e.CategoryId).HasColumnName("category_Id");
+            entity.Property(e => e.AvailableMenu)
+                .HasDefaultValue(false)
+                .HasColumnName("available_menu");
             entity.Property(e => e.CategoryName)
                 .HasMaxLength(50)
                 .IsUnicode(false)
