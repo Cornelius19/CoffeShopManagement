@@ -6,18 +6,8 @@ import { AccountRoutingModule } from './account-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-
-
 @NgModule({
-  declarations: [
-    LoginComponent,
-    RegisterComponent
-  ],
-  imports: [
-    CommonModule,
-    AccountRoutingModule,
-    SharedModule,
-    FontAwesomeModule
-  ]
+    declarations: [LoginComponent, RegisterComponent],
+    imports: [CommonModule, AccountRoutingModule, SharedModule, FontAwesomeModule],
 })
-export class AccountModule { }
+export class AccountModule {}

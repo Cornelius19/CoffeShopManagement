@@ -1,0 +1,122 @@
+<div class="modal-header bg-warning">
+    <h4 class="modal-title pull-center">Please edit and press commit!</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="newProductForm" (ngSubmit)="modifyProduct()">
+        <div class="form-floating mb-3">
+            <input
+                formControlName="name"
+                type="text"
+                placeholder="Product name"
+                id="name"
+                autocomplete="false"
+                class="form-control"
+                [class.is-invalid]="isSubmitted && newProductForm.get('name')?.errors"
+            />
+            <label for="name">Product name</label>
+            <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('name')?.hasError('required')"> Product name is required </span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input
+                formControlName="unitPrice"
+                type="number"
+                placeholder="Unit price"
+                id="unitPrice"
+                autocomplete="false"
+                class="form-control"
+                [class.is-invalid]="isSubmitted && newProductForm.get('unitPrice')?.errors"
+            />
+            <label for="unitPrice">Unit price</label>
+            <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('unitPrice')?.hasError('required')"> Unit price is required </span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input
+                formControlName="unitMeasure"
+                type="text"
+                placeholder="Unit measure"
+                id="unitMeasure"
+                autocomplete="false"
+                class="form-control"
+                [class.is-invalid]="isSubmitted && newProductForm.get('unitMeasure')?.errors"
+            />
+            <label for="unitMeasure">Unit measure</label>
+            <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('unitMeasure')?.hasError('required')"> Product name is required </span>
+        </div>
+
+        <span>The product is available for clients?</span>
+        <div class="col form-check">
+            <input
+                class="form-check-input"
+                type="radio"
+                [value]="true"
+                formControlName="availableForUser"
+                id="availableForUser1"
+                [checked]="newProductForm.get('availableForUser')?.value === true"
+            />
+            <label class="form-check-label" for="availableForUser1"> Yes </label>
+        </div>
+        <div class="col form-check">
+            <input
+                class="form-check-input"
+                type="radio"
+                [value]="false"
+                formControlName="availableForUser"
+                id="availableForUser2"
+                [checked]="newProductForm.get('availableForUser')?.value === false"
+            />
+            <label class="form-check-label" for="availableForUser2"> No </label>
+        </div>
+        <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('availableForUser')?.hasError('required')"> Check one box please </span>
+
+        <div class="form-floating mb-3 mt-3">
+            <select
+                formControlName="categoryId"
+                id="categoryId"
+                class="form-select"
+                [class.is-invalid]="isSubmitted && newProductForm.get('categoryId')?.errors"
+            >
+                @for (category of categoryList; track category) {
+                <option value="{{ category.categoryId }}">{{ category.categoryName }}</option>
+                }
+            </select>
+            <label for="categoryId">Select category</label>
+            <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('categoryId')?.hasError('required')"> Select a category please </span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input
+                formControlName="quantity"
+                type="number"
+                placeholder="Quantity"
+                id="quantity"
+                autocomplete="false"
+                class="form-control"
+                [class.is-invalid]="isSubmitted && newProductForm.get('quantity')?.errors"
+            />
+            <label for="quantity">Quantity</label>
+            <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('quantity')?.hasError('required')"> Quantity is required </span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input
+                formControlName="supplyCheck"
+                type="number"
+                placeholder="Supply Check"
+                id="supplyCheck"
+                autocomplete="false"
+                class="form-control"
+                [class.is-invalid]="isSubmitted && newProductForm.get('supplyCheck')?.errors"
+            />
+            <label for="supplyCheck">Supply Check</label>
+            <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('supplyCheck')?.hasError('required')"> Supply Check is required </span>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn btn-warning">Apply changes</button>
+        </div>
+    </form>
+</div>

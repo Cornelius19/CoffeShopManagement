@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NotificationComponent } from './components/errors/models/notification/notification.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { AddNewNonComplexProductComponent } from './components/formModals/add-new-non-complex-product/add-new-non-complex-product.component';
+import { EditProductComponent } from './components/formModals/edit-product/edit-product.component';
 
 
 
@@ -14,14 +16,16 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   declarations: [
     NotFoundComponent,
     ValidationMessagesComponent,
-    NotificationComponent
+    NotificationComponent,
+    AddNewNonComplexProductComponent,
+    EditProductComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ModalModule.forRoot()// it sets this module to the entire application
+    ModalModule.forRoot(),// it sets this module to the entire application
   ],
   exports:[
     RouterModule,

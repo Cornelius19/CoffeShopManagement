@@ -107,9 +107,29 @@ namespace CoffeBarManagement.Controllers
 
         [Authorize(Roles = Dependencis.ADMIN_ROLE)]
         [HttpGet("get-stock")]
-        public async Task<List<Product>> GetStock()
+        public async Task<List<StockProducts>> GetStock()
         {
-            return await _applicationContext.Products.ToListAsync();
+            var returnList = new List<StockProducts>();
+            var products = await _applicationContext.Products.ToListAsync();
+            if(products.Count == 0) return new List<StockProducts>();
+
+            foreach(var product in products)
+            {
+                var productToAdd = new StockProducts
+                {
+                    ProductId = product.ProductId,
+                    Name = product.Name,
+                    UnitPrice = product.UnitPrice,
+                    UnitMeasure = product.UnitMeasure,
+                    AvailableForUser = product.AvailableForUser,
+                    ComplexProduct = product.ComplexProduct,
+                    CategoryId = product.CategoryId,
+                    Quantity = product.Quantity,
+                    SupplyCheck = product.SupplyCheck
+                };
+                returnList.Add(productToAdd);
+            }
+            return returnList;
         }
 
         [Authorize(Roles = Dependencis.ADMIN_ROLE)]
@@ -154,7 +174,24 @@ namespace CoffeBarManagement.Controllers
             return categoryProducts;
         }
 
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpPut("modify-product/{id}")]
+        public async Task<IActionResult> ModifyProduct(int id, StockProducts model)
+        {
+            var productToModify = await _applicationContext.Products.FindAsync(id);
+            if(productToModify == null) return NotFound(new JsonResult(new { message = "The product cannot be found!" }));
+            productToModify.Name = model.Name;
+            productToModify.UnitPrice = model.UnitPrice;
+            productToModify.UnitMeasure = model.UnitMeasure;
+            productToModify.AvailableForUser = model.AvailableForUser;
+            productToModify.ComplexProduct = model.ComplexProduct;
+            productToModify.CategoryId  = model.CategoryId;
+            productToModify.Quantity = model.Quantity;
+            productToModify.SupplyCheck = model.SupplyCheck;
 
+            await _applicationContext.SaveChangesAsync();
+            return Ok(new JsonResult(new { message = "Product was successfuly modified!" }));
+        }
 
     }
 }
