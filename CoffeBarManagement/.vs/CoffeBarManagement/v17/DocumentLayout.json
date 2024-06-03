@@ -67,8 +67,7 @@
               "RelativeToolTip": "CoffeBarManagement\\Controllers\\ProductsController.cs",
               "ViewState": "AQIAAKUAAAAAAAAAAAASwMQAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-28T14:16:10.337Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-28T14:16:10.337Z"
             },
             {
               "$type": "Document",
@@ -80,8 +79,7 @@
               "RelativeToolTip": "CoffeBarManagement\\DTOs\\Product\\OrderProductInformationDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T12:41:18.773Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-02T12:41:18.773Z"
             },
             {
               "$type": "Document",
@@ -93,8 +91,7 @@
               "RelativeToolTip": "CoffeBarManagement\\DTOs\\Product\\GetMenuProductDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T12:41:05.954Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-02T12:41:05.954Z"
             },
             {
               "$type": "Document",
@@ -106,8 +103,7 @@
               "RelativeToolTip": "CoffeBarManagement\\Controllers\\AdminController.cs",
               "ViewState": "AQIAAEIAAAAAAAAAAAAYwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T12:40:08.812Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-02T12:40:08.812Z"
             },
             {
               "$type": "Document",
@@ -119,8 +115,7 @@
               "RelativeToolTip": "CoffeBarManagement\\Controllers\\AccountController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T12:40:08.299Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-02T12:40:08.299Z"
             },
             {
               "$type": "Document",
@@ -132,8 +127,7 @@
               "RelativeToolTip": "CoffeBarManagement\\DTOs\\Product\\ProductDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAtAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T12:41:28.62Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-02T12:41:28.62Z"
             }
           ]
         }
