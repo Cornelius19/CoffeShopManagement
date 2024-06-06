@@ -6,48 +6,57 @@ import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class SharedService {
-  bsModalRef?: BsModalRef;
+    bsModalRef?: BsModalRef;
 
-  constructor(private modalService: BsModalService, private http: HttpClient) { }
+    constructor(private modalService: BsModalService, private http: HttpClient) {}
 
-  showNotification(isSuccess: boolean, title: string, message: string){
-    const initialState: ModalOptions = {
-      initialState: {
-        isSuccess,
-        title,
-        message
-      }
-    };
-    this.bsModalRef = this.modalService.show(NotificationComponent, initialState)
-  }
-
-
-  selectQuantity(isSuccess: boolean, title: string, message: string){
-    const initialState: ModalOptions = {
-      initialState: {
-        isSuccess,
-        title,
-        message
-      }
-    };
-    this.bsModalRef = this.modalService.show(NotificationComponent, initialState)
-  }
-
-  
-  getUserId() {
-    const userDetails = localStorage.getItem(environment.userKey);
-    if (userDetails) {
-      const user: User = JSON.parse(userDetails);
-      return user.userId;
+    showNotification(isSuccess: boolean, title: string, message: string) {
+        const initialState: ModalOptions = {
+            initialState: {
+                isSuccess,
+                title,
+                message,
+            },
+        };
+        this.bsModalRef = this.modalService.show(NotificationComponent, initialState);
     }
-    return null;
-  }
 
-  getAllTables(){
-    return this.http.get(`${environment.appUrl}/api/tables/get-all-tables`);
-  }
+    showNotificationAndReload(isSuccess: boolean, title: string, message: string, needToRefresh: boolean) {
+        const initialState: ModalOptions = {
+            initialState: {
+                isSuccess,
+                title,
+                message,
+                needToRefresh,
+            },
+        };
+        this.bsModalRef = this.modalService.show(NotificationComponent, initialState);
+    }
 
+    selectQuantity(isSuccess: boolean, title: string, message: string) {
+        const initialState: ModalOptions = {
+            initialState: {
+                isSuccess,
+                title,
+                message,
+            },
+        };
+        this.bsModalRef = this.modalService.show(NotificationComponent, initialState);
+    }
+
+    getUserId() {
+        const userDetails = localStorage.getItem(environment.userKey);
+        if (userDetails) {
+            const user: User = JSON.parse(userDetails);
+            return user.userId;
+        }
+        return null;
+    }
+
+    getAllTables() {
+        return this.http.get(`${environment.appUrl}/api/tables/get-all-tables`);
+    }
 }

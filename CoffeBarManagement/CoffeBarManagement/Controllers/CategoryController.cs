@@ -93,5 +93,51 @@ namespace CoffeBarManagement.Controllers
             await _applicationContext.SaveChangesAsync();
             return Ok(new JsonResult(new { message = "Modification was applied!" }));
         }
+
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpGet("get-balancing-categories")]
+        public async Task<List<RemoveCategory>> GetBalanceCategories()
+        {
+            var result = await _applicationContext.RemoveCategories.ToListAsync();
+            return result;
+        }
+
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpPost("add-balance-category")]
+        public async Task<IActionResult> AddNewBalanceCategory(AddBalanceCategoryDto model)
+        {
+            var result = await _applicationContext.RemoveCategories.Where(q => q.RemoveCategoryName == model.removeCategoryName).FirstOrDefaultAsync();
+            if (result != null) return BadRequest(new JsonResult(new {message = "There is a balance category with this name!"}));
+            var balanceCategoryToAdd = new RemoveCategory
+            {
+                RemoveCategoryName = model.removeCategoryName,
+            };
+
+            try
+            {
+                await _applicationContext.RemoveCategories.AddAsync(balanceCategoryToAdd);
+                await _applicationContext.SaveChangesAsync();
+            }
+            catch
+            {
+                return BadRequest(new JsonResult(new { message = "Well something went to the left somewhere!" }));
+            }
+            return Ok(new JsonResult(new { message = $"New balance category with the name: {model.removeCategoryName} was successfuly added!" }));
+        }
+
+
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpPost("modify-balance-category")]
+        public async Task<IActionResult> ModifyBalanceCategory(RemoveCategory model)
+        {
+            var result = await _applicationContext.RemoveCategories.FindAsync(model.RemoveCategoryId);
+            if (result == null) return NotFound(new JsonResult(new { message = "Balance category was not found!" }));
+            result.RemoveCategoryName = model.RemoveCategoryName;
+            await _applicationContext.SaveChangesAsync();
+            return Ok(new JsonResult(new { message = "Modification was applied!" }));
+        }
+
+
+
     }
 }

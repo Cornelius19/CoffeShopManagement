@@ -10,6 +10,11 @@ import { applyStyles } from '@popperjs/core';
 import { AddNewProductCategoryComponent } from './formsModals/add-new-product-category/add-new-product-category.component';
 import { ModifyProductCategoryComponent } from './formsModals/modify-product-category/modify-product-category.component';
 import { AddCategory } from '../shared/models/addCategory';
+import { GetCategories } from '../shared/models/getCategories';
+import { AddNewBalanceCategoryComponent } from './formsModals/add-new-balance-category/add-new-balance-category.component';
+import { ModifyBalanceCategoryComponent } from './formsModals/modify-balance-category/modify-balance-category.component';
+import { AddBalanceCategory } from '../shared/models/addBalanceCategory';
+import { BalanceCategories } from '../shared/models/balanceCategories';
 
 @Injectable({
     providedIn: 'root',
@@ -67,11 +72,44 @@ export class AdminService {
         return this.http.post(`${environment.appUrl}/api/category/add-category`, model);
     }
 
-    showModifyProductCategory() {
-        this.bsModalRef = this.modalService.show(ModifyProductCategoryComponent);
+    showModifyProductCategory(categoryId: number, categoryName: string, availableMenu: boolean) {
+        const initialState: ModalOptions = {
+            initialState: {
+                categoryId,
+                categoryName,
+                availableMenu,
+            },
+        };
+        this.bsModalRef = this.modalService.show(ModifyProductCategoryComponent, initialState);
     }
 
-    modifyProductCategory(model: AddCategory) {
-        this.http.put(`${environment.appUrl}/api/category/modify-product-category`, model);
+    modifyProductCategory(model: GetCategories) {
+        return this.http.put(`${environment.appUrl}/api/category/modify-product-category`, model);
+    }
+
+    getBalanceCategories() {
+        return this.http.get(`${environment.appUrl}/api/category/get-balancing-categories`);
+    }
+
+    showAddBalanceCategory() {
+        this.bsModalRef = this.modalService.show(AddNewBalanceCategoryComponent);
+    }
+
+    showModifyBalanceCategory(removeCategoryId: number, removeCategoryName: string) {
+        const initialState: ModalOptions = {
+            initialState: {
+                removeCategoryId,
+                removeCategoryName,
+            },
+        };
+        this.bsModalRef = this.modalService.show(ModifyBalanceCategoryComponent, initialState);
+    }
+
+    addNewBalanceCategory(model: AddBalanceCategory) {
+        return this.http.post(`${environment.appUrl}/api/category/add-balance-category`, model);
+    }
+
+    modifyBalanceCategory(model: BalanceCategories) {
+        return this.http.post(`${environment.appUrl}/api/category/modify-balance-category`, model);
     }
 }
