@@ -20,13 +20,15 @@ namespace CoffeBarManagement.Controllers
         {
             _applicationContext = applicationContext;
         }
+
+
         [Authorize(Roles = "Admin,Employee")]
         [HttpPost("add-new-product-noncomplex")]
-        public async Task<IActionResult> AddNewProduct(ProductDto model)
+        public async Task<IActionResult> AddNewProduct(StockProducts model)
         {
             //check if a product with same name already exist (because evenfor similar products we can change the name like cola330ml cola1500ml and stuff like this)
             var result = await _applicationContext.Products.Where(p => p.Name == model.Name).FirstOrDefaultAsync();
-            if (result != null) { return BadRequest("A prduct with this name already exist!"); }
+            if (result != null) { return BadRequest(new JsonResult(new { message = "A product with this name already exist!" })); }
             try
             {
                 var productToAdd = new Product
@@ -45,9 +47,9 @@ namespace CoffeBarManagement.Controllers
             }
             catch
             {
-                return BadRequest("Something went wrong on adding a new nonComplex product!");
+                return BadRequest(new JsonResult(new { message = "Something went wrong on adding a new nonComplex product!" }));
             }
-            return Ok($"Product {model.Name} was successfuly added!");
+            return Ok(new JsonResult(new { message = $"Product {model.Name} was successfuly added!" }));
         }
 
         [Authorize(Roles = "Admin,Employee")]
@@ -175,16 +177,16 @@ namespace CoffeBarManagement.Controllers
         }
 
         [Authorize(Roles = Dependencis.ADMIN_ROLE)]
-        [HttpPut("modify-product/{id}")]
-        public async Task<IActionResult> ModifyProduct(int id, StockProducts model)
+        [HttpPut("modify-nonComplexProduct")]
+        public async Task<IActionResult> ModifyNonComplexProduct(StockProducts model)
         {
-            var productToModify = await _applicationContext.Products.FindAsync(id);
+            var productToModify = await _applicationContext.Products.FindAsync(model.ProductId);
             if(productToModify == null) return NotFound(new JsonResult(new { message = "The product cannot be found!" }));
             productToModify.Name = model.Name;
             productToModify.UnitPrice = model.UnitPrice;
             productToModify.UnitMeasure = model.UnitMeasure;
             productToModify.AvailableForUser = model.AvailableForUser;
-            productToModify.ComplexProduct = model.ComplexProduct;
+            productToModify.ComplexProduct = false;
             productToModify.CategoryId  = model.CategoryId;
             productToModify.Quantity = model.Quantity;
             productToModify.SupplyCheck = model.SupplyCheck;
@@ -192,6 +194,5 @@ namespace CoffeBarManagement.Controllers
             await _applicationContext.SaveChangesAsync();
             return Ok(new JsonResult(new { message = "Product was successfuly modified!" }));
         }
-
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Composition;
 
 namespace CoffeBarManagement.Controllers
 {
@@ -22,8 +23,8 @@ namespace CoffeBarManagement.Controllers
         [HttpPost("add-category")]
         public async Task<IActionResult> AddCategory(CategoryDto model)
         {
-            var result1 = _applicationContext.Categories.Where(q => q.CategoryName == model.Name);
-            if(result1 != null) return BadRequest("Such a category already exist!");
+            var result1 = await _applicationContext.Categories.Where(q => q.CategoryName == model.Name).FirstOrDefaultAsync();
+            if(result1 != null) return BadRequest(new JsonResult(new { message = "Such a category already exist!" }));
             var categoryToAdd = new Category
             {
                 CategoryName = model.Name,
@@ -36,9 +37,9 @@ namespace CoffeBarManagement.Controllers
             }
             catch
             {
-                return BadRequest("Something went wrong for adding a new category!");
+                return BadRequest(new JsonResult(new { message = "Something went wrong for adding a new category!"}));
             }
-            return Ok($"A new category was added by name {model.Name}");
+            return Ok(new JsonResult(new { message = $"A new category was added by name {model.Name}" }));
         }
 
 
@@ -79,6 +80,18 @@ namespace CoffeBarManagement.Controllers
                 }
             }
             return getCategory;
+        }
+
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpPut("modify-product-category")]
+        public async Task<IActionResult> ModifyProductCategory(GetCategoryDto model)
+        {
+            var result = await _applicationContext.Categories.FindAsync(model.CategoryId);
+            if(result == null) return NotFound(new JsonResult(new { message = "Category was not found!" }));
+            result.CategoryName = model.CategoryName;
+            result.AvailableMenu = model.AvailableMenu;
+            await _applicationContext.SaveChangesAsync();
+            return Ok(new JsonResult(new { message = "Modification was applied!" }));
         }
     }
 }

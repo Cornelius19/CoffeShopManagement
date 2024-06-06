@@ -9,22 +9,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActiveOrdersComponent } from './orders/active-orders/active-orders.component';
 import { OrdersToConfirmComponent } from './orders/orders-to-confirm/orders-to-confirm.component';
 
-
-
 @NgModule({
-  declarations: [
-    CreateReservationEmployeeComponent,
-    ReservationToConfirmComponent,
-    FutureReservationsEmployeeComponent,
-    AllReservationsEmployeeComponent,
-    ActiveOrdersComponent,
-    OrdersToConfirmComponent
-  ],
-  imports: [
-    CommonModule,
-    EmployeeRoutingModule,
-    ReactiveFormsModule,
-    FormsModule
-  ]
+    declarations: [
+        CreateReservationEmployeeComponent,
+        ReservationToConfirmComponent,
+        FutureReservationsEmployeeComponent,
+        AllReservationsEmployeeComponent,
+        ActiveOrdersComponent,
+        OrdersToConfirmComponent,
+    ],
+    imports: [CommonModule, EmployeeRoutingModule, FormsModule, ReactiveFormsModule],
 })
-export class EmployeeModule { }
+export class EmployeeModule {}

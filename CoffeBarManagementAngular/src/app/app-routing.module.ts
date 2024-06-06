@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './shared/components/errors/not-found/not-found.component';
 import { RoleGuard } from './shared/guards/authorization.guard';
-import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { Roles } from '../dependencies/roles';
 
 const routes: Routes = [
@@ -24,15 +23,21 @@ const routes: Routes = [
         data: { roles: [Roles.Admin, Roles.Client] },
     },
 
-    //admin paths
-    { path: 'dashboard', component: DashboardComponent, canActivate: [RoleGuard], data: { roles: [Roles.Admin] } },
-
     //employee paths
     {
         path: 'employees',
         loadChildren: () => import('./employeeModule/employee.module').then((module) => module.EmployeeModule),
         canActivate: [RoleGuard],
         data: { roles: [Roles.Employee] },
+    },
+
+    //admin paths
+
+    {
+        path: 'admin',
+        loadChildren: () => import('./admin/admin.module').then((module) => module.AdminModule),
+        canActivate: [RoleGuard],
+        data: { roles: [Roles.Admin] },
     },
 
     //shared paths

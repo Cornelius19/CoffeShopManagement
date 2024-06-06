@@ -1,85 +1,97 @@
 <!-- bg-body-tertiary -->
-<nav class="navbar navbar-expand-lg " style="background-color: rgba(122, 122, 122, 0.384);">
+<nav class="navbar navbar-expand-lg" style="background-color: rgba(122, 122, 122, 0.384)">
     <div class="container-fluid">
-            <a class="navbar-brand mt-auto" routerLink="/">
-                <img src="/assets/images/sdbar-high-resolution-logo-black-transparent.png" alt="Logo"
-                    style="max-width: 70px; max-height: 70px;">
-            </a>
-        <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand mt-auto" routerLink="/">
+            <img src="/assets/images/sdbar-high-resolution-logo-black-transparent.png" alt="Logo" style="max-width: 70px; max-height: 70px" />
+        </a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 @if (accountService.getJWT() == null || accountService.getUserRole() == roles.Client1) {
-                    <li class="nav-item">
-                        <a class="nav-link " routerLink="/menu" routerLinkActive="active"><strong>Menu</strong></a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/menu" routerLinkActive="active"><strong>Menu</strong></a>
+                </li>
                 }
-                <ul class="navbar-nav"
-                    *ngIf="(accountService.user$ | async) !== null && (accountService.getUserRole() === roles.Client1)">
+                <ul class="navbar-nav" *ngIf="(accountService.user$ | async) !== null && accountService.getUserRole() === roles.Client1">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <strong>Reservation</strong>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end ">
+                        <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" routerLink="/reservations">Create reservation</a></li>
-                            <li><a class="dropdown-item" routerLink="reservations/future-reservations">Future
-                                    reservations</a></li>
-                            <li><a class="dropdown-item" routerLink="/reservations/all-reservations">All
-                                    reservations</a></li>
+                            <li><a class="dropdown-item" routerLink="reservations/future-reservations">Future reservations</a></li>
+                            <li><a class="dropdown-item" routerLink="/reservations/all-reservations">All reservations</a></li>
                         </ul>
                     </li>
                 </ul>
-                <ul class="navbar-nav"
-                    *ngIf="(accountService.user$ | async) !== null && (accountService.getUserRole() === roles.Employee1)">
+                <ul class="navbar-nav" *ngIf="(accountService.user$ | async) !== null && accountService.getUserRole() === roles.Employee1">
                     <li class="nav-item dropdown">
-                        <a class="nav-link" routerLink="" role="button"
-                            aria-expanded="false">
+                        <a class="nav-link" routerLink="" role="button" aria-expanded="false">
                             <strong>POS</strong>
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" routerLink="/employees/orders-to-confirm" role="button"
-                            aria-expanded="false">
+                        <a class="nav-link" routerLink="/employees/orders-to-confirm" role="button" aria-expanded="false">
                             <strong>OrdersToConfirm</strong>
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" routerLink="/employees/active-orders" role="button"
-                            aria-expanded="false">
+                        <a class="nav-link" routerLink="/employees/active-orders" role="button" aria-expanded="false">
                             <strong>ActiveOrders</strong>
                         </a>
                     </li>
                 </ul>
-                <ul class="navbar-nav"
-                    *ngIf="(accountService.user$ | async) !== null && (accountService.getUserRole() === roles.Client1)">
+                <ul class="navbar-nav" *ngIf="(accountService.user$ | async) !== null && accountService.getUserRole() === roles.Client1">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <strong>Orders</strong>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end ">
+                        <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" routerLink="/orders/active-order">Active order</a></li>
                             <li><a class="dropdown-item" routerLink="/orders/order-history">Order history</a></li>
                         </ul>
                     </li>
                 </ul>
-                <li class="nav-item"
-                    *ngIf="((accountService.user$ | async) !== null) && (accountService.getUserRole() === roles.Admin1)">
-                    <a class="nav-link " routerLink="/dashboard"
-                        routerLinkActive="active"><strong>Dashboard</strong></a>
+                @if (((accountService.user$ | async) !== null) && (accountService.getUserRole() === roles.Admin1)) {
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active"><strong>Dashboard</strong></a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <strong>Products</strong>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" routerLink="/admin/stock-products">Stock products</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <strong>Categories</strong>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" routerLink="/admin/product-categories">Product categories</a></li>
+                        <li><a class="dropdown-item" routerLink="/admin/balancing-categories">Balancing categories</a></li>
+                    </ul>
+                </li>
+                }
             </ul>
             @if (((accountService.user$ | async) !== null) && (accountService.getUserRole() === roles.Employee1)) {
-                <ul class="navbar-nav">
+            <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <strong>Reservation</strong>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end ">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" routerLink="/employees/create-reservation">Create reservation</a></li>
                         <li><a class="dropdown-item" routerLink="/employees/reservations-to-confirm">Reservation to confirm</a></li>
                         <li><a class="dropdown-item" routerLink="/employees/future-reservations">Future reservations</a></li>
@@ -88,36 +100,34 @@
                 </li>
             </ul>
             }
-            
+
             <ul class="navbar-nav" *ngIf="(accountService.user$ | async) === null">
                 <li class="nav-item">
-                    <a class="nav-link  " routerLink="/account/login"
-                        routerLinkActive="active"><strong>Login</strong></a>
+                    <a class="nav-link" routerLink="/account/login" routerLinkActive="active"><strong>Login</strong></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " routerLink="/account/register"
-                        routerLinkActive="active"><strong>Register</strong></a>
+                    <a class="nav-link" routerLink="/account/register" routerLinkActive="active"><strong>Register</strong></a>
                 </li>
             </ul>
-            <ul class="navbar-nav" *ngIf="(accountService.user$ | async) as user">
+            <ul class="navbar-nav" *ngIf="accountService.user$ | async as user">
                 @if (accountService.getUserRole() === roles.Client1) {
                 <li class="nav-item">
-                    <a class="nav-link " routerLink="/orders/cart" routerLinkActive="active"><strong>Cart </strong><span
-                            *ngIf="ordersService.counter != 0"
-                            class="badge bg-dark rounded-pill">{{ordersService.counter}}</span></a>
+                    <a class="nav-link" routerLink="/orders/cart" routerLinkActive="active"
+                        ><strong>Cart </strong
+                        ><span *ngIf="ordersService.counter != 0" class="badge bg-dark rounded-pill">{{ ordersService.counter }}</span></a
+                    >
                 </li>
                 }
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <strong>Hi {{user.firstName | uppercase}}</strong>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <strong>Hi {{ user.firstName | uppercase }}</strong>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end ">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" routerLink="/account-details">Account details</a></li>
                         <li>
-                            <hr class="dropdown-divider">
+                            <hr class="dropdown-divider" />
                         </li>
-                        <li><a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Log out</a></li>
+                        <li><a class="dropdown-item" style="cursor: pointer" (click)="logout()">Log out</a></li>
                     </ul>
                 </li>
             </ul>

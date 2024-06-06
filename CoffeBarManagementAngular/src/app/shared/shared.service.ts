@@ -4,8 +4,6 @@ import { NotificationComponent } from './components/errors/models/notification/n
 import { User } from './models/user';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
-import { AddNewNonComplexProductComponent } from './components/formModals/add-new-non-complex-product/add-new-non-complex-product.component';
-import { EditProductComponent } from './components/formModals/edit-product/edit-product.component';
 
 @Injectable({
   providedIn: 'root'
@@ -26,27 +24,6 @@ export class SharedService {
     this.bsModalRef = this.modalService.show(NotificationComponent, initialState)
   }
 
-  showModifyProduct(productId:number,name:string,unitPrice:number,unitMeasure:string,availableForUser:boolean,complexProduct:boolean,categoryId: number,
-    quantity:number,supplyCheck:number){
-      const initialState: ModalOptions = {
-        initialState: {
-          productId,
-          name,
-          unitPrice,
-          unitMeasure,
-          availableForUser,
-          complexProduct,
-          categoryId,
-          quantity,
-          supplyCheck
-        }
-      };
-      this.bsModalRef = this.modalService.show(EditProductComponent, initialState)
-    }
-
-  showAddNewNonComplexProduct(){
-    this.bsModalRef = this.modalService.show(AddNewNonComplexProductComponent)
-  }
 
   selectQuantity(isSuccess: boolean, title: string, message: string){
     const initialState: ModalOptions = {
