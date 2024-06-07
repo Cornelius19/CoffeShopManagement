@@ -3,44 +3,35 @@
   "WorkspaceRootPath": "D:\\Licenta\\CoffeBarManagement\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\corne\\AppData\\Local\\SourceServer\\faa7ed85c96e5ad9a463dd386af70af00c0c595c184008b1c992b22ea3e22d2a\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\ProductsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\dtos\\category\\addbalancecategorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\dtos\\category\\addbalancecategorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\models\\models\\removecategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\models\\models\\removecategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\dtos\\product\\componentproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\dtos\\product\\componentproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\dtos\\product\\stockproducts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\dtos\\product\\stockproducts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\dtos\\product\\getproductcomponentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\dtos\\product\\getproductcomponentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\dtos\\product\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\dtos\\product\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\dtos\\product\\orderproductinformationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\dtos\\product\\orderproductinformationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\dtos\\product\\complexproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\dtos\\product\\complexproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\dtos\\product\\getmenuproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\dtos\\product\\getmenuproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +41,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,52 +49,74 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "RemoveCategory.cs",
-              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Models\\Models\\RemoveCategory.cs",
-              "RelativeDocumentMoniker": "CoffeBarManagement\\Models\\Models\\RemoveCategory.cs",
-              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Models\\Models\\RemoveCategory.cs",
-              "RelativeToolTip": "CoffeBarManagement\\Models\\Models\\RemoveCategory.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-06T14:41:42.471Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AddBalanceCategoryDto.cs",
-              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Category\\AddBalanceCategoryDto.cs",
-              "RelativeDocumentMoniker": "CoffeBarManagement\\DTOs\\Category\\AddBalanceCategoryDto.cs",
-              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Category\\AddBalanceCategoryDto.cs",
-              "RelativeToolTip": "CoffeBarManagement\\DTOs\\Category\\AddBalanceCategoryDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAoAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-06T14:41:04.61Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CategoryController.cs",
-              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\CategoryController.cs",
-              "RelativeDocumentMoniker": "CoffeBarManagement\\Controllers\\CategoryController.cs",
-              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\CategoryController.cs",
-              "RelativeToolTip": "CoffeBarManagement\\Controllers\\CategoryController.cs",
-              "ViewState": "AQIAAGYAAAAAAAAAAAAiwIEAAAARAAAA",
+              "Title": "ProductsController.cs",
+              "DocumentMoniker": "C:\\Users\\corne\\AppData\\Local\\SourceServer\\faa7ed85c96e5ad9a463dd386af70af00c0c595c184008b1c992b22ea3e22d2a\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\ProductsController.cs",
+              "ToolTip": "C:\\Users\\corne\\AppData\\Local\\SourceServer\\faa7ed85c96e5ad9a463dd386af70af00c0c595c184008b1c992b22ea3e22d2a\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\ProductsController.cs",
+              "ViewState": "AQIAAF8AAAAAAAAAAAAMwHcAAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-04T13:36:47.367Z",
+              "WhenOpened": "2024-06-07T13:31:59.848Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "GetProductComponentDto.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\GetProductComponentDto.cs",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\DTOs\\Product\\GetProductComponentDto.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\GetProductComponentDto.cs",
+              "RelativeToolTip": "CoffeBarManagement\\DTOs\\Product\\GetProductComponentDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T12:55:13.798Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GetMenuProductDto.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\GetMenuProductDto.cs",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\DTOs\\Product\\GetMenuProductDto.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\GetMenuProductDto.cs",
+              "RelativeToolTip": "CoffeBarManagement\\DTOs\\Product\\GetMenuProductDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T12:54:13.136Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ComplexProductDto.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\ComplexProductDto.cs",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\DTOs\\Product\\ComplexProductDto.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\ComplexProductDto.cs",
+              "RelativeToolTip": "CoffeBarManagement\\DTOs\\Product\\ComplexProductDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwBQAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T07:45:52.999Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ComponentProductDto.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\ComponentProductDto.cs",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\DTOs\\Product\\ComponentProductDto.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\ComponentProductDto.cs",
+              "RelativeToolTip": "CoffeBarManagement\\DTOs\\Product\\ComponentProductDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAIAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T08:11:14.595Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "StockProducts.cs",
               "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\StockProducts.cs",
               "RelativeDocumentMoniker": "CoffeBarManagement\\DTOs\\Product\\StockProducts.cs",
               "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\StockProducts.cs",
               "RelativeToolTip": "CoffeBarManagement\\DTOs\\Product\\StockProducts.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAIAAAAeAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T12:48:19.791Z"
+              "WhenOpened": "2024-06-07T07:44:03.624Z"
             },
             {
               "$type": "Document",
@@ -113,69 +126,21 @@
               "RelativeDocumentMoniker": "CoffeBarManagement\\Controllers\\ProductsController.cs",
               "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\ProductsController.cs",
               "RelativeToolTip": "CoffeBarManagement\\Controllers\\ProductsController.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAxwCIAAAARAAAA",
+              "ViewState": "AQIAAG4AAAAAAAAAAAAgwIoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-28T14:16:10.337Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "OrderProductInformationDto.cs",
-              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\OrderProductInformationDto.cs",
-              "RelativeDocumentMoniker": "CoffeBarManagement\\DTOs\\Product\\OrderProductInformationDto.cs",
-              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\OrderProductInformationDto.cs",
-              "RelativeToolTip": "CoffeBarManagement\\DTOs\\Product\\OrderProductInformationDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T12:41:18.773Z"
+              "WhenOpened": "2024-06-07T07:43:48.994Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "GetMenuProductDto.cs",
-              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\GetMenuProductDto.cs",
-              "RelativeDocumentMoniker": "CoffeBarManagement\\DTOs\\Product\\GetMenuProductDto.cs",
-              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\GetMenuProductDto.cs",
-              "RelativeToolTip": "CoffeBarManagement\\DTOs\\Product\\GetMenuProductDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T12:41:05.954Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "AdminController.cs",
-              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\AdminController.cs",
-              "RelativeDocumentMoniker": "CoffeBarManagement\\Controllers\\AdminController.cs",
-              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\AdminController.cs",
-              "RelativeToolTip": "CoffeBarManagement\\Controllers\\AdminController.cs",
-              "ViewState": "AQIAAEIAAAAAAAAAAAAYwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T12:40:08.812Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "CoffeBarManagement\\Controllers\\AccountController.cs",
-              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "CoffeBarManagement\\Controllers\\AccountController.cs",
+              "Title": "CategoryController.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\CategoryController.cs",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\Controllers\\CategoryController.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\CategoryController.cs",
+              "RelativeToolTip": "CoffeBarManagement\\Controllers\\CategoryController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T12:40:08.299Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ProductDto.cs",
-              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\ProductDto.cs",
-              "RelativeDocumentMoniker": "CoffeBarManagement\\DTOs\\Product\\ProductDto.cs",
-              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Product\\ProductDto.cs",
-              "RelativeToolTip": "CoffeBarManagement\\DTOs\\Product\\ProductDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-02T12:41:28.62Z"
+              "WhenOpened": "2024-06-07T07:43:39.95Z"
             }
           ]
         }

@@ -11,6 +11,8 @@ public partial class ComplexProductsComponent
 
     public int? ComponentProductId { get; set; }
 
+    public int? UsageQuantity { get; set; }
+
     public virtual Product ComponentProduct { get; set; }
 
     public virtual Product TargetProduct { get; set; }

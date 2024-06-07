@@ -15,6 +15,8 @@ import { AddNewBalanceCategoryComponent } from './formsModals/add-new-balance-ca
 import { ModifyBalanceCategoryComponent } from './formsModals/modify-balance-category/modify-balance-category.component';
 import { AddBalanceCategory } from '../shared/models/addBalanceCategory';
 import { BalanceCategories } from '../shared/models/balanceCategories';
+import { AddComplexProductComponent } from './formsModals/add-complex-product/add-complex-product.component';
+import { AddComplexProduct } from '../shared/models/addComplexProduct';
 
 @Injectable({
     providedIn: 'root',
@@ -38,6 +40,7 @@ export class AdminService {
         categoryId: number,
         quantity: number,
         supplyCheck: number,
+        tva: number,
     ) {
         const initialState: ModalOptions = {
             initialState: {
@@ -50,6 +53,7 @@ export class AdminService {
                 categoryId,
                 quantity,
                 supplyCheck,
+                tva
             },
         };
         this.bsModalRef = this.modalService.show(ModifyProductModalComponent, initialState);
@@ -111,5 +115,18 @@ export class AdminService {
 
     modifyBalanceCategory(model: BalanceCategories) {
         return this.http.post(`${environment.appUrl}/api/category/modify-balance-category`, model);
+    }
+
+
+    showAddNewComplexProduct(){
+        this.bsModalRef = this.modalService.show(AddComplexProductComponent)
+    }
+
+    getComponentProducts(){
+        return this.http.get(`${environment.appUrl}/api/products/get-component-products`);
+    }
+
+    addComplexProduct(model: AddComplexProduct){
+        return this.http.post(`${environment.appUrl}/api/products/add-new-product-complex`,model);
     }
 }

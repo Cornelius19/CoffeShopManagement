@@ -8,4 +8,5 @@ export interface StockProducts {
     categoryId: number;
     quantity: number;
     supplyCheck: number;
+    tva: number;
 }

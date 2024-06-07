@@ -17,5 +17,8 @@
         public int? Quantity { get; set; }
 
         public int? SupplyCheck { get; set; }
+        public int? TVA { get; set; }
+
+        public List<ComponentProductDto> ComponentProducts { get; set; }
     }
 }

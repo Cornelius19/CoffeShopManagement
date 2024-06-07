@@ -41,6 +41,7 @@ namespace CoffeBarManagement.Controllers
                     CategoryId = model.CategoryId,
                     Quantity = model.Quantity,
                     SupplyCheck = model.SupplyCheck,
+                    Tva = model.TVA,
                 };
                 await _applicationContext.Products.AddAsync(productToAdd);
                 await _applicationContext.SaveChangesAsync();
@@ -58,20 +59,20 @@ namespace CoffeBarManagement.Controllers
         {
             //check if a product with same name already exist (because evenfor similar products we can change the name like cola330ml cola1500ml and stuff like this)
             var result = await _applicationContext.Products.Where(p => p.Name == model.Name).FirstOrDefaultAsync();
-            if (result != null) { return BadRequest("A prduct with this name already exist!"); }
-            var idArray = model.ProductComponenetsId.ToArray();
+            if (result != null) { return BadRequest(new JsonResult(new { message = "A prduct with this name already exist!" })); }
+            var idArray = model.ProductComponenetsId.ToList();
             foreach (var id in idArray)
             {
-                var checkExitence = await _applicationContext.Products.FindAsync(id);
+                var checkExitence = await _applicationContext.Products.FindAsync(id.id);
                 if (checkExitence == null)
                 {
                     return BadRequest("Components contain an id from an unexistence product!");
                 }
 
             }
-            if (idArray.Length == 0) { return BadRequest("A complex product should have some products to be made of"); }
-            bool areUnique = idArray.Distinct().Count() == idArray.Length;
-            if (!areUnique) return BadRequest("You can't duplicate components items!");
+            if (idArray.Count == 0) { return BadRequest(new JsonResult(new { message = "A complex product should have some products to be made of" })); }
+            bool areUnique = idArray.Distinct().Count() == idArray.Count;
+            if (!areUnique) return BadRequest(new JsonResult(new { message = "You can't duplicate components items!" }));
             try
             {
                 var productToAdd = new Product
@@ -84,6 +85,7 @@ namespace CoffeBarManagement.Controllers
                     CategoryId = model.CategoryId,
                     Quantity = 0,
                     SupplyCheck = 0,
+                    Tva = model.Tva
                 };
                 await _applicationContext.Products.AddAsync(productToAdd);
                 await _applicationContext.SaveChangesAsync();
@@ -93,7 +95,8 @@ namespace CoffeBarManagement.Controllers
                     var componentProduct = new ComplexProductsComponent
                     {
                         TargetProductId = productToAdd.ProductId,
-                        ComponentProductId = item,
+                        ComponentProductId = item.id,
+                        UsageQuantity = item.used_quantity,
                     };
                     await _applicationContext.ComplexProductsComponents.AddAsync(componentProduct);
                     await _applicationContext.SaveChangesAsync();
@@ -102,9 +105,9 @@ namespace CoffeBarManagement.Controllers
             }
             catch
             {
-                return BadRequest("Something went wrong on adding a new nonComplex product!");
+                return BadRequest(new JsonResult(new { message = "Something went wrong on adding a new nonComplex product!" }));
             }
-            return Ok($"Product {model.Name} was successfuly added!");
+            return Ok(new JsonResult(new { message = $"Product {model.Name} was successfuly added!" }));
         }
 
         [Authorize(Roles = Dependencis.ADMIN_ROLE)]
@@ -127,8 +130,14 @@ namespace CoffeBarManagement.Controllers
                     ComplexProduct = product.ComplexProduct,
                     CategoryId = product.CategoryId,
                     Quantity = product.Quantity,
-                    SupplyCheck = product.SupplyCheck
+                    SupplyCheck = product.SupplyCheck,
+                    TVA = product.Tva,
+                    
                 };
+                if(product.ComplexProduct == true)
+                {
+
+                }
                 returnList.Add(productToAdd);
             }
             return returnList;
@@ -190,9 +199,30 @@ namespace CoffeBarManagement.Controllers
             productToModify.CategoryId  = model.CategoryId;
             productToModify.Quantity = model.Quantity;
             productToModify.SupplyCheck = model.SupplyCheck;
+            productToModify.Tva = model.TVA;
 
             await _applicationContext.SaveChangesAsync();
             return Ok(new JsonResult(new { message = "Product was successfuly modified!" }));
+        }
+
+
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpGet("get-component-products")]
+        public async Task<List<GetProductComponentDto>> GetComponentProduct()
+        {
+            var listToReturn = new List<GetProductComponentDto>();
+            var products = await _applicationContext.Products.Where(q => q.ComplexProduct == false).ToListAsync();
+            foreach (var item in products)
+            {
+                var itemToAdd = new GetProductComponentDto
+                {
+                    id = item.ProductId,
+                    name = item.Name,
+                };
+                listToReturn.Add(itemToAdd);   
+            }
+
+            return listToReturn;
         }
     }
 }

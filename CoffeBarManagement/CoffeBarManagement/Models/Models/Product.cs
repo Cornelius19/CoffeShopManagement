@@ -23,6 +23,8 @@ public partial class Product
 
     public int? SupplyCheck { get; set; }
 
+    public int? Tva { get; set; }
+
     public virtual Category Category { get; set; }
 
     public virtual ICollection<ComplexProductsComponent> ComplexProductsComponentComponentProducts { get; set; } = new List<ComplexProductsComponent>();
