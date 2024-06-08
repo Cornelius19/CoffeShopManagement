@@ -1,3 +1,5 @@
+import { ProductComponent } from './productComponent';
+
 export interface StockProducts {
     productId: number;
     name: string;
@@ -9,4 +11,5 @@ export interface StockProducts {
     quantity: number;
     supplyCheck: number;
     tva: number;
+    componentProducts: ProductComponent[];
 }

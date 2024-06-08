@@ -17,6 +17,7 @@ import { AddBalanceCategory } from '../shared/models/addBalanceCategory';
 import { BalanceCategories } from '../shared/models/balanceCategories';
 import { AddComplexProductComponent } from './formsModals/add-complex-product/add-complex-product.component';
 import { AddComplexProduct } from '../shared/models/addComplexProduct';
+import { ModifyComplexProductComponent } from './formsModals/modify-complex-product/modify-complex-product.component';
 
 @Injectable({
     providedIn: 'root',
@@ -53,7 +54,7 @@ export class AdminService {
                 categoryId,
                 quantity,
                 supplyCheck,
-                tva
+                tva,
             },
         };
         this.bsModalRef = this.modalService.show(ModifyProductModalComponent, initialState);
@@ -117,16 +118,19 @@ export class AdminService {
         return this.http.post(`${environment.appUrl}/api/category/modify-balance-category`, model);
     }
 
-
-    showAddNewComplexProduct(){
-        this.bsModalRef = this.modalService.show(AddComplexProductComponent)
+    showAddNewComplexProduct() {
+        this.bsModalRef = this.modalService.show(AddComplexProductComponent);
     }
 
-    getComponentProducts(){
+    showModifyComplexProduct(name:string,unitPrice:number,unitMeasure:number,availableUser:boolean) {
+        this.bsModalRef = this.modalService.show(ModifyComplexProductComponent);
+    }
+
+    getComponentProducts() {
         return this.http.get(`${environment.appUrl}/api/products/get-component-products`);
     }
 
-    addComplexProduct(model: AddComplexProduct){
-        return this.http.post(`${environment.appUrl}/api/products/add-new-product-complex`,model);
+    addComplexProduct(model: AddComplexProduct) {
+        return this.http.post(`${environment.appUrl}/api/products/add-new-product-complex`, model);
     }
 }

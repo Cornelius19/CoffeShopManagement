@@ -132,11 +132,20 @@ namespace CoffeBarManagement.Controllers
                     Quantity = product.Quantity,
                     SupplyCheck = product.SupplyCheck,
                     TVA = product.Tva,
-                    
+                    ComponentProducts = new List<ComponentProductDto>()
                 };
                 if(product.ComplexProduct == true)
                 {
-
+                    var componentProducts = await _applicationContext.ComplexProductsComponents.Where(q => q.TargetProductId == product.ProductId).ToListAsync();
+                    foreach(var componentProduct in componentProducts)
+                    { 
+                        var componentProductToAdd = new ComponentProductDto
+                        {
+                            id = componentProduct.ComponentProductId,
+                            used_quantity = componentProduct.UsageQuantity,
+                        };
+                        productToAdd.ComponentProducts.Add(componentProductToAdd);
+                    }
                 }
                 returnList.Add(productToAdd);
             }

@@ -1,0 +1,10 @@
+p,
+a,
+.nav-link {
+    color: rgb(232, 231, 211); /* Change this to the desired color */
+}
+
+a:hover,
+.nav-link:hover {
+    color: rgb(215, 230, 178); /* Change this to the desired hover color */
+}
