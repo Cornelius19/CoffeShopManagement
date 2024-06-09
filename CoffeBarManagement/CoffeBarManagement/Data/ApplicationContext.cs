@@ -51,6 +51,9 @@ public partial class ApplicationContext : DbContext
             entity.ToTable("Category");
 
             entity.Property(e => e.CategoryId).HasColumnName("category_Id");
+            entity.Property(e => e.AvailableMenu)
+                .HasDefaultValue(false)
+                .HasColumnName("available_menu");
             entity.Property(e => e.CategoryName)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -97,6 +100,7 @@ public partial class ApplicationContext : DbContext
             entity.Property(e => e.TargetProductId)
                 .HasDefaultValueSql("(NULL)")
                 .HasColumnName("target_product_Id");
+            entity.Property(e => e.UsageQuantity).HasColumnName("usage_quantity");
 
             entity.HasOne(d => d.ComponentProduct).WithMany(p => p.ComplexProductsComponentComponentProducts)
                 .HasForeignKey(d => d.ComponentProductId)
@@ -225,6 +229,7 @@ public partial class ApplicationContext : DbContext
                 .HasDefaultValueSql("(NULL)");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
             entity.Property(e => e.SupplyCheck).HasColumnName("supplyCheck");
+            entity.Property(e => e.Tva).HasColumnName("TVA");
             entity.Property(e => e.UnitMeasure)
                 .HasMaxLength(10)
                 .IsUnicode(false)

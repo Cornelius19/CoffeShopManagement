@@ -1,12 +1,16 @@
-<div class="modal-header" [ngClass]="{'bg-success' : isSuccess, 'bg-danger' : !isSuccess}">
+<div class="modal-header" [ngClass]="{ 'bg-success': isSuccess, 'bg-danger': !isSuccess }">
     <h4 class="modal-title pull-left">{{ title }}</h4>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
         <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
 </div>
 <div class="modal-body">
-    {{message}}
+    {{ message }}
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Ok</button>
+    @if (needToRefresh == true) {
+    <button type="button" class="btn btn-success col-12 text-center" (click)="closeModal()">Close and reload</button>
+    } @else {
+    <button type="button" class="btn btn-success" (click)="bsModalRef.hide()">Close</button>
+    }
 </div>

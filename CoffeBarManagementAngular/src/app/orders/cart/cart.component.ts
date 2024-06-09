@@ -47,8 +47,8 @@ private router: Router,
 
 
     changeQuantity(id: number) {
-        if (this.modifiedQuantity <= 0) {
-            this.sharedService.showNotification(false, 'Error', 'If you want to remove the item please press remove button!');
+        if (this.modifiedQuantity <= 0 || this.modifiedQuantity > 20) {
+            this.sharedService.showNotification(false, 'Error', 'Value must be greater than 0 and less than 21! ');
         } else {
             for (let i of this.cartList) {
                 if (i.productId === id) {

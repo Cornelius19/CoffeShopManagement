@@ -5,6 +5,7 @@ import { OrderDto } from '../../shared/models/orderDto';
 import { auto } from '@popperjs/core';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import { DatePipe } from '@angular/common';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
@@ -43,12 +44,12 @@ export class OrderHistoryComponent implements OnInit {
         }
         const pageSize = {
             width: 300, // specify width in points (1/72 inch)
-            height: auto, // specify height in points (1/72 inch)
+            height: auto as any, // specify height in points (1/72 inch)
         };
-        let docDefinition = {
+        const docDefinition: any = {
             pageSize: pageSize,
             content: [
-                { text: 'Order Note', style: 'header' },
+                { text: 'Order Note', style: 'header', alignment: 'center'},
                 { text: `Order ID: ${order.orderId}` },
                 { text: `Order date: ${order.orderDate}` },
                 { text: `Table ID: ${order.tableId}` },

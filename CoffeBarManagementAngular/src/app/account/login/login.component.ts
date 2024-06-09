@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
         next: (response) => {
           switch (this.accountService.getUserRole()) {
             case this.roles.Admin1: {
-              this.router.navigateByUrl('/dashboard');
+              this.router.navigateByUrl('admin/dashboard');
               break;
             }
             case this.roles.Client1: {
@@ -66,6 +66,7 @@ export class LoginComponent implements OnInit {
               break;
             }
             case this.roles.Employee1: {
+              this.router.navigateByUrl('employees/pos')
               break;
             }
           }

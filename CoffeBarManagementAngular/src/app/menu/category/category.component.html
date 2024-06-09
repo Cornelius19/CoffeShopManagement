@@ -7,14 +7,13 @@
     </div>
 </div>
 
-
-<div class="container">
+<div class="container acrylic shadow">
     <div class="row mt-5">
         <div class="col-md-4" *ngFor="let category of categoryList">
             <div class="card" [routerLink]="['/menu', 'items', category.categoryId]">
-                <img src="/assets/images/sdbar-high-resolution-logo-black-transparent.png" alt="">
+                <img src="/assets/images/{{ category.categoryName }}.jpg" alt="" />
                 <div class="card-body">
-                    <h4 class="text-center">{{category.categoryName}}</h4>
+                    <h4 class="text-center">{{ category.categoryName }}</h4>
                 </div>
             </div>
         </div>

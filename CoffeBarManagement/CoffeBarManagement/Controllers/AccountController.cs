@@ -20,12 +20,12 @@ namespace CoffeBarManagement.Controllers
         private readonly JWTService _jwtService;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        private readonly ApplicationContext _applicationContext;
+        private readonly Data.ApplicationContext _applicationContext;
 
         public AccountController(JWTService jwtService,
             SignInManager<User> signInManager,
             UserManager<User> userManager,
-            ApplicationContext applicationContext
+            Data.ApplicationContext applicationContext
            )
         {
             _jwtService = jwtService;

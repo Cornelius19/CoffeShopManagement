@@ -15,10 +15,10 @@ namespace CoffeBarManagement.Controllers
     [ApiController]
     public class AdminController : ControllerBase 
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly Data.ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
 
-        public AdminController(ApplicationContext applicationContext, UserManager<User> userManager)
+        public AdminController(Data.ApplicationContext applicationContext, UserManager<User> userManager)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;

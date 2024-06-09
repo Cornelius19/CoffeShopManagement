@@ -17,6 +17,7 @@ namespace CoffeBarManagement.DTOs.Product
         public int? Quantity { get; set; }
 
         public int? SupplyCheck { get; set; }
-        public List<int> ProductComponenetsId { get; set; }
+        public int? Tva { get; set; }
+        public List<ComponentProductDto> ProductComponenetsId { get; set; }
     }
 }

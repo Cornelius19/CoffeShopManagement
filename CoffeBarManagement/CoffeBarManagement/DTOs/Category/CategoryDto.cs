@@ -6,5 +6,7 @@ namespace CoffeBarManagement.DTOs.Category
     {
         [Required]
         public string Name { get; set; }
+
+        public bool? AvailableMenu { get; set; }
     }
 }
