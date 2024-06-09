@@ -194,6 +194,28 @@ namespace CoffeBarManagement.Controllers
             return categoryProducts;
         }
 
+        [HttpGet("get-menu-allProducts")]
+        public async Task<List<GetMenuProductDto>> GetMenuAllProducts()
+        {
+            var result = await _applicationContext.Products.Where(q => q.AvailableForUser == true).ToListAsync();
+            if (result == null) return new List<GetMenuProductDto>();
+            var categoryProducts = new List<GetMenuProductDto>();
+            foreach (var item in result)
+            {
+                var product = new GetMenuProductDto
+                {
+                    ProductId = item.ProductId,
+                    ProductName = item.Name,
+                    ProductPrice = item.UnitPrice,
+                    ProductAvailability = item.Quantity,
+                    ProductSupplyCheck = item.SupplyCheck,
+                    ComplexProduct = item.ComplexProduct
+                };
+                categoryProducts.Add(product);
+            }
+            return categoryProducts;
+        }
+
         [Authorize(Roles = Dependencis.ADMIN_ROLE)]
         [HttpPut("modify-nonComplexProduct")]
         public async Task<IActionResult> ModifyNonComplexProduct(StockProducts model)

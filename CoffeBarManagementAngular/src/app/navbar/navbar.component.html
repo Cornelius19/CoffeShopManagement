@@ -36,7 +36,7 @@
                 </ul>
                 <ul class="navbar-nav" *ngIf="(accountService.user$ | async) !== null && accountService.getUserRole() === roles.Employee1">
                     <li class="nav-item dropdown">
-                        <a class="nav-link" routerLink="" role="button" aria-expanded="false">
+                        <a class="nav-link" routerLink="employees/pos" role="button" aria-expanded="false">
                             <strong>POS</strong>
                         </a>
                     </li>

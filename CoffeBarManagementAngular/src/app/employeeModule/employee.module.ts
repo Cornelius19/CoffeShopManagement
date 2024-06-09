@@ -8,6 +8,10 @@ import { EmployeeRoutingModule } from './employee-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActiveOrdersComponent } from './orders/active-orders/active-orders.component';
 import { OrdersToConfirmComponent } from './orders/orders-to-confirm/orders-to-confirm.component';
+import { PosComponent } from './pos/pos/pos.component';
+import { SharedModule } from '../shared/shared.module';
+import { DataTablesModule } from 'angular-datatables';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
     declarations: [
@@ -17,7 +21,8 @@ import { OrdersToConfirmComponent } from './orders/orders-to-confirm/orders-to-c
         AllReservationsEmployeeComponent,
         ActiveOrdersComponent,
         OrdersToConfirmComponent,
+        PosComponent,
     ],
-    imports: [CommonModule, EmployeeRoutingModule, FormsModule, ReactiveFormsModule],
+    imports: [CommonModule, EmployeeRoutingModule, FormsModule, ReactiveFormsModule,DataTablesModule,FontAwesomeModule],
 })
 export class EmployeeModule {}
