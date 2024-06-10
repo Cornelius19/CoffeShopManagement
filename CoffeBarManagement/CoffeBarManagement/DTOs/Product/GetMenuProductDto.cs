@@ -9,5 +9,6 @@
         public int? ProductSupplyCheck { get; set; }
 
         public bool? ComplexProduct { get; set; }
+        public int? Tva { get; set; }
     }
 }

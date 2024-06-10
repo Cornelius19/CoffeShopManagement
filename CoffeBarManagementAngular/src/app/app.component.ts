@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from './account/account.service';
 import { OrdersService } from './orders/orders.service';
+import { Roles } from '../dependencies/roles';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ export class AppComponent implements OnInit {
   title(title: any) {
     throw new Error('Method not implemented.');
   }
-  constructor(private accountService: AccountService,private ordersService: OrdersService){}
+  constructor(public accountService: AccountService,private ordersService: OrdersService,public roles: Roles){}
   
   
   ngOnInit(): void {

@@ -5,4 +5,5 @@ export interface GetProducts {
   productAvailability: number;
   productSupplyCheck: number;
   complexProduct : boolean;
+  tva: number;
 }

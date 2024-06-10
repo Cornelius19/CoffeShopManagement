@@ -59,12 +59,25 @@ namespace CoffeBarManagement.Controllers
                 var tableToAdd = new GetTableDto
                 {
                     tableID = table.TableId,
-                    Capacity = table.Capacity
+                    Capacity = table.Capacity,
+                    TableStatus = table.TableStatus,
                 };
                 tableList.Add(tableToAdd);
             }
             return tableList;
             
+        }
+
+
+        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [HttpPut("change-table-status")]
+        public async Task<IActionResult> ChangeTableStatus(GetTableDto model)
+        {
+            var result = await _applicationContext.Tables.FindAsync(model.tableID);
+            if(result == null) return NotFound(new JsonResult(new {message = "Table not found!"}));
+            result.TableStatus = model.TableStatus;
+            await _applicationContext.SaveChangesAsync();
+            return Ok(new JsonResult( new { message = "Table status was changed!" } ));
         }
     }
 }

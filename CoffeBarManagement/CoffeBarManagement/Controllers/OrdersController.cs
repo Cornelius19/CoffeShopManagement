@@ -413,47 +413,81 @@ namespace CoffeBarManagement.Controllers
         [HttpPost("employee-create-order/{employeeId}")]
         public async Task<IActionResult> EmployeeCreateNewOrder(EmployeeOrderDto model, int employeeId)
         {
+            var notAddedProducts = new List<string>();
+            var orderToAdd = new Order();
             var checkTableIdExist = await _applicationContext.Tables.FindAsync(model.TableId);
-            if (checkTableIdExist == null) return BadRequest("Such a table is not registered!");
-            if (checkTableIdExist.TableStatus == true) return BadRequest(new JsonResult(new { title = "Table occupied!", message = "This table is occupied right now!" })); 
-            var orderToAdd = new Order
+            if (checkTableIdExist != null) {
+                if (checkTableIdExist.TableStatus == true) return BadRequest(new JsonResult(new { message = "This table is occupied right now!" }));
+                orderToAdd = new Order
+                {
+                    OrderDate = DateTime.Now,
+                    OrderStatus = 2,
+                    ClientId = null,
+                    EmployeeId = employeeId,
+                    TableId = model.TableId,
+                    Tips = 0,
+                };
+                checkTableIdExist.TableStatus = true;
+                await _applicationContext.Orders.AddAsync(orderToAdd);
+                await _applicationContext.SaveChangesAsync();
+            }
+            else
             {
-                OrderDate = DateTime.Now,
-                OrderStatus = 2,
-                ClientId = null,
-                EmployeeId = employeeId,
-                TableId = model.TableId,
-                Tips = 0,
-            };
-            checkTableIdExist.TableStatus = true;
-            await _applicationContext.Orders.AddAsync(orderToAdd);
-            await _applicationContext.SaveChangesAsync();
+                orderToAdd = new Order
+                {
+                    OrderDate = DateTime.Now,
+                    OrderStatus = 2,
+                    ClientId = null,
+                    EmployeeId = employeeId,
+                    TableId = null,
+                    Tips = 0,
+                };
+                await _applicationContext.Orders.AddAsync(orderToAdd);
+                await _applicationContext.SaveChangesAsync();
+            }
             foreach (var product in model.Products)
             {
-                var productToAdd = new OrderProduct
+                var orderProduct = new OrderProduct
                 {
                     OrderId = orderToAdd.OrderId,
                     ProductId = product.productId,
                     UnitPrice = product.unitPrice,
                     Quantity = product.quantity,
                 };
-                var productInfo = await _applicationContext.Products.FindAsync(product.productId);
-                if (productInfo == null) return BadRequest("Something went to the left!");
-                if (productInfo.Quantity < product.quantity) return BadRequest($"We don't have so much {productInfo.Name}");
-                productInfo.Quantity -= product.quantity;
-                var stockBalanceRecord = new StockBalance
+                var productDetails = await _applicationContext.Products.FindAsync(product.productId);
+                if (productDetails == null)
                 {
-                    BalanceDate = DateTime.Now,
-                    ProductId = productInfo.ProductId,
-                    RemoveQuantity = product.quantity,
-                    RemoveCategoryId = 1,
-                };
-                await _applicationContext.OrderProducts.AddAsync(productToAdd);
-                await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
+                    notAddedProducts.Add(productDetails.Name);
+                    continue;
+                }
+                if (productDetails.ComplexProduct == false && productDetails.Quantity < product.quantity)
+                {
+                    notAddedProducts.Add(productDetails.Name);
+                    continue;
+                }
+                if (productDetails.ComplexProduct == false)
+                {
+                    productDetails.Quantity -= product.quantity;
+                    var stockBalanceRecord = new StockBalance
+                    {
+                        BalanceDate = DateTime.Now,
+                        ProductId = productDetails.ProductId,
+                        RemoveQuantity = product.quantity,
+                        RemoveCategoryId = 1,
+                    };
+                    await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
+                }
+                await _applicationContext.OrderProducts.AddAsync(orderProduct);
                 await _applicationContext.SaveChangesAsync();
             }
+            if (notAddedProducts.Count > 0)
+            {
+                return Ok(new JsonResult(new { title = "Order was succesfully registered but:", message = $"The next products {string.Join(", ", notAddedProducts)} cannot be added to the order because of the insuficient quantity" }));
+            }
 
-            return Ok("A new order was created successfully!");
+
+
+            return Ok(new JsonResult(new { message = "A new order was created successfully!" }));
         }
 
 
