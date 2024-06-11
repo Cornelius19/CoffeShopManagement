@@ -73,6 +73,7 @@ export class ItemsComponent implements OnInit {
                     unitPrice: item.productPrice,
                     quantity: 1,
                     total: item.productPrice,
+                    tva:item.tva
                 };
                 productListFromStorage.push(addItemToCart);
                 this.ordersService.addCartItemsToLocalStorage(productListFromStorage);

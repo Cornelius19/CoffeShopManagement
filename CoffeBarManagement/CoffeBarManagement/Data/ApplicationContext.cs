@@ -56,7 +56,6 @@ public partial class ApplicationContext : DbContext
                 .HasColumnName("available_menu");
             entity.Property(e => e.CategoryName)
                 .HasMaxLength(50)
-                .IsUnicode(false)
                 .HasColumnName("category_Name");
         });
 
@@ -147,7 +146,7 @@ public partial class ApplicationContext : DbContext
 
             entity.Property(e => e.OrderId).HasColumnName("order_Id");
             entity.Property(e => e.ClientId).HasColumnName("client_Id");
-            entity.Property(e => e.EmployeeId).HasColumnName("employee_Id");
+            entity.Property(e => e.DeliveredEmployeeId).HasColumnName("delivered_employee_Id");
             entity.Property(e => e.OrderDate)
                 .HasDefaultValueSql("(NULL)")
                 .HasColumnType("datetime")
@@ -156,19 +155,20 @@ public partial class ApplicationContext : DbContext
                 .HasDefaultValue(1)
                 .HasColumnName("order_status");
             entity.Property(e => e.TableId).HasColumnName("table_Id");
+            entity.Property(e => e.TakenEmployeeId).HasColumnName("taken_employee_Id");
             entity.Property(e => e.Tips).HasColumnName("tips");
 
             entity.HasOne(d => d.Client).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.ClientId)
                 .HasConstraintName("FK__Orders__client_I__70DDC3D8");
 
-            entity.HasOne(d => d.Employee).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.EmployeeId)
-                .HasConstraintName("FK__Orders__employee__71D1E811");
-
             entity.HasOne(d => d.Table).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.TableId)
                 .HasConstraintName("FK__Orders__table_Id__72C60C4A");
+
+            entity.HasOne(d => d.TakenEmployee).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.TakenEmployeeId)
+                .HasConstraintName("FK__Orders__employee__71D1E811");
         });
 
         modelBuilder.Entity<OrderProduct>(entity =>

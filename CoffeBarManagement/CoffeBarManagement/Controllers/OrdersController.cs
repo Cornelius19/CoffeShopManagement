@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using System.Drawing.Imaging;
 
 namespace CoffeBarManagement.Controllers
 {
@@ -42,7 +43,7 @@ namespace CoffeBarManagement.Controllers
                 OrderDate = DateTime.Now,
                 OrderStatus = 1,
                 ClientId = clientId,
-                EmployeeId = null,
+                TakenEmployeeId = null,
                 TableId = tableId,
                 Tips = 0,
             };
@@ -103,7 +104,7 @@ namespace CoffeBarManagement.Controllers
             var result = await _applicationContext.Orders.Where(q => q.OrderStatus == 1).ToListAsync();
             foreach (var order in result)
             {
-                var employee = await _applicationContext.Employees.FindAsync(order.EmployeeId);
+                var employee = await _applicationContext.Employees.FindAsync(order.TakenEmployeeId);
                 string employeeName = string.Empty;
                 if (employee != null)
                 {
@@ -173,7 +174,7 @@ namespace CoffeBarManagement.Controllers
             var result = await _applicationContext.Orders.Where(q => q.ClientId == id && (  q.OrderStatus == 4 || q.OrderStatus == 5)).ToListAsync();
             foreach (var order in result)
             {
-                var employee = await _applicationContext.Employees.FindAsync(order.EmployeeId);
+                var employee = await _applicationContext.Employees.FindAsync(order.TakenEmployeeId);
                 string employeeName = string.Empty;
                 if (employee != null)
                 {
@@ -242,7 +243,7 @@ namespace CoffeBarManagement.Controllers
             var order = await _applicationContext.Orders.Where(q => q.ClientId == clientId && q.OrderStatus != 4 && q.OrderStatus != 5).FirstOrDefaultAsync();
             if(order == null) return null;
 
-            var employee = await _applicationContext.Employees.FindAsync(order.EmployeeId);
+            var employee = await _applicationContext.Employees.FindAsync(order.TakenEmployeeId);
             string employeeName = string.Empty;
             if (employee != null)
             {
@@ -383,7 +384,7 @@ namespace CoffeBarManagement.Controllers
             }
 
             result.OrderStatus += 1;
-            result.EmployeeId = employeeId;
+            result.TakenEmployeeId = employeeId;
             var orderProducts = await _applicationContext.OrderProducts.Where(q => q.OrderId == orderId).ToListAsync();
             foreach (var product in orderProducts)
             {
@@ -410,50 +411,89 @@ namespace CoffeBarManagement.Controllers
         }
 
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
-        [HttpPost("employee-create-order/{employeeId}")]
-        public async Task<IActionResult> EmployeeCreateNewOrder(EmployeeOrderDto model, int employeeId)
+        [HttpPost("employee-create-order/{employeeId}/{payedStatus}")]
+        public async Task<IActionResult> EmployeeCreateNewOrder(EmployeeOrderDto model, int employeeId, bool payedStatus)
         {
-            var checkTableIdExist = await _applicationContext.Tables.FindAsync(model.TableId);
-            if (checkTableIdExist == null) return BadRequest("Such a table is not registered!");
-            if (checkTableIdExist.TableStatus == true) return BadRequest(new JsonResult(new { title = "Table occupied!", message = "This table is occupied right now!" })); 
-            var orderToAdd = new Order
+            var status = 2;
+            if (payedStatus)
             {
-                OrderDate = DateTime.Now,
-                OrderStatus = 2,
-                ClientId = null,
-                EmployeeId = employeeId,
-                TableId = model.TableId,
-                Tips = 0,
-            };
-            checkTableIdExist.TableStatus = true;
-            await _applicationContext.Orders.AddAsync(orderToAdd);
-            await _applicationContext.SaveChangesAsync();
+                status = 4;
+            }
+            var notAddedProducts = new List<string>();
+            var orderToAdd = new Order();
+            var checkTableIdExist = await _applicationContext.Tables.FindAsync(model.TableId);
+            if (checkTableIdExist != null) {
+                if (checkTableIdExist.TableStatus == true) return BadRequest(new JsonResult(new { message = "This table is occupied right now!" }));
+                orderToAdd = new Order
+                {
+                    OrderDate = DateTime.Now,
+                    OrderStatus = status,
+                    ClientId = null,
+                    TakenEmployeeId = employeeId,
+                    TableId = model.TableId,
+                    Tips = 0,
+                };
+                checkTableIdExist.TableStatus = true;
+                await _applicationContext.Orders.AddAsync(orderToAdd);
+                await _applicationContext.SaveChangesAsync();
+            }
+            else
+            {
+                orderToAdd = new Order
+                {
+                    OrderDate = DateTime.Now,
+                    OrderStatus = status,
+                    ClientId = null,
+                    TakenEmployeeId = employeeId,
+                    TableId = null,
+                    Tips = 0,
+                };
+                await _applicationContext.Orders.AddAsync(orderToAdd);
+                await _applicationContext.SaveChangesAsync();
+            }
             foreach (var product in model.Products)
             {
-                var productToAdd = new OrderProduct
+                var orderProduct = new OrderProduct
                 {
                     OrderId = orderToAdd.OrderId,
                     ProductId = product.productId,
                     UnitPrice = product.unitPrice,
                     Quantity = product.quantity,
                 };
-                var productInfo = await _applicationContext.Products.FindAsync(product.productId);
-                if (productInfo == null) return BadRequest("Something went to the left!");
-                if (productInfo.Quantity < product.quantity) return BadRequest($"We don't have so much {productInfo.Name}");
-                productInfo.Quantity -= product.quantity;
-                var stockBalanceRecord = new StockBalance
+                var productDetails = await _applicationContext.Products.FindAsync(product.productId);
+                if (productDetails == null)
                 {
-                    BalanceDate = DateTime.Now,
-                    ProductId = productInfo.ProductId,
-                    RemoveQuantity = product.quantity,
-                    RemoveCategoryId = 1,
-                };
-                await _applicationContext.OrderProducts.AddAsync(productToAdd);
-                await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
+                    notAddedProducts.Add(productDetails.Name);
+                    continue;
+                }
+                if (productDetails.ComplexProduct == false && productDetails.Quantity < product.quantity)
+                {
+                    notAddedProducts.Add(productDetails.Name);
+                    continue;
+                }
+                if (productDetails.ComplexProduct == false)
+                {
+                    productDetails.Quantity -= product.quantity;
+                    var stockBalanceRecord = new StockBalance
+                    {
+                        BalanceDate = DateTime.Now,
+                        ProductId = productDetails.ProductId,
+                        RemoveQuantity = product.quantity,
+                        RemoveCategoryId = 1,
+                    };
+                    await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
+                }
+                await _applicationContext.OrderProducts.AddAsync(orderProduct);
                 await _applicationContext.SaveChangesAsync();
             }
+            if (notAddedProducts.Count > 0)
+            {
+                return Ok(new JsonResult(new { title = "Order was succesfully registered but:", message = $"The next products {string.Join(", ", notAddedProducts)} cannot be added to the order because of the insuficient quantity" }));
+            }
 
-            return Ok("A new order was created successfully!");
+
+
+            return Ok(new JsonResult(new { message = "A new order was created successfully!" }));
         }
 
 
@@ -463,10 +503,10 @@ namespace CoffeBarManagement.Controllers
         {
             //double total = 0;
             var orderList = new List<GetClientOrderDto>();
-            var result = await _applicationContext.Orders.Where(q => q.EmployeeId == employeeid).ToListAsync();
+            var result = await _applicationContext.Orders.Where(q => q.TakenEmployeeId == employeeid).ToListAsync();
             foreach (var order in result)
             {
-                var employee = await _applicationContext.Employees.FindAsync(order.EmployeeId);
+                var employee = await _applicationContext.Employees.FindAsync(order.TakenEmployeeId);
                 string employeeName = string.Empty;
                 if (employee != null)
                 {
@@ -618,6 +658,75 @@ namespace CoffeBarManagement.Controllers
             await _applicationContext.SaveChangesAsync();
             return Ok("Order was finished successfuly!");
 
+        }
+
+        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [HttpGet("get-active-order-byTable/{tableId}")]
+        public async Task<GetOrderByTableDto> GetTableOrder(int tableId)
+        {
+            var result = await _applicationContext.Orders.Where(q => q.TableId == tableId && q.OrderStatus < 4).FirstOrDefaultAsync();
+            if (result == null) {
+                var empltyOrder = new GetOrderByTableDto();    
+                return empltyOrder;
+            }
+            string name;
+            var employee = await _applicationContext.Employees.FindAsync(result.TakenEmployeeId);
+            if (employee == null) { name = string.Empty; }
+            else { name = employee.LastName + " " + employee.FirstName;}
+
+            string statusName = string.Empty;
+
+            switch (result.OrderStatus)
+            {
+                case 1:
+                    statusName = "Pending";
+                    break;
+                case 2:
+                    statusName = "Accepted";
+                    break;
+                case 3:
+                    statusName = "Delivered";
+                    break;
+                case 4:
+                    statusName = "Finished";
+                    break;
+                case 5:
+                    statusName = "Cancelled";
+                    break;
+            }
+
+            var productList = new List<OrderProductDto>();
+
+            var productName = string.Empty;
+
+            var productsFromOrder = await _applicationContext.OrderProducts.Where(q => q.OrderId == result.OrderId).ToListAsync();
+            foreach (var product in productsFromOrder) {
+
+                var productDetails = await _applicationContext.Products.FindAsync(product.ProductId);
+                if (productDetails == null) { productName = "Don't know the name"; }
+                else { productName = productDetails.Name; }
+
+                var productToAdd = new OrderProductDto
+                {
+                    productName = productName,
+                    productId = product.ProductId,
+                    quantity = product.Quantity,
+                    unitPrice = product.UnitPrice,
+                };
+                productList.Add(productToAdd);
+            }
+
+            var resultOrder = new GetOrderByTableDto
+            {
+                OrderId = result.OrderId,
+                OrderDate = result.OrderDate,
+                TableId = tableId,
+                TakeEmployeeName = name,
+                Status = statusName,
+                products = productList
+            };
+
+            return resultOrder;
         }
 
     }

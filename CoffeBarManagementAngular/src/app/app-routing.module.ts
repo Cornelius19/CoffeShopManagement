@@ -28,7 +28,7 @@ const routes: Routes = [
         path: 'employees',
         loadChildren: () => import('./employeeModule/employee.module').then((module) => module.EmployeeModule),
         canActivate: [RoleGuard],
-        data: { roles: [Roles.Employee] },
+        data: { roles: [Roles.Employee,Roles.Pos] },
     },
 
     //admin paths

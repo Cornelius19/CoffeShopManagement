@@ -11,8 +11,9 @@ import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { DataTablesModule } from 'angular-datatables';
+import { RouterModule } from '@angular/router';
 @NgModule({
-    declarations: [AppComponent, NavbarComponent, FooterComponent, HomeComponent, SideBarComponent],
+    declarations: [AppComponent, NavbarComponent, FooterComponent, HomeComponent, SideBarComponent,],
     imports: [BrowserModule, AppRoutingModule, SharedModule, FontAwesomeModule, DataTablesModule],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, // for using the interceptor

@@ -12,6 +12,9 @@ import { PosComponent } from './pos/pos/pos.component';
 import { SharedModule } from '../shared/shared.module';
 import { DataTablesModule } from 'angular-datatables';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TablesComponent } from './pos/tables/tables.component';
+import { OrderDetailsComponent } from './pos/order-details/order-details.component';
+import { PaymentComponent } from './pos/payment/payment.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +25,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         ActiveOrdersComponent,
         OrdersToConfirmComponent,
         PosComponent,
+        TablesComponent,
+        OrderDetailsComponent,
+        PaymentComponent,
     ],
-    imports: [CommonModule, EmployeeRoutingModule, FormsModule, ReactiveFormsModule,DataTablesModule,FontAwesomeModule],
+    imports: [CommonModule, EmployeeRoutingModule, FormsModule, ReactiveFormsModule, DataTablesModule, FontAwesomeModule, SharedModule],
 })
 export class EmployeeModule {}

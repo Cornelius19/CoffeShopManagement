@@ -4,4 +4,5 @@ export interface CartProduct {
     unitPrice: number;
     quantity: number;
     total : number;
+    tva: number;
 }

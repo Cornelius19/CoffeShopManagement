@@ -13,5 +13,7 @@
   <div class=" content">
     <router-outlet></router-outlet>
   </div>
-  <app-footer></app-footer>
+  @if (accountService.getJWT() == null || accountService.getUserRole() == roles.Client1) {
+    <app-footer></app-footer>
+  }
 </div>

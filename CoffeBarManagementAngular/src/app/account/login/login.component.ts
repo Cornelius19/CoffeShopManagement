@@ -69,6 +69,10 @@ export class LoginComponent implements OnInit {
               this.router.navigateByUrl('employees/pos')
               break;
             }
+            case this.roles.Pos1: {
+              this.router.navigateByUrl('employees/pos')
+              break;
+            }
           }
         },
         error: (error) => {

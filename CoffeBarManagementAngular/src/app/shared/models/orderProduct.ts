@@ -1,5 +1,6 @@
-export interface OrderProduct{
+export interface OrderProduct {
     productName: string;
-    unitPrice: number
+    productId: number;
+    unitPrice: number;
     quantity: number;
 }
