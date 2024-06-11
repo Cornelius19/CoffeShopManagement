@@ -5,7 +5,6 @@ import { OrderDto } from '../../shared/models/orderDto';
 import { auto } from '@popperjs/core';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import { DatePipe } from '@angular/common';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 

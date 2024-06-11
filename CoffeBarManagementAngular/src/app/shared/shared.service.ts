@@ -59,4 +59,9 @@ export class SharedService {
     getAllTables() {
         return this.http.get(`${environment.appUrl}/api/tables/get-all-tables`);
     }
+
+
+    getOrderNote(orderId : number){
+        return this.http.get(`${environment.appUrl}/api/orders/get-order-note-data/${orderId}`);
+    }
 }

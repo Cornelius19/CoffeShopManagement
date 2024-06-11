@@ -10,6 +10,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System.Drawing.Imaging;
+using System.Numerics;
 
 namespace CoffeBarManagement.Controllers
 {
@@ -433,7 +434,7 @@ namespace CoffeBarManagement.Controllers
                     TableId = model.TableId,
                     Tips = 0,
                 };
-                checkTableIdExist.TableStatus = true;
+                if (status == 2) { checkTableIdExist.TableStatus = true; }
                 await _applicationContext.Orders.AddAsync(orderToAdd);
                 await _applicationContext.SaveChangesAsync();
             }
@@ -466,6 +467,7 @@ namespace CoffeBarManagement.Controllers
                     notAddedProducts.Add(productDetails.Name);
                     continue;
                 }
+
                 if (productDetails.ComplexProduct == false && productDetails.Quantity < product.quantity)
                 {
                     notAddedProducts.Add(productDetails.Name);
@@ -486,14 +488,12 @@ namespace CoffeBarManagement.Controllers
                 await _applicationContext.OrderProducts.AddAsync(orderProduct);
                 await _applicationContext.SaveChangesAsync();
             }
+
             if (notAddedProducts.Count > 0)
             {
-                return Ok(new JsonResult(new { title = "Order was succesfully registered but:", message = $"The next products {string.Join(", ", notAddedProducts)} cannot be added to the order because of the insuficient quantity" }));
+                return Ok(new JsonResult(new { title = "Order was succesfully registered but:", message = $"The next products {string.Join(", ", notAddedProducts)} cannot be added to the order because of the insuficient quantity", orderId = orderToAdd.OrderId }));
             }
-
-
-
-            return Ok(new JsonResult(new { message = "A new order was created successfully!" }));
+            return Ok(new JsonResult(new { message = "A new order was created successfully!", orderId = orderToAdd.OrderId }));
         }
 
 
@@ -727,6 +727,78 @@ namespace CoffeBarManagement.Controllers
             };
 
             return resultOrder;
+        }
+
+        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [HttpGet("get-order-note-data/{orderId}")]
+        public async Task<GetNoteDataDto> GetOrderNoteData(int orderId)
+        {
+            
+            var organization = await _applicationContext.Organizations.FindAsync(1);
+            var organizationName = organization.Name;
+            var orderDetails = await _applicationContext.Orders.FindAsync(orderId);
+            if (orderDetails == null) { return new GetNoteDataDto(); }
+            
+            var employeeName = string.Empty;
+            var employeeDetails = await _applicationContext.Employees.FindAsync(orderDetails.TakenEmployeeId);
+            if (employeeDetails != null)
+            {
+                employeeName = employeeDetails.FirstName + ' ' + employeeDetails.LastName;
+            }
+
+            string statusName = string.Empty;
+
+            switch (orderDetails.OrderStatus)
+            {
+                case 1:
+                    statusName = "Pending";
+                    break;
+                case 2:
+                    statusName = "Accepted";
+                    break;
+                case 3:
+                    statusName = "Delivered";
+                    break;
+                case 4:
+                    statusName = "Finished";
+                    break;
+                case 5:
+                    statusName = "Cancelled";
+                    break;
+            }
+
+            var orderProducts = await _applicationContext.OrderProducts.Where(q => q.OrderId == orderId).ToListAsync();
+
+            double? totalPrice = 0;
+            var noteProducts = new List<OrderProductInformationDto>();
+
+            foreach (var item in orderProducts)
+            {
+                var productDetails = await _applicationContext.Products.FindAsync(item.ProductId);
+                if (productDetails == null) { continue; }
+                var productName = productDetails.Name;
+                var productToAdd = new OrderProductInformationDto
+                {
+                    ProductName = productName,
+                    UnitPrice = item.UnitPrice,
+                    Quantity = item.Quantity,
+                };
+                totalPrice += item.UnitPrice * Convert.ToDouble(item.Quantity);
+                noteProducts.Add(productToAdd);
+
+            }
+            var NoteData = new GetNoteDataDto
+            {
+                OrganizationName = organizationName,
+                OrderDate = orderDetails.OrderDate,
+                TableId = orderDetails.TableId,
+                products = noteProducts,
+                EmployeeName = employeeName,
+                OrderId = orderId,
+                OrderStatus = statusName,
+                total = totalPrice,
+            };
+            return NoteData;
         }
 
     }
