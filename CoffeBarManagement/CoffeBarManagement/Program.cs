@@ -118,7 +118,7 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { "Admin", "Employee", "Client" };
+    var roles = new[] { "Admin", "Employee", "Client","POS" };
 
     foreach (var role in roles)
     {
@@ -152,4 +152,28 @@ using (var scope = app.Services.CreateScope())
         await userManager.AddToRoleAsync(adminCreating, Dependencis.ADMIN_ROLE);
     }
 }
-    app.Run();
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+
+    var posCreating = new User
+    {
+        FirstName = "Manager".ToLower(),
+        LastName = "POS".ToLower(),
+        UserName = "pos@gmail.com".ToLower(),
+        Email = "pos@gmail.com".ToLower(),
+        EmailConfirmed = true
+    };
+
+    var checkIfExist = await userManager.FindByEmailAsync(posCreating.Email);
+    if (checkIfExist == null)
+    {
+        await userManager.CreateAsync(posCreating, "P@ssword1!");
+        await userManager.AddToRoleAsync(posCreating, Dependencis.POS_ROLE);
+    }
+}
+    
+
+app.Run();

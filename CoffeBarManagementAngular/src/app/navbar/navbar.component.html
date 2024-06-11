@@ -34,7 +34,7 @@
                         </ul>
                     </li>
                 </ul>
-                <ul class="navbar-nav" *ngIf="(accountService.user$ | async) !== null && accountService.getUserRole() === roles.Employee1">
+                <ul class="navbar-nav" *ngIf="(((accountService.user$ | async) !== null) && ((accountService.getUserRole() === roles.Employee1) || (accountService.getUserRole() === roles.Pos1)))">
                     <li class="nav-item dropdown">
                         <a class="nav-link" routerLink="employees/pos" role="button" aria-expanded="false">
                             <strong>POS</strong>
@@ -52,7 +52,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" routerLink="/employees/active-orders" role="button" aria-expanded="false">
-                            <strong>ActiveOrders</strong>
+                            <strong>AllActiveOrders</strong>
                         </a>
                     </li>
                 </ul>
@@ -90,11 +90,11 @@
                 </li>
                 }
             </ul>
-            @if (((accountService.user$ | async) !== null) && (accountService.getUserRole() === roles.Employee1)) {
+            @if (((accountService.user$ | async) !== null) && ((accountService.getUserRole() === roles.Employee1) || (accountService.getUserRole() === roles.Pos1))) {
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <strong>Reservation</strong>
+                        <strong>Reservations</strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" routerLink="/employees/create-reservation">Create reservation</a></li>

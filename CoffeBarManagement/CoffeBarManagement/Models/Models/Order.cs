@@ -13,17 +13,19 @@ public partial class Order
 
     public int? ClientId { get; set; }
 
-    public int? EmployeeId { get; set; }
+    public int? TakenEmployeeId { get; set; }
 
     public int? TableId { get; set; }
 
     public double? Tips { get; set; }
 
-    public virtual Client Client { get; set; }
+    public int? DeliveredEmployeeId { get; set; }
 
-    public virtual Employee Employee { get; set; }
+    public virtual Client Client { get; set; }
 
     public virtual ICollection<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 
     public virtual Table Table { get; set; }
+
+    public virtual Employee TakenEmployee { get; set; }
 }
