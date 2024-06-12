@@ -6,7 +6,6 @@ import { FutureReservationsEmployeeComponent } from './reservations/future-reser
 import { AllReservationsEmployeeComponent } from './reservations/all-reservations-employee/all-reservations-employee.component';
 import { EmployeeRoutingModule } from './employee-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActiveOrdersComponent } from './orders/active-orders/active-orders.component';
 import { OrdersToConfirmComponent } from './orders/orders-to-confirm/orders-to-confirm.component';
 import { PosComponent } from './pos/pos/pos.component';
 import { SharedModule } from '../shared/shared.module';
@@ -22,7 +21,6 @@ import { PaymentComponent } from './pos/payment/payment.component';
         ReservationToConfirmComponent,
         FutureReservationsEmployeeComponent,
         AllReservationsEmployeeComponent,
-        ActiveOrdersComponent,
         OrdersToConfirmComponent,
         PosComponent,
         TablesComponent,

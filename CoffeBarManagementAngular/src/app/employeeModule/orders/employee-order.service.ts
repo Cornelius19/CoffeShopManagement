@@ -17,8 +17,8 @@ export class EmployeeOrderService {
     return this.http.put(`${environment.appUrl}/api/orders/confirm-order/${userId}/${orderId}`,null)
   }
 
-  getActiveOrders(userId : number){
-    return this.http.get<any>(`${environment.appUrl}/api/orders/get-employee-orders/${userId}`);
+  getActiveOrders(){
+    return this.http.get<any>(`${environment.appUrl}/api/orders/get-employee-orders`);
   }
 
 

@@ -4,7 +4,6 @@ import { CreateReservationEmployeeComponent } from './reservations/create-reserv
 import { ReservationToConfirmComponent } from './reservations/reservation-to-confirm/reservation-to-confirm.component';
 import { FutureReservationsEmployeeComponent } from './reservations/future-reservations-employee/future-reservations-employee.component';
 import { AllReservationsEmployeeComponent } from './reservations/all-reservations-employee/all-reservations-employee.component';
-import { ActiveOrdersComponent } from './orders/active-orders/active-orders.component';
 import { OrdersToConfirmComponent } from './orders/orders-to-confirm/orders-to-confirm.component';
 import { PosComponent } from './pos/pos/pos.component';
 import { TablesComponent } from './pos/tables/tables.component';
@@ -16,7 +15,6 @@ const routes: Route[] = [
   {path: 'reservations-to-confirm', component:ReservationToConfirmComponent},
   {path: 'future-reservations', component:FutureReservationsEmployeeComponent},
   {path: 'all-reservations', component:AllReservationsEmployeeComponent},
-  {path: 'active-orders', component:ActiveOrdersComponent},
   {path: 'orders-to-confirm', component:OrdersToConfirmComponent},
   {path: 'pos', component:PosComponent},
   {path: 'tables', component:TablesComponent},

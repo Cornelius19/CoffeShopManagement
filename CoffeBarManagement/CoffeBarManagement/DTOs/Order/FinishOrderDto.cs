@@ -2,6 +2,6 @@
 {
     public class FinishOrderDto
     {
-        public double Tips { get; set; }
+        public double? tips { get; set; }
     }
 }
