@@ -2,6 +2,7 @@
 using CoffeBarManagement.DTOs.Order;
 using CoffeBarManagement.DTOs.Product;
 using CoffeBarManagement.DTOs.StockBalance;
+using CoffeBarManagement.Models.IdentityModels;
 using CoffeBarManagement.Models.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -610,7 +611,7 @@ namespace CoffeBarManagement.Controllers
         [HttpPut("order-status-finished/{userId}/{orderId}")]
         public async Task<IActionResult> OrderFinished(int userId, int orderId, FinishOrderDto model)
         {
-            var orderToFinish = await _applicationContext.Orders.Where(q => q.ClientId == userId & q.OrderId == orderId).FirstOrDefaultAsync();
+            var orderToFinish = await _applicationContext.Orders.Where(q => q.ClientId == userId && q.OrderId == orderId).FirstOrDefaultAsync();
             if (orderToFinish == null) { return NotFound(); }
             var tableFromOrder = await _applicationContext.Tables.FindAsync(orderToFinish.TableId);
             if (tableFromOrder == null) { return NotFound("Don't know how this table was not found!"); }
@@ -619,7 +620,7 @@ namespace CoffeBarManagement.Controllers
             orderToFinish.Tips = model.tips;
             tableFromOrder.TableStatus = false;
             await _applicationContext.SaveChangesAsync();
-            return Ok(new JsonResult(new {message = "Order was finished successfuly!" }));
+            return Ok(new JsonResult(new { message = "Order was finished successfuly!" }));
 
         }
 
@@ -627,23 +628,43 @@ namespace CoffeBarManagement.Controllers
         [HttpPost("add-new-product-to-order-employee/{orderId}")]
         public async Task<IActionResult> AddNewProductEmployee(ClientOrderDto model ,int orderId)
         {
+            var insufficientProducts = new List<string>();
             var CheckOrderExist = await _applicationContext.Orders.Where(q => q.OrderId == orderId  & q.OrderStatus <= 3 & q.ClientId == null).FirstOrDefaultAsync();
-            if (CheckOrderExist == null) { return BadRequest("Such an order does not exist or it is not your order!"); }
-            if (CheckOrderExist.OrderStatus == 1) return BadRequest("Before add some new products order must be confirmed!");
+            if (CheckOrderExist == null) { return BadRequest(new JsonResult(new { message = "Such an order does not exist or it is not your order!" })); }
+            if (CheckOrderExist.OrderStatus == 1) return BadRequest((new JsonResult(new { message = "Before add some new products order must be confirmed!" })));
             CheckOrderExist.OrderStatus = 2;
 
             foreach (var product in model.Products)
             {
-                var productToAdd = new OrderProduct
-                {
-                    OrderId = orderId,
-                    ProductId = product.productId,
-                    Quantity = product.quantity,
-                    UnitPrice = product.unitPrice,
-                };
                 var productDetails = await _applicationContext.Products.FindAsync(product.productId);
-                if (productDetails == null) { return BadRequest("Something went to the left!"); }
-                if (productDetails.Quantity < product.quantity) return BadRequest($"We don't have so much {productDetails.Name}!");
+                if (productDetails == null)
+                {
+                    insufficientProducts.Add(productDetails.Name);
+                    continue;
+                }
+                if (productDetails.ComplexProduct == false && productDetails.Quantity < product.quantity)
+                {
+                    insufficientProducts.Add(productDetails.Name);
+                    continue;
+                }
+                var checkProductExistInOrder = await _applicationContext.OrderProducts.Where(q => q.OrderId == orderId && q.ProductId == product.productId).FirstOrDefaultAsync();
+                if (checkProductExistInOrder == null)
+                {
+                    var productToAdd = new OrderProduct
+                    {
+                        OrderId = orderId,
+                        ProductId = product.productId,
+                        Quantity = product.quantity,
+                        UnitPrice = product.unitPrice,
+                    };
+                    await _applicationContext.OrderProducts.AddAsync(productToAdd);
+                }
+                else
+                {
+                    checkProductExistInOrder.Quantity += product.quantity;
+                    await _applicationContext.SaveChangesAsync();
+                }
+
                 if (productDetails.ComplexProduct == false)
                 {
                     productDetails.Quantity -= product.quantity;
@@ -657,11 +678,15 @@ namespace CoffeBarManagement.Controllers
 
                     await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
                 }
-                await _applicationContext.OrderProducts.AddAsync(productToAdd);
+
                 await _applicationContext.SaveChangesAsync();
             }
+            if (insufficientProducts.Count > 0)
+            {
+                return Ok(new JsonResult(new {  message = $"The following products {string.Join(", ", insufficientProducts)} cannot be added to order because they aren't availabale in that quantity!" }));
+            }
 
-            return Ok("The new products was added to your order!");
+            return Ok(new JsonResult(new {  message = "The new products was added to order!", products = model.Products }));
         }
 
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
@@ -669,87 +694,17 @@ namespace CoffeBarManagement.Controllers
         public async Task<IActionResult> FinishOrderEmployee(int orderId, float tips)
         {
             var orderToFinish = await _applicationContext.Orders.Where(q => q.OrderId == orderId).FirstOrDefaultAsync();
-            if (orderToFinish == null) { return BadRequest("Such order does not exist!"); }
+            if (orderToFinish == null) { return NotFound(); }
             var tableFromOrder = await _applicationContext.Tables.FindAsync(orderToFinish.TableId);
-            if(tableFromOrder != null) { tableFromOrder.TableStatus = false; }
-            if (orderToFinish.OrderStatus != 3) return BadRequest("In order to finish this order, all products from the order must be delivered!");
+            if (tableFromOrder == null) { return NotFound("Don't know how this table was not found!"); }
+            if (orderToFinish.OrderStatus != 3) return BadRequest(new JsonResult(new { title = "Order not delivered", message = "In order to finish this order, all products from the order must be delivered!" }));
             orderToFinish.OrderStatus = 4;
             orderToFinish.Tips = tips;
+            tableFromOrder.TableStatus = false;
             await _applicationContext.SaveChangesAsync();
-            return Ok("Order was finished successfuly!");
+            return Ok(new JsonResult(new { message = "Order was finished successfuly!" }));
         }
 
-
-        //Return active orders by tableId
-        //[Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
-        //[HttpGet("get-active-order-byTable/{tableId}")]
-        //public async Task<GetOrderByTableDto> GetTableOrder(int tableId)
-        //{
-        //    var result = await _applicationContext.Orders.Where(q => q.TableId == tableId && q.OrderStatus < 4).FirstOrDefaultAsync();
-        //    if (result == null) {
-        //        var empltyOrder = new GetOrderByTableDto();    
-        //        return empltyOrder;
-        //    }
-        //    string name;
-        //    var employee = await _applicationContext.Employees.FindAsync(result.TakenEmployeeId);
-        //    if (employee == null) { name = string.Empty; }
-        //    else { name = employee.LastName + " " + employee.FirstName;}
-
-        //    string statusName = string.Empty;
-
-        //    switch (result.OrderStatus)
-        //    {
-        //        case 1:
-        //            statusName = "Pending";
-        //            break;
-        //        case 2:
-        //            statusName = "Accepted";
-        //            break;
-        //        case 3:
-        //            statusName = "Delivered";
-        //            break;
-        //        case 4:
-        //            statusName = "Finished";
-        //            break;
-        //        case 5:
-        //            statusName = "Cancelled";
-        //            break;
-        //    }
-
-        //    var productList = new List<OrderProductDto>();
-
-        //    var productName = string.Empty;
-
-        //    var productsFromOrder = await _applicationContext.OrderProducts.Where(q => q.OrderId == result.OrderId).ToListAsync();
-        //    foreach (var product in productsFromOrder) {
-
-        //        var productDetails = await _applicationContext.Products.FindAsync(product.ProductId);
-        //        if (productDetails == null) { productName = "Don't know the name"; }
-        //        else { productName = productDetails.Name; }
-
-        //        var productToAdd = new OrderProductDto
-        //        {
-        //            productName = productName,
-        //            productId = product.ProductId,
-        //            quantity = product.Quantity,
-        //            unitPrice = product.UnitPrice,
-        //            tva = productDetails.Tva
-        //        };
-        //        productList.Add(productToAdd);
-        //    }
-
-        //    var resultOrder = new GetOrderByTableDto
-        //    {
-        //        OrderId = result.OrderId,
-        //        OrderDate = result.OrderDate,
-        //        TableId = tableId,
-        //        TakeEmployeeName = name,
-        //        Status = statusName,
-        //        products = productList
-        //    };
-
-        //    return resultOrder;
-        //}
 
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpGet("get-order-note-data/{orderId}")]

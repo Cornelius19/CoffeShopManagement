@@ -6,4 +6,6 @@ export const environment = {
     counterKey: 'CartProductsCounter',
     tableID: 'TableID',
     orderID: 'OrderID',
+    modifyingOrderId: 'ModifyOrderId',
+    modifyCartProducts: 'ModifyCartProducts'
 };
