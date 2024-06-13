@@ -778,5 +778,41 @@ namespace CoffeBarManagement.Controllers
             return NoteData;
         }
 
+
+        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [HttpGet("get-receipt-data/{orderId}")]
+        public async Task<GetReceiptDataDto> GetReceiptData(int orderId)
+        {
+            var organizationData = await _applicationContext.Organizations.FindAsync(1);
+            var orderDetails = await _applicationContext.Orders.FindAsync(orderId);
+            var productsFromOrder = await _applicationContext.OrderProducts.Where(q => q.OrderId == orderId).ToListAsync();
+            var productsList = new List<OrderProductDto>();
+            foreach (var product in productsFromOrder)
+            {
+                var productNameDetails = await _applicationContext.Products.FindAsync(product.ProductId);
+                var item = new OrderProductDto
+                {
+                    productName = productNameDetails.Name,
+                    productId = product.ProductId,
+                    unitPrice = product.UnitPrice,
+                    tva = productNameDetails.Tva,
+                    quantity = product.Quantity,
+                };
+                productsList.Add(item);
+            }
+
+            var receiptData = new GetReceiptDataDto
+            {
+                Name = organizationData.Name,
+                adress = organizationData.Address,
+                CIF = organizationData.Cif,
+                City = organizationData.City,
+                CreatedDate = DateTime.UtcNow,
+                products = productsList
+            };
+
+            return receiptData;
+        }
+
     }
 }

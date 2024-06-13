@@ -64,4 +64,7 @@ export class SharedService {
     getOrderNote(orderId : number){
         return this.http.get(`${environment.appUrl}/api/orders/get-order-note-data/${orderId}`);
     }
+    getReceiptData(orderId: number){
+        return this.http.get(`${environment.appUrl}/api/orders/get-receipt-data/${orderId}`);
+    }
 }
