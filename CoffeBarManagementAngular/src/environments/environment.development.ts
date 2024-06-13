@@ -4,6 +4,7 @@ export const environment = {
     userKey: 'AppUser',
     cartKey: 'CartProducts',
     counterKey: 'CartProductsCounter',
+    ordersToConfirmCounter: 'OrderConfirmCounter',
     tableID: 'TableID',
     orderID: 'OrderID',
     modifyingOrderId: 'ModifyOrderId',

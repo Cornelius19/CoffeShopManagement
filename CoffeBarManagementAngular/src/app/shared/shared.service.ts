@@ -67,4 +67,8 @@ export class SharedService {
     getReceiptData(orderId: number){
         return this.http.get(`${environment.appUrl}/api/orders/get-receipt-data/${orderId}`);
     }
+
+    checkOrderStatus(orderId:number){
+        return this.http.get(`${environment.appUrl}/api/orders/check-order-status/${orderId}`);
+    }
 }

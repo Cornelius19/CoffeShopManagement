@@ -22,15 +22,16 @@
             </div>
             <hr />
         </div>
-        <h6 class="text-center mt-3">Tips options:</h6>
+        <!-- <h6 class="text-center mt-3">Tips options:</h6>
 
         <div class="row col-12">
             <input #tips type="number" (keyup)="keyup(tips.value)" [defaultValue]="0" placeholder="Tips value" min="0" />
-        </div>
+        </div> -->
         <hr />
         <h4 class="text-center">Total to pay: {{ finalTotal | number : '1.2-2' }}$</h4>
         <hr />
-        <button class="col-12 btn btn-success" (click)="pay()">Pay</button>
+        <h4 class="text-center">Please reach the pos to pay </h4>
+        <!-- <button class="col-12 btn btn-success" (click)="pay()">Pay</button> -->
     </div>
     @if (activeOrder != null) {
     <p class="text-center mt-3">Please refresh the page in order to see if the order status was changed!</p>

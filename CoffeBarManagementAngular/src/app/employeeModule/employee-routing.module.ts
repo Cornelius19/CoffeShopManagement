@@ -9,6 +9,9 @@ import { PosComponent } from './pos/pos/pos.component';
 import { TablesComponent } from './pos/tables/tables.component';
 import { OrderDetailsComponent } from './pos/order-details/order-details.component';
 import { PaymentComponent } from './pos/payment/payment.component';
+import { StockBalanceComponent } from './stock-balance/stock-balance.component';
+import { Roles } from '../../dependencies/roles';
+import { RoleGuard } from '../shared/guards/authorization.guard';
 
 const routes: Route[] = [
   {path: 'create-reservation', component:CreateReservationEmployeeComponent},
@@ -20,6 +23,8 @@ const routes: Route[] = [
   {path: 'tables', component:TablesComponent},
   {path: 'payment', component:PaymentComponent},
   {path: 'order-details/:tableId', component:OrderDetailsComponent},
+  {path: 'stock-balance', component: StockBalanceComponent,canActivate: [RoleGuard],
+    data: { roles: [Roles.Pos] },}
 
 ] 
 

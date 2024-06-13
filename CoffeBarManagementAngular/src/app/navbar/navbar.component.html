@@ -34,7 +34,13 @@
                         </ul>
                     </li>
                 </ul>
-                <ul class="navbar-nav" *ngIf="(((accountService.user$ | async) !== null) && ((accountService.getUserRole() === roles.Employee1) || (accountService.getUserRole() === roles.Pos1)))">
+                <ul
+                    class="navbar-nav"
+                    *ngIf="
+                        (accountService.user$ | async) !== null &&
+                        (accountService.getUserRole() === roles.Employee1 || accountService.getUserRole() === roles.Pos1)
+                    "
+                >
                     <li class="nav-item dropdown">
                         <a class="nav-link" routerLink="employees/pos" role="button" aria-expanded="false">
                             <strong>POS</strong>
@@ -48,13 +54,22 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" routerLink="/employees/orders-to-confirm" role="button" aria-expanded="false">
                             <strong>OrdersToConfirm</strong>
+                            <span *ngIf="intervalService.counter != 0" class="badge bg-dark rounded-pill">{{ intervalService.counter }}</span>
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" [routerLink]="['/employees','order-details',0]" role="button" aria-expanded="false">
+                        <a class="nav-link" [routerLink]="['/employees', 'order-details', 0]" role="button" aria-expanded="false">
                             <strong>AllActiveOrders</strong>
                         </a>
                     </li>
+                    @if ((accountService.user$ | async) !== null && accountService.getUserRole() === roles.Pos1) {
+                        <li class="nav-item dropdown">
+                        <a class="nav-link" routerLink="/employees/stock-balance" role="button" aria-expanded="false">
+                            <strong>Stock balance</strong>
+                        </a>
+                    </li>
+                    }
+                    
                 </ul>
                 <ul class="navbar-nav" *ngIf="(accountService.user$ | async) !== null && accountService.getUserRole() === roles.Client1">
                     <li class="nav-item dropdown">
@@ -90,7 +105,8 @@
                 </li>
                 }
             </ul>
-            @if (((accountService.user$ | async) !== null) && ((accountService.getUserRole() === roles.Employee1) || (accountService.getUserRole() === roles.Pos1))) {
+            @if (((accountService.user$ | async) !== null) && ((accountService.getUserRole() === roles.Employee1) || (accountService.getUserRole() ===
+            roles.Pos1))) {
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

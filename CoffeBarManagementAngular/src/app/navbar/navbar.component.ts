@@ -3,6 +3,8 @@ import { AccountService } from '../account/account.service';
 import { Roles } from '../../dependencies/roles';
 import { OrdersService } from '../orders/orders.service';
 import { environment } from '../../environments/environment.development';
+import { EmployeeOrderService } from '../employeeModule/orders/employee-order.service';
+import { IntervalFuntionsService } from '../interval-funtions.service';
 
 @Component({
     selector: 'app-navbar',
@@ -10,7 +12,7 @@ import { environment } from '../../environments/environment.development';
     styleUrl: './navbar.component.css',
 })
 export class NavbarComponent implements OnInit {
-    constructor(public accountService: AccountService, public roles: Roles, public ordersService: OrdersService) {}
+    constructor(public accountService: AccountService, public roles: Roles, public ordersService: OrdersService,public intervalService: IntervalFuntionsService) {}
     ngOnInit(): void {
         this.ordersService.getCounter();
     }

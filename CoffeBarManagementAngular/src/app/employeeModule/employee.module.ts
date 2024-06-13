@@ -14,6 +14,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TablesComponent } from './pos/tables/tables.component';
 import { OrderDetailsComponent } from './pos/order-details/order-details.component';
 import { PaymentComponent } from './pos/payment/payment.component';
+import { StockBalanceComponent } from './stock-balance/stock-balance.component';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import { PaymentComponent } from './pos/payment/payment.component';
         TablesComponent,
         OrderDetailsComponent,
         PaymentComponent,
+        StockBalanceComponent,
     ],
     imports: [CommonModule, EmployeeRoutingModule, FormsModule, ReactiveFormsModule, DataTablesModule, FontAwesomeModule, SharedModule],
 })

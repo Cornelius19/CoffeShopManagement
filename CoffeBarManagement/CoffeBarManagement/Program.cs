@@ -2,9 +2,11 @@ using CoffeBarManagement;
 using CoffeBarManagement.Data;
 using CoffeBarManagement.Data.IdentityDbContext;
 using CoffeBarManagement.Models.IdentityModels;
+using CoffeBarManagement.Policy;
 using CoffeBarManagement.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -85,6 +87,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy("CheckOpenStatus", policy => 
+        policy.Requirements.Add(new CheckOpenStatus(true)));
+});
+
+builder.Services.AddScoped<IAuthorizationHandler, CheckOpenStatusHandler>();
 
 
 builder.Services.AddCors();
