@@ -2,6 +2,7 @@ using CoffeBarManagement;
 using CoffeBarManagement.Data;
 using CoffeBarManagement.Data.IdentityDbContext;
 using CoffeBarManagement.Models.IdentityModels;
+using CoffeBarManagement.Models.Models;
 using CoffeBarManagement.Policy;
 using CoffeBarManagement.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -163,6 +164,7 @@ using (var scope = app.Services.CreateScope())
 }
 using (var scope = app.Services.CreateScope())
 {
+    var context = new ApplicationContext();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 

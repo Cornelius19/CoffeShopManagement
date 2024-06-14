@@ -1,3 +1,4 @@
+@if(sharedService.posStatus == true){
 <div class="container col-md-6 col-sm-12 acrylic shadow">
     <h2 class="text-center" *ngIf="activeOrder == null">You do not have an active order!</h2>
     <div class="mt-5" style="max-width: 100%" *ngIf="activeOrder != null">
@@ -23,14 +24,14 @@
             <hr />
         </div>
         <!-- <h6 class="text-center mt-3">Tips options:</h6>
-
-        <div class="row col-12">
-            <input #tips type="number" (keyup)="keyup(tips.value)" [defaultValue]="0" placeholder="Tips value" min="0" />
-        </div> -->
+    
+            <div class="row col-12">
+                <input #tips type="number" (keyup)="keyup(tips.value)" [defaultValue]="0" placeholder="Tips value" min="0" />
+            </div> -->
         <hr />
         <h4 class="text-center">Total to pay: {{ finalTotal | number : '1.2-2' }}$</h4>
         <hr />
-        <h4 class="text-center">Please reach the pos to pay </h4>
+        <h4 class="text-center">Please reach the pos to pay</h4>
         <!-- <button class="col-12 btn btn-success" (click)="pay()">Pay</button> -->
     </div>
     @if (activeOrder != null) {
@@ -38,3 +39,8 @@
     <p class="text-center mt-3">To add new products to the order is the same procedure like creating a new one!</p>
     }
 </div>
+}@else {
+<div class="container acrylic shadow">
+    <h1 class="text-center">We are not taking orders for now!</h1>
+</div>
+}

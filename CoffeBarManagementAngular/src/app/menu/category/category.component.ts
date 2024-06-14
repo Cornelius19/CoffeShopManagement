@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../menu.service';
 import { GetCategories } from '../../shared/models/getCategories';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
     selector: 'app-category',
@@ -8,7 +9,9 @@ import { GetCategories } from '../../shared/models/getCategories';
     styleUrl: './category.component.css',
 })
 export class CategoryComponent implements OnInit {
-    constructor(private menuService: MenuService) {}
+    constructor(private menuService: MenuService,
+        public sharedService: SharedService
+    ) {}
 
     public categoryList: GetCategories[] = [];
 

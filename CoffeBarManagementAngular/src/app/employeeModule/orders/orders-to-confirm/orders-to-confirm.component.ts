@@ -10,7 +10,7 @@ import { environment } from '../../../../environments/environment.development';
     styleUrl: './orders-to-confirm.component.css',
 })
 export class OrdersToConfirmComponent implements OnInit {
-    constructor(private employeeOrderService: EmployeeOrderService, private sharedService: SharedService) {}
+    constructor(private employeeOrderService: EmployeeOrderService, public sharedService: SharedService) {}
     ordersToConfirm: OrderDto[] = [];
 
     ngOnInit(): void {

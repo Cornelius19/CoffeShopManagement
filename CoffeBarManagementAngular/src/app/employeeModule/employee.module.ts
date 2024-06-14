@@ -15,7 +15,8 @@ import { TablesComponent } from './pos/tables/tables.component';
 import { OrderDetailsComponent } from './pos/order-details/order-details.component';
 import { PaymentComponent } from './pos/payment/payment.component';
 import { StockBalanceComponent } from './stock-balance/stock-balance.component';
-
+import { CancelModalComponent } from './pos/modals/cancel-modal/cancel-modal.component';
+import { DeleteProductModalComponent } from './pos/modals/delete-product-modal/delete-product-modal.component';
 @NgModule({
     declarations: [
         CreateReservationEmployeeComponent,
@@ -28,6 +29,8 @@ import { StockBalanceComponent } from './stock-balance/stock-balance.component';
         OrderDetailsComponent,
         PaymentComponent,
         StockBalanceComponent,
+        CancelModalComponent,
+        DeleteProductModalComponent,
     ],
     imports: [CommonModule, EmployeeRoutingModule, FormsModule, ReactiveFormsModule, DataTablesModule, FontAwesomeModule, SharedModule],
 })

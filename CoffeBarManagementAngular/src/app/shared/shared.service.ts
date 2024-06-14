@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SharedService {
     bsModalRef?: BsModalRef;
+    posStatus?: boolean;
 
     constructor(private modalService: BsModalService, private http: HttpClient) {}
 
@@ -60,15 +61,30 @@ export class SharedService {
         return this.http.get(`${environment.appUrl}/api/tables/get-all-tables`);
     }
 
-
-    getOrderNote(orderId : number){
+    getOrderNote(orderId: number) {
         return this.http.get(`${environment.appUrl}/api/orders/get-order-note-data/${orderId}`);
     }
-    getReceiptData(orderId: number){
+    getReceiptData(orderId: number) {
         return this.http.get(`${environment.appUrl}/api/orders/get-receipt-data/${orderId}`);
     }
 
-    checkOrderStatus(orderId:number){
+    checkOrderStatus(orderId: number) {
         return this.http.get(`${environment.appUrl}/api/orders/check-order-status/${orderId}`);
+    }
+
+    checkPosStatus() {
+        return this.http.get(`${environment.appUrl}/api/pos/check-open-status`);
+    }
+
+    checkStatus() {
+        this.checkPosStatus().subscribe({
+            next: (response: any) => {
+                this.posStatus = response.value.message;
+                console.log(this.posStatus);
+            },
+            error: (e) => {
+                console.log(e);
+            },
+        });
     }
 }

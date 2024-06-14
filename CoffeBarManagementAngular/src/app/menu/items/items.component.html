@@ -1,4 +1,11 @@
-<div class="container d-flex justify-content-center">
+@if(sharedService.posStatus == false){
+    <div class="container acrylic shadow">
+        <h1 class="text-center">
+            We do not take orders right now!
+        </h1>
+    </div>
+}
+<div class="container d-flex justify-content-center" >
     <div class="row">
         <div class="col">
             <h1 class="text-center">Products</h1>
@@ -8,7 +15,7 @@
 </div>
 <div class="container acrylic shadow">
     <div class="col-md-12" *ngFor="let item of items">
-        <div class="card mb-4">
+        <div class="card mb-4" >
             <div class="card-header">
                 <div class="row">
                     <h5 class="col-md-6">{{item.productName}}</h5>
@@ -18,7 +25,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <button class="btn btn-primary" [disabled]="((accountService.user$ | async) == null) || ((item.productAvailability === 0 && item.complexProduct == false)) " (click)="addToCart(item.productId)" id="{{item.productId}}">Add to cart</button>
+                    <button class="btn btn-primary" [disabled]="((accountService.user$ | async) == null) || ((item.productAvailability === 0 && item.complexProduct == false)) || sharedService.posStatus == false " (click)="addToCart(item.productId)" id="{{item.productId}}">Add to cart</button>
                     @if (item.productAvailability === 0 && item.complexProduct == false) {
                         <span style="color: rgb(253, 97, 0);">We are sorry to inform you that this products isn't available right now!</span>
                     }

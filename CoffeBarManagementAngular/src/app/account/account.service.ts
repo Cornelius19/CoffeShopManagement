@@ -57,6 +57,7 @@ export class AccountService {
 
   logout(){
     localStorage.removeItem(environment.userKey);
+    localStorage.clear()
     this.userSource.next(null);
     this.router.navigateByUrl('/');
     this.intervalService.stopPeriodicFunction();

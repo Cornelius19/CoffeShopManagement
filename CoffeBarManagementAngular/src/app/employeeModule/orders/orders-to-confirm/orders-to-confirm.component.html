@@ -1,4 +1,10 @@
-<div class="container acrylic shadow">
+@if(sharedService.posStatus == false){
+    <div class="container acrylic shadow">
+        <h1 class="text-center">POS is closed!</h1>
+    </div>
+    }
+    @else {
+        <div class="container acrylic shadow">
     @if (ordersToConfirm.length === 0) {
     <h3 class="text-center">There are no orders to confirm!</h3>
     }
@@ -36,3 +42,4 @@
     </div>
 
 </div>
+    }

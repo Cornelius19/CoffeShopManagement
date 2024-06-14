@@ -7,6 +7,7 @@ import { environment } from '../environments/environment.development';
 import { OrderDto } from './shared/models/orderDto';
 import { IntervalFuntionsService } from './interval-funtions.service';
 import { PosService } from './employeeModule/pos/pos.service';
+import { SharedService } from './shared/shared.service';
 
 @Component({
     selector: 'app-root',
@@ -24,7 +25,8 @@ export class AppComponent implements OnInit, OnDestroy {
         public roles: Roles,
         private employeeOrderService: EmployeeOrderService,
         private intervalService: IntervalFuntionsService,
-        private posService: PosService
+        private posService: PosService,
+        private sharedService: SharedService
     ) {}
     ngOnDestroy(): void {
         this.intervalService.stopPeriodicFunction();
@@ -40,7 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
         ) {
             this.intervalService.startGettingAllOrders();
         }
-        this.posService.setStatus();
+        this.sharedService.checkStatus();
     }
 
     private refreshUser() {

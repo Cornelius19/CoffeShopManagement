@@ -16,7 +16,6 @@ using System.Numerics;
 namespace CoffeBarManagement.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Policy = "CheckOpenStatus")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
@@ -28,6 +27,7 @@ namespace CoffeBarManagement.Controllers
         }
 
         // register the order with the initial products
+        [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
         [HttpPost("new-client-order/{clientId}/{tableId}")]
         public async Task<IActionResult> NewClientOrder(ClientOrderDto model, int clientId, int tableId)
@@ -311,7 +311,7 @@ namespace CoffeBarManagement.Controllers
 
 
 
-
+        [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
         [HttpPost("add-new-product-to-order/{clientId}/{orderId}/{tableId}")]
         public async Task<IActionResult> AddNewProduct(ClientOrderDto model, int clientId, int orderId, int tableId)
@@ -377,6 +377,7 @@ namespace CoffeBarManagement.Controllers
             return Ok(new JsonResult(new { title = "Success", message = "The new products was added to your order!" }));
         }
 
+        [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpPut("confirm-order/{employeeId}/{orderId}")]
         public async Task<IActionResult> ConfirmOrder(int employeeId, int orderId)
@@ -416,6 +417,7 @@ namespace CoffeBarManagement.Controllers
             return Ok(new JsonResult(new { message = "Order is confirmed!" }));
         }
 
+        [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpPost("employee-create-order/{employeeId}/{payedStatus}")]
         public async Task<IActionResult> EmployeeCreateNewOrder(EmployeeOrderDto model, int employeeId, bool payedStatus)
@@ -510,7 +512,7 @@ namespace CoffeBarManagement.Controllers
             return Ok(new JsonResult(new { message = "A new order was created successfully!", orderId = orderToAdd.OrderId }));
         }
 
-
+        [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpGet("get-employee-orders")]
         public async Task<List<GetOrderByTableDto>> GetEmployeeOrders()
@@ -605,6 +607,7 @@ namespace CoffeBarManagement.Controllers
             return orderList;
         }
 
+        [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpPut("order-status-sent/{orderId}/{employeeId}")]
         public async Task<IActionResult> OrderSentStatus(int orderId, int employeeId)
@@ -623,7 +626,7 @@ namespace CoffeBarManagement.Controllers
         }
 
 
-
+        [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
         [HttpPut("order-status-finished/{userId}/{orderId}")]
         public async Task<IActionResult> OrderFinished(int userId, int orderId, FinishOrderDto model)
@@ -641,6 +644,7 @@ namespace CoffeBarManagement.Controllers
 
         }
 
+        [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpPost("add-new-product-to-order-employee/{orderId}")]
         public async Task<IActionResult> AddNewProductEmployee(ClientOrderDto model, int orderId)
@@ -706,6 +710,7 @@ namespace CoffeBarManagement.Controllers
             return Ok(new JsonResult(new { message = "The new products was added to order!", products = model.Products }));
         }
 
+        [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpPut("order-status-finished-employee/{orderId}/{tips}")]
         public async Task<IActionResult> FinishOrderEmployee(int orderId, float tips)
@@ -721,7 +726,7 @@ namespace CoffeBarManagement.Controllers
             return Ok(new JsonResult(new { message = "Order was finished successfuly!" }));
         }
 
-
+        [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpGet("get-order-note-data/{orderId}")]
         public async Task<GetNoteDataDto> GetOrderNoteData(int orderId)
@@ -794,7 +799,7 @@ namespace CoffeBarManagement.Controllers
             return NoteData;
         }
 
-
+        [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpGet("get-receipt-data/{orderId}")]
         public async Task<GetReceiptDataDto> GetReceiptData(int orderId)
@@ -830,6 +835,7 @@ namespace CoffeBarManagement.Controllers
             return receiptData;
         }
 
+        [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = "Employee,Client,POS")]
         [HttpGet("check-order-status/{orderId}")]
         public async Task<IActionResult> CheckOrderStatus(int orderId)
@@ -843,6 +849,59 @@ namespace CoffeBarManagement.Controllers
             {
                 return Ok(new JsonResult(new { status = orderStatus.OrderStatus }));
             }
+
+        }
+
+        [Authorize(Policy = "CheckOpenStatus")]
+        [Authorize(Roles = Dependencis.POS_ROLE)]
+        [HttpPut("order-status-cancel/{orderId}/{boolValue}")]
+        public async Task<IActionResult> CancelOrder(int orderId, bool boolValue)
+        {
+
+            var orderDetails = await _applicationContext.Orders.FindAsync(orderId);
+            if(orderDetails == null) return NotFound();
+            orderDetails.OrderStatus = 5;
+            if (boolValue)
+            {
+                var productsFromOrder = await _applicationContext.OrderProducts.Where(q => q.OrderId == orderId).ToListAsync();
+                if(productsFromOrder.Count > 0)
+                {
+                    foreach(var product in productsFromOrder)
+                    {
+                        var stockBalance = await _applicationContext.StockBalances.Where(q => q.ProductId == product.ProductId).FirstOrDefaultAsync();
+                        if (stockBalance != null)
+                        {
+                            var productDetail = await _applicationContext.Products.FindAsync(product.ProductId);
+                            productDetail.Quantity += stockBalance.RemoveQuantity;
+                            stockBalance.RemoveQuantity = 0;
+                            await _applicationContext.SaveChangesAsync();
+                        }
+                    }
+                    return Ok(new JsonResult(new { message = "Order was canceled and the products quantity was restored to the stock!" }));
+                }
+            }
+            await _applicationContext.SaveChangesAsync();
+            return Ok(new JsonResult(new { message = "Order was canceled!" }));
+
+        }
+
+
+        [Authorize(Policy = "CheckOpenStatus")]
+        [Authorize(Roles = Dependencis.POS_ROLE)]
+        [HttpDelete("delete-order-product/{orderId}/{productId}")]
+        public async Task<IActionResult> DeleteProductFromOrder(int productId, int orderId)
+        {
+            var productCheck = await _applicationContext.OrderProducts.Where(q => q.OrderId == orderId && q.ProductId == productId).ToListAsync();
+            if (productCheck.Count > 0)
+            {
+                foreach(var product in productCheck)
+                {
+                    _applicationContext.OrderProducts.Remove(product);
+                }
+                await _applicationContext.SaveChangesAsync();
+                return Ok(new JsonResult(new { message = "Product was deleted from order!" }));
+            }
+            return BadRequest(new JsonResult(new { message = "Somethin went wrong!" }));
 
         }
     }
