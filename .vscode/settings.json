@@ -3,6 +3,7 @@
     "adress",
     "Componenets",
     "datatables",
+    "delievered",
     "fontawesome",
     "fortawesome",
     "Funtions",
@@ -10,6 +11,8 @@
     "pdfmake",
     "popperjs",
     "Qrcode",
-    "reservationdate"
+    "reservationdate",
+    "Selled",
+    "YYMMDDHHMMSS"
   ]
 }
