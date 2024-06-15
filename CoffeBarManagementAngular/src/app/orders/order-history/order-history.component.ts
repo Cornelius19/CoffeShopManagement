@@ -5,6 +5,7 @@ import { OrderDto } from '../../shared/models/orderDto';
 import { auto } from '@popperjs/core';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import { ReportPdfServiceService } from '../../report-pdf-service.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
@@ -14,7 +15,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
     styleUrl: './order-history.component.css',
 })
 export class OrderHistoryComponent implements OnInit {
-    constructor(private ordersService: OrdersService, private sharedService: SharedService) {}
+    constructor(private ordersService: OrdersService, private sharedService: SharedService,public reportService: ReportPdfServiceService) {}
 
     ngOnInit(): void {
         this.getOrderHistory();

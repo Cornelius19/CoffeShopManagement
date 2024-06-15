@@ -26,7 +26,7 @@
                         <h6> - Total: {{(product.unitPrice * product.quantity)| number:'1.2-2'}} $</h6>
                     </div>
                     }
-                    <button class="col-12 btn btn-primary mt-3" (click)="generateReceiptPDF(item)">Get Receipt</button>
+                    <button class="col-12 btn btn-dark btn-lg mt-3" (click)="reportService.generateOrderNotePDF(item.orderId)">Get order note</button>
                 </div>
             </div>
         </div>

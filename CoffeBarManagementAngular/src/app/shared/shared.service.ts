@@ -80,7 +80,7 @@ export class SharedService {
         this.checkPosStatus().subscribe({
             next: (response: any) => {
                 this.posStatus = response.value.message;
-                console.log(this.posStatus);
+                //console.log(this.posStatus);
             },
             error: (e) => {
                 console.log(e);

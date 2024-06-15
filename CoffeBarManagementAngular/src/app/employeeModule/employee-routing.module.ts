@@ -12,6 +12,7 @@ import { PaymentComponent } from './pos/payment/payment.component';
 import { StockBalanceComponent } from './stock-balance/stock-balance.component';
 import { Roles } from '../../dependencies/roles';
 import { RoleGuard } from '../shared/guards/authorization.guard';
+import { AddStockProductsComponent } from './add-stock-products/add-stock-products.component';
 
 const routes: Route[] = [
   {path: 'create-reservation', component:CreateReservationEmployeeComponent},
@@ -24,7 +25,9 @@ const routes: Route[] = [
   {path: 'payment', component:PaymentComponent},
   {path: 'order-details/:tableId', component:OrderDetailsComponent},
   {path: 'stock-balance', component: StockBalanceComponent,canActivate: [RoleGuard],
-    data: { roles: [Roles.Pos] },}
+    data: { roles: [Roles.Pos] },},
+    {path: 'add-stock-balance', component: AddStockProductsComponent,canActivate: [RoleGuard],
+      data: { roles: [Roles.Pos] },}
 
 ] 
 

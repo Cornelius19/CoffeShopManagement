@@ -43,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.intervalService.startGettingAllOrders();
         }
         this.sharedService.checkStatus();
+        this.intervalService.getCounter();
     }
 
     private refreshUser() {

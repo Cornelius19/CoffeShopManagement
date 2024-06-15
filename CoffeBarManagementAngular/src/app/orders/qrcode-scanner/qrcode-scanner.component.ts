@@ -101,7 +101,7 @@ export class QRCodeScannerComponent implements OnInit, OnDestroy, AfterViewInit 
                     };
 
                     if (orderIDString) {
-                        console.log(orderIDString);
+                        //console.log(orderIDString);
                         
                         let status: number = 0;
                         this.sharedService.checkOrderStatus(parseInt(orderIDString)).subscribe({
@@ -118,13 +118,13 @@ export class QRCodeScannerComponent implements OnInit, OnDestroy, AfterViewInit 
                                             this.router.navigateByUrl('/orders/active-order');
                                         },
                                         error: (error) => {
-                                            console.log(error);
                                             localStorage.removeItem(environment.tableID);
-                                            this.router.navigateByUrl('/orders/cart');
+                                            //this.router.navigateByUrl('/orders/cart');
+                                            this.sharedService.showNotificationAndReload(false, 'Error', error.error.value.message,true);   
                                         },
                                     });
                                 } else {
-                                    console.log(status);
+                                    //console.log(status);
                                     
                                     localStorage.removeItem(environment.orderID);
                                     this.ordersService.createNewClientOrder(modelToSend, userId, tableId).subscribe({
@@ -135,9 +135,9 @@ export class QRCodeScannerComponent implements OnInit, OnDestroy, AfterViewInit 
                                             this.router.navigateByUrl('/orders/active-order');
                                         },
                                         error: (error) => {
-                                            this.sharedService.showNotification(false, error.error.value.title, error.error.value.message);
+                                            this.sharedService.showNotificationAndReload(false, 'Error', error.error.value.message,true);
                                             localStorage.removeItem(environment.tableID);
-                                            this.router.navigateByUrl('/orders/cart');
+                                            //this.router.navigateByUrl('/orders/cart');
                                         },
                                     });
                                 }

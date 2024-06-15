@@ -256,5 +256,31 @@ namespace CoffeBarManagement.Controllers
 
             return listToReturn;
         }
+
+
+        [Authorize(Roles = ("Admin,POS"))]
+        [HttpGet("get-all-products-stockbalance")]
+        public async Task<List<GetProductComponentDto>> GetAllProducts()
+        {
+            var list = new List<GetProductComponentDto>();
+            var result =  await _applicationContext.Products.Where(q=> q.ComplexProduct == false).ToListAsync();
+            if (result.Count > 0) {
+                foreach(var item in result)
+                {
+                    var productToAadd = new GetProductComponentDto
+                    {
+                        name = item.Name,
+                        id = item.ProductId,
+                    };
+                    list.Add(productToAadd);
+                }
+                return (list);
+            }
+            else
+            {
+                return null;
+            }
+            
+        }
     }
 }

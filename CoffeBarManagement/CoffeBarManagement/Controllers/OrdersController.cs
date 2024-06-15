@@ -319,7 +319,7 @@ namespace CoffeBarManagement.Controllers
             var insufficientProducts = new List<string>();
             var CheckOrderExist = await _applicationContext.Orders.Where(q => q.OrderId == orderId & q.ClientId == clientId & q.OrderStatus <= 3).FirstOrDefaultAsync();
             if (CheckOrderExist == null) { return BadRequest(new JsonResult(new { message = "Such an order does not exist or it is not your order!" })); }
-            if (CheckOrderExist.TableId != tableId) { return BadRequest("The table id is not the same!"); }
+            if (CheckOrderExist.TableId != tableId) { return BadRequest(new JsonResult(new { message = "The table id is not the same!\nMake sure to scan the same qr code as for creating the order!"})); }
             CheckOrderExist.OrderStatus = 1;
 
             foreach (var product in model.Products)
@@ -391,28 +391,28 @@ namespace CoffeBarManagement.Controllers
 
             result.OrderStatus += 1;
             result.TakenEmployeeId = employeeId;
-            var orderProducts = await _applicationContext.OrderProducts.Where(q => q.OrderId == orderId).ToListAsync();
-            foreach (var product in orderProducts)
-            {
-                var productDetails = await _applicationContext.Products.FindAsync(product.ProductId);
-                if (productDetails == null) { return BadRequest(new JsonResult(new { message = "Somthing went wrong!" })); }
-                if (productDetails.ComplexProduct == false)
-                {
-                    if (productDetails.Quantity < product.Quantity) return BadRequest(new JsonResult(new { message = $"We don't have so much {productDetails.Name}!" }));
-                    productDetails.Quantity -= product.Quantity;
+            //var orderProducts = await _applicationContext.OrderProducts.Where(q => q.OrderId == orderId).ToListAsync();
+            //foreach (var product in orderProducts)
+            //{
+            //    var productDetails = await _applicationContext.Products.FindAsync(product.ProductId);
+            //    if (productDetails == null) { return BadRequest(new JsonResult(new { message = "Somthing went wrong!" })); }
+            //    if (productDetails.ComplexProduct == false)
+            //    {
+            //        if (productDetails.Quantity < product.Quantity) return BadRequest(new JsonResult(new { message = $"We don't have so much {productDetails.Name}!" }));
+            //        productDetails.Quantity -= product.Quantity;
 
-                    var stockBalanceRecord = new StockBalance
-                    {
-                        BalanceDate = DateTime.Now,
-                        ProductId = productDetails.ProductId,
-                        RemoveQuantity = product.Quantity,
-                        RemoveCategoryId = 1,
-                    };
+            //        var stockBalanceRecord = new StockBalance
+            //        {
+            //            BalanceDate = DateTime.Now,
+            //            ProductId = productDetails.ProductId,
+            //            RemoveQuantity = product.Quantity,
+            //            RemoveCategoryId = 1,
+            //        };
 
-                    await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
-                    await _applicationContext.SaveChangesAsync();
-                }
-            }
+            //        await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
+            //        await _applicationContext.SaveChangesAsync();
+            //    }
+            //}
             await _applicationContext.SaveChangesAsync();
             return Ok(new JsonResult(new { message = "Order is confirmed!" }));
         }
@@ -727,7 +727,7 @@ namespace CoffeBarManagement.Controllers
         }
 
         [Authorize(Policy = "CheckOpenStatus")]
-        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [Authorize(Roles = "Employee,Client")]
         [HttpGet("get-order-note-data/{orderId}")]
         public async Task<GetNoteDataDto> GetOrderNoteData(int orderId)
         {
@@ -800,7 +800,7 @@ namespace CoffeBarManagement.Controllers
         }
 
         [Authorize(Policy = "CheckOpenStatus")]
-        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [Authorize(Roles = "Employee")]
         [HttpGet("get-receipt-data/{orderId}")]
         public async Task<GetReceiptDataDto> GetReceiptData(int orderId)
         {
@@ -854,34 +854,17 @@ namespace CoffeBarManagement.Controllers
 
         [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.POS_ROLE)]
-        [HttpPut("order-status-cancel/{orderId}/{boolValue}")]
-        public async Task<IActionResult> CancelOrder(int orderId, bool boolValue)
+        [HttpPut("order-status-cancel/{orderId}")]
+        public async Task<IActionResult> CancelOrder(int orderId)
         {
 
             var orderDetails = await _applicationContext.Orders.FindAsync(orderId);
+            var tableDetails = await _applicationContext.Tables.FindAsync(orderDetails.TableId);
             if(orderDetails == null) return NotFound();
             orderDetails.OrderStatus = 5;
-            if (boolValue)
-            {
-                var productsFromOrder = await _applicationContext.OrderProducts.Where(q => q.OrderId == orderId).ToListAsync();
-                if(productsFromOrder.Count > 0)
-                {
-                    foreach(var product in productsFromOrder)
-                    {
-                        var stockBalance = await _applicationContext.StockBalances.Where(q => q.ProductId == product.ProductId).FirstOrDefaultAsync();
-                        if (stockBalance != null)
-                        {
-                            var productDetail = await _applicationContext.Products.FindAsync(product.ProductId);
-                            productDetail.Quantity += stockBalance.RemoveQuantity;
-                            stockBalance.RemoveQuantity = 0;
-                            await _applicationContext.SaveChangesAsync();
-                        }
-                    }
-                    return Ok(new JsonResult(new { message = "Order was canceled and the products quantity was restored to the stock!" }));
-                }
-            }
+            tableDetails.TableStatus = false;
             await _applicationContext.SaveChangesAsync();
-            return Ok(new JsonResult(new { message = "Order was canceled!" }));
+            return Ok(new JsonResult(new { message = "Order was canceled, please add back the cancelled quantities in stock! !" }));
 
         }
 

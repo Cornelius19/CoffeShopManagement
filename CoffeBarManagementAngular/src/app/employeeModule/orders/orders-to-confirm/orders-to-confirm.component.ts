@@ -3,6 +3,11 @@ import { EmployeeOrderService } from '../employee-order.service';
 import { OrderDto } from '../../../shared/models/orderDto';
 import { SharedService } from '../../../shared/shared.service';
 import { environment } from '../../../../environments/environment.development';
+import { ReportPdfServiceService } from '../../../report-pdf-service.service';
+import { PosService } from '../../pos/pos.service';
+import { AccountModule } from '../../../account/account.module';
+import { AccountService } from '../../../account/account.service';
+import { Roles } from '../../../../dependencies/roles';
 
 @Component({
     selector: 'app-orders-to-confirm',
@@ -10,7 +15,9 @@ import { environment } from '../../../../environments/environment.development';
     styleUrl: './orders-to-confirm.component.css',
 })
 export class OrdersToConfirmComponent implements OnInit {
-    constructor(private employeeOrderService: EmployeeOrderService, public sharedService: SharedService) {}
+    constructor(private employeeOrderService: EmployeeOrderService, public sharedService: SharedService,private reportService: ReportPdfServiceService,
+        public posService:PosService,public accountService:AccountService, public roles:Roles
+    ) {}
     ordersToConfirm: OrderDto[] = [];
 
     ngOnInit(): void {
@@ -48,12 +55,14 @@ export class OrdersToConfirmComponent implements OnInit {
             if (userId) {
                 this.employeeOrderService.confirmOrder(userId, orderId).subscribe({
                     next: (response: any) => {
-                        this.sharedService.showNotification(true, 'Success', response.value.message);
-                        console.log(response);
+                        this.sharedService.showNotificationAndReload(true, 'Success', response.value.message,true);
+                        localStorage.removeItem(environment.ordersToConfirmCounter);
+                        this.reportService.generateOrderNotePDF(orderId);
+                        //console.log(response);
                     },
-                    error: (error) => {
-                        this.sharedService.showNotification(false, 'Failed', error.value.value.message);
-                        console.log(error);
+                    error: (error:any) => {
+                        this.sharedService.showNotification(false, 'Failed', error.error.value.message);
+                        //console.log(error);
                     },
                 });
             }

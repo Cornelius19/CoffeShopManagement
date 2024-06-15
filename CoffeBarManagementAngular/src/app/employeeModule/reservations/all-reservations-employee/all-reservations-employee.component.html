@@ -1,6 +1,6 @@
-<div class="container acrylic shadow">
+<div class="container ">
     <h3 class="text-center">Here are all reservations!(need to implement sorting by date)</h3>
-    <div class="row justify-content-center">
+    <div class="col-6 mx-auto justify-content-center acrylic shadow mt-3">
         @for (reservation of allReservations; track $index) {
         <div class="col-md-7 col-sm-12 mt-3">
             <h6>{{$index+1}}.Reservation id: #{{reservation.reservationId}}</h6>
