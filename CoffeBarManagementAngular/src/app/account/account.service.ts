@@ -7,12 +7,14 @@ import { User } from '../shared/models/user';
 import { ReplaySubject, map, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { EmployeeOrderService } from '../employeeModule/orders/employee-order.service';
+import { IntervalFuntionsService } from '../interval-funtions.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router,private intervalService: IntervalFuntionsService) {}
 
   private userSource = new ReplaySubject<User | null>(1); //is an observabale that is gonna be either an user or an null
   user$ = this.userSource.asObservable();
@@ -55,8 +57,10 @@ export class AccountService {
 
   logout(){
     localStorage.removeItem(environment.userKey);
+    localStorage.clear()
     this.userSource.next(null);
-    this.router.navigateByUrl('/')
+    this.router.navigateByUrl('/');
+    this.intervalService.stopPeriodicFunction();
   }
 
 

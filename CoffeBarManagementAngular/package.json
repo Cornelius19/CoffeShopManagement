@@ -28,6 +28,7 @@
     "angular-datatables": "^17.1.0",
     "bootstrap": "^5.3.3",
     "bootswatch": "^5.3.3",
+    "chart.js": "^4.4.3",
     "datatables.net": "^2.0.3",
     "datatables.net-bs5": "^2.0.3",
     "jquery": "^3.7.1",

@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class ActiveOrderComponent implements OnInit {
   
   constructor(private ordersService: OrdersService,
-    private sharedService: SharedService,
+    public sharedService: SharedService,
     private router: Router
   ){}
   

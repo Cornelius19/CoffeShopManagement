@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
     styleUrl: './cart.component.css',
 })
 export class CartComponent implements OnInit {
-    constructor(public ordersService: OrdersService, private sharedService: SharedService,
+    constructor(public ordersService: OrdersService, public sharedService: SharedService,
 private router: Router,
     ) {}
 

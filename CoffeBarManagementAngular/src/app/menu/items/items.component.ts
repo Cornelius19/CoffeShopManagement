@@ -18,7 +18,7 @@ export class ItemsComponent implements OnInit {
         private menuService: MenuService,
         private route: ActivatedRoute,
         private ordersService: OrdersService,
-        private sharedService: SharedService,
+        public sharedService: SharedService,
         public accountService: AccountService,
     ) {}
 

@@ -14,4 +14,8 @@ public partial class Organization
     public string LogoPath { get; set; }
 
     public bool? OpenStatus { get; set; }
+
+    public int? Cif { get; set; }
+
+    public string City { get; set; }
 }

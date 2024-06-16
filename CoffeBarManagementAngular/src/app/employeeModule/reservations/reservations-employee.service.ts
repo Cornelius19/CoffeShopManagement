@@ -28,4 +28,8 @@ export class ReservationsEmployeeService {
     getAllReservations(){
         return this.http.get<any>(`${environment.appUrl}/api/reservations/get-all-reservations-employee`);
     }
+
+    deleteReservation(reservationId:number){
+        return this.http.delete(`${environment.appUrl}/api/reservations/delete-reservation/${reservationId}`);
+    }
 }

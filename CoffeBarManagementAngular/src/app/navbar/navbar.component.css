@@ -1,5 +1,5 @@
 .active {
-    color: rgb(0, 67, 252) !important;
+    color: rgb(0, 0, 0) !important;
 }
 .right-dropdown-toggle {
     order: 3; /* Adjust the order to your preference */

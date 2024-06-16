@@ -40,6 +40,7 @@ public partial class ApplicationContext : DbContext
 
     public virtual DbSet<Table> Tables { get; set; }
 
+   
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
@@ -56,6 +57,7 @@ public partial class ApplicationContext : DbContext
                 .HasColumnName("available_menu");
             entity.Property(e => e.CategoryName)
                 .HasMaxLength(50)
+                .IsUnicode(false)
                 .HasColumnName("category_Name");
         });
 
@@ -204,6 +206,10 @@ public partial class ApplicationContext : DbContext
             entity.Property(e => e.OrganizationId).HasColumnName("organization_Id");
             entity.Property(e => e.Address)
                 .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Cif).HasColumnName("CIF");
+            entity.Property(e => e.City)
+                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.LogoPath)
                 .HasMaxLength(100)

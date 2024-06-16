@@ -13,6 +13,7 @@ import { OrdersService } from '../orders.service';
 import { NewClientOrder } from '../../shared/models/newClientOrder';
 import { OrderProduct } from '../../shared/models/orderProduct';
 import { OrderProductsClient } from '../../shared/models/orderProductsClient';
+import { error } from 'jquery';
 
 @Component({
     selector: 'app-qrcode-scanner',
@@ -98,23 +99,56 @@ export class QRCodeScannerComponent implements OnInit, OnDestroy, AfterViewInit 
                     const modelToSend: NewClientOrder = {
                         products: model,
                     };
-                    if(orderIDString){
-                        const orderIDNumber = parseInt(orderIDString);
-                        this.ordersService.addNewProductsToOrder(modelToSend,userId,orderIDNumber,tableId).subscribe({
-                            next: (response:any) => {
-                                this.resetList();
-                                this.sharedService.showNotification(true, response.value.title, response.value.message);
-                                localStorage.removeItem(environment.tableID);
-                                this.router.navigateByUrl('/orders/active-order');
+
+                    if (orderIDString) {
+                        //console.log(orderIDString);
+                        
+                        let status: number = 0;
+                        this.sharedService.checkOrderStatus(parseInt(orderIDString)).subscribe({
+                            next: (response: any) => {
+                                status = response.value.status;
+                                if (status <= 3) {
+                                    console.log(status);
+                                    const orderIDNumber = parseInt(orderIDString);
+                                    this.ordersService.addNewProductsToOrder(modelToSend, userId, orderIDNumber, tableId).subscribe({
+                                        next: (response: any) => {
+                                            this.resetList();
+                                            this.sharedService.showNotification(true, response.value.title, response.value.message);
+                                            localStorage.removeItem(environment.tableID);
+                                            this.router.navigateByUrl('/orders/active-order');
+                                        },
+                                        error: (error) => {
+                                            localStorage.removeItem(environment.tableID);
+                                            //this.router.navigateByUrl('/orders/cart');
+                                            this.sharedService.showNotificationAndReload(false, 'Error', error.error.value.message,true);   
+                                        },
+                                    });
+                                } else {
+                                    //console.log(status);
+                                    
+                                    localStorage.removeItem(environment.orderID);
+                                    this.ordersService.createNewClientOrder(modelToSend, userId, tableId).subscribe({
+                                        next: (response: any) => {
+                                            this.sharedService.showNotification(true, response.value.title, response.value.message);
+                                            this.resetList();
+                                            localStorage.removeItem(environment.tableID);
+                                            this.router.navigateByUrl('/orders/active-order');
+                                        },
+                                        error: (error) => {
+                                            this.sharedService.showNotificationAndReload(false, 'Error', error.error.value.message,true);
+                                            localStorage.removeItem(environment.tableID);
+                                            //this.router.navigateByUrl('/orders/cart');
+                                        },
+                                    });
+                                }
+                                
                             },
-                            error:error => {
-                                console.log(error);
-                                localStorage.removeItem(environment.tableID);
-                                this.router.navigateByUrl('/orders/cart');
-                            }
-                        })
-                    }
-                    else{
+                            error: (error: any) => {
+                                status = 0;
+                            },
+                        });
+                        
+                    } else {
                         this.ordersService.createNewClientOrder(modelToSend, userId, tableId).subscribe({
                             next: (response: any) => {
                                 this.sharedService.showNotification(true, response.value.title, response.value.message);

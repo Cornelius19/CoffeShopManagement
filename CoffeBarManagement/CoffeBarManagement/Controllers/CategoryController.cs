@@ -94,7 +94,7 @@ namespace CoffeBarManagement.Controllers
             return Ok(new JsonResult(new { message = "Modification was applied!" }));
         }
 
-        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [Authorize(Roles = "Admin,POS")]
         [HttpGet("get-balancing-categories")]
         public async Task<List<RemoveCategory>> GetBalanceCategories()
         {
