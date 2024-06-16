@@ -11,15 +11,23 @@ import { OrderNoteData } from './shared/models/orderNoteData';
 import { ClosePosFiscalReport } from './shared/models/PosReport/ClosePosFiscalReport';
 import { PosService } from './employeeModule/pos/pos.service';
 import { formatDate } from '@angular/common';
+import { AdminService } from './admin/admin-service.service';
+import { StockProductsReport } from './shared/models/Reports/stockProductsReport';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Injectable({
     providedIn: 'root',
 })
 export class ReportPdfServiceService {
-    constructor(private imageService: ImageService, private sharedService: SharedService, private posService: PosService) {}
+    constructor(
+        private imageService: ImageService,
+        private sharedService: SharedService,
+        private posService: PosService,
+        private adminService: AdminService,
+    ) {}
     orderNoteData: OrderNoteData = {} as OrderNoteData;
     posCloseFiscalReport: ClosePosFiscalReport = {} as ClosePosFiscalReport;
+    productStockReport: StockProductsReport[] = [];
 
     async generateClosePosReportPdf(report: PosClosedReport) {
         const logoBase64 = await this.imageService.convertImageToBase64('../assets/images/sdbar-high-resolution-logo-black-transparent.png');
@@ -226,17 +234,17 @@ export class ReportPdfServiceService {
                     total9Tva: response.total9Tva,
                     total19Tva: response.total19Tva,
                 };
-    
+
                 if (this.posCloseFiscalReport.finishedOrdersCounter == 0) {
                     this.sharedService.showNotification(false, 'Error', 'Something went wrong, there are no orders for present day!');
                 } else {
                     const createdAt = this.sharedService.convertDateToYYMMDDHHMMSS(this.posCloseFiscalReport.currentDate);
-    
+
                     const pageSize = {
                         width: 350,
                         height: 'auto' as any,
                     };
-    
+
                     const docDefinition: any = {
                         pageSize: pageSize,
                         content: [
@@ -245,22 +253,32 @@ export class ReportPdfServiceService {
                             { text: `City: ${this.posCloseFiscalReport.city}`, style: ['normal', 'center'] },
                             { text: `CUI: ${this.posCloseFiscalReport.cui}`, style: ['normal', 'center'] },
                             { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 270, y2: 0, lineWidth: 1 }] },
-    
+
                             { text: 'Report: Fiscal Closure', style: 'header', alignment: 'center' },
                             { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 270, y2: 0, lineWidth: 1 }] },
-    
-                            { text: `Receipts issued today: ${this.posCloseFiscalReport.finishedOrdersCounter} receipts`, style: 'normal',margin:[0,20,0,0] },
-                            { text: `Total sales: ${this.posCloseFiscalReport.totalOrdersValue.toFixed(2)} $`, style: 'normal',margin:[0,0,0,20] },
+
+                            {
+                                text: `Receipts issued today: ${this.posCloseFiscalReport.finishedOrdersCounter} receipts`,
+                                style: 'normal',
+                                margin: [0, 20, 0, 0],
+                            },
+                            {
+                                text: `Total sales: ${this.posCloseFiscalReport.totalOrdersValue.toFixed(2)} $`,
+                                style: 'normal',
+                                margin: [0, 0, 0, 20],
+                            },
                             { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 270, y2: 0, lineWidth: 1 }] },
 
-    
-                            { text: `From which TVA:`, style: ['normal'],bold:'true',margin:[0,20,0,0] },
+                            { text: `From which TVA:`, style: ['normal'], bold: 'true', margin: [0, 20, 0, 0] },
                             { text: `TVA 9%: ${this.posCloseFiscalReport.total9Tva.toFixed(2)} $`, style: 'normal' },
-                            { text: `TVA 19%: ${this.posCloseFiscalReport.total19Tva.toFixed(2)} $`, style: 'normal',margin:[0,0,0,20]  },
+                            { text: `TVA 19%: ${this.posCloseFiscalReport.total19Tva.toFixed(2)} $`, style: 'normal', margin: [0, 0, 0, 20] },
                             { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 270, y2: 0, lineWidth: 1 }] },
 
-    
-                            { text: `Total amount received: ${this.posCloseFiscalReport.totalOrdersValue} $`, style: 'subheader',margin:[0,20,0,0] },
+                            {
+                                text: `Total amount received: ${this.posCloseFiscalReport.totalOrdersValue} $`,
+                                style: 'subheader',
+                                margin: [0, 20, 0, 0],
+                            },
                             { text: `Closing day date:`, style: ['normal', 'center'] },
                             { text: `${createdAt}`, style: ['normal', 'center'] },
                             { text: `POS: 001`, style: 'center' },
@@ -285,5 +303,68 @@ export class ReportPdfServiceService {
             },
         });
     }
-    
+
+    async generateStockProductsReport(categoryId: number) {
+        this.adminService.getStockProductsReportData(categoryId).subscribe({
+            next: async (response: any[]) => {
+                this.productStockReport = response;
+                if (this.productStockReport.length > 0) {
+                    const productTableBody = [
+                        [
+                            { text: 'Product Name', style: 'tableHeader' },
+                            { text: 'Current stock', style: 'tableHeader' },
+                            { text: 'Selling Price', style: 'tableHeader' },
+                            { text: 'Tva', style: 'tableHeader' },
+                            { text: 'Stock limit', style: 'tableHeader' },
+                            { text: 'Stock value', style: 'tableHeader' },
+                        ],
+                    ];
+
+                    this.productStockReport.forEach((product) => {
+                        productTableBody.push([
+                            { text: `${product.name}`, style: '' },
+                            { text: `${product.currentStock} ${product.uniteMeasure}`, style: '' },
+                            { text: `${product.unit_price} $`, style: '' },
+                            { text: `${product.tva}%`, style: '' },
+                            { text: `${product.stockLimit}`, style: '' },
+                            { text: `${(product.unit_price * product.unit_price).toFixed(2)}$`, style: '' },
+                        ]);
+                    });
+
+                    const logoBase64 = await this.imageService.convertImageToBase64(
+                        '../assets/images/sdbar-high-resolution-logo-black-transparent.png',
+                    );
+                    const date = new Date();
+                    const formattedDate = this.sharedService.convertDateToYYMMDDHHMMSS(date);
+
+                    const docDefinition: any = {
+                        content: [
+                            { image: logoBase64, width: 70, height: 40, alignment: 'left' },
+                            { text: 'Stock Products Report', style: 'header',margin: [0,10,0,20], alignment: 'center' },
+                            { text: `Category name: ${this.productStockReport[1].categoryName}`, style: 'normal', alignment: '' },
+                            { text: `Created date: ${formattedDate}`, style: 'normal', margin: [0,0,0,20] },
+                            {
+                                style: 'table',
+                                table: {
+                                    widths: [100, 90, 80, 35, 70, 80],
+                                    body: productTableBody,
+                                },
+                            },
+                        ],
+                        styles: {
+                            header: { fontSize: 30, bold: 'true' },
+                            normal: { fontSize: 16, bold: 'false',margin:[0,5,0,5] },
+                            tableHeader: { bold: true, fontSize: 14, color: 'black' },
+                            table: { margin: [0, 5, 0, 15] },
+                        },
+                    };
+                    pdfMake.createPdf(docDefinition).open();
+                }
+                console.log(this.productStockReport);
+            },
+            error: (e) => {
+                console.log(e);
+            },
+        });
+    }
 }

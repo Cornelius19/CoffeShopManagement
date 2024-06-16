@@ -41,7 +41,7 @@ import { ReportsComponent } from './reports/reports.component';
     DataTablesModule,
     FontAwesomeModule,
     AdminRoutingModule,
-    SharedModule
+    SharedModule,
   ]
 })
 export class AdminModule { }
