@@ -1,0 +1,72 @@
+.container-main {
+    height: 900px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.container-cart {
+    background-color: rgba(189, 189, 189, 0.379);
+    z-index: 999;
+    height: 600px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+p {
+    font-family: 'Roboto';
+}
+strong {
+    font-family: 'RobotoBold';
+}
+
+.card:hover {
+    background-color: rgb(170, 170, 170);
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Custom scrollbar for Firefox */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
+
+.custom-hr {
+    border: 0; 
+    height: 5px; 
+    background-color: #000000; 
+    margin: 20px 0; 
+}
+
+.short-input {
+    width: 3em; 
+}
+
+.bottom-button {
+    position: absolute;
+    bottom: 10px; /* Adjust this value as needed for spacing */
+
+    transform: translateX(+10%); /* Center the button horizontally */
+    z-index: 100; /* Ensure the button is above other content */
+}
+.out-of-stock{
+    background-color: rgba(255, 204, 204, 0.833);
+}

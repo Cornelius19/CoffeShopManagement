@@ -1,0 +1,38 @@
+<div class="container ">
+    <h2 class="text-center">Stock balancing</h2>
+    <p class="text-center">Please submit this form only in cases of product wasting!</p>
+    <div class="col-lg-6 col-sm-12 mx-auto acrylic shadow">
+        <form [formGroup]="stockBalanceForm" (submit)="createBalanceStock()">
+            <div class="form-floating mb-3">
+                <select class="selectpicker form-select" formControlName="productId" id="productId">
+                    @for (item of allProducts; track item) {
+                        <option [value]="item.id">{{item.id}}. {{item.name}} -- {{item.quantity}}</option>
+                    }
+                </select>
+                <label for="productId">Select a product</label>
+                @if (isSubmitted && stockBalanceForm.get('productId')?.errors) {
+                    <span class="text-danger">Please select a product</span>
+                }
+            </div>
+            <div class="form-floating mb-3">
+                <select class="selectpicker form-select" formControlName="remove_categoryId" id="remove_categoryId">
+                    @for (item of categories; track item) {
+                        <option [value]="item.removeCategoryId">{{item.removeCategoryId}}. {{item.removeCategoryName.toUpperCase()}}</option>
+                    }
+                </select>
+                <label for="remove_categoryId">Select remove category</label>
+                @if (isSubmitted && stockBalanceForm.get('remove_categoryId')?.errors) {
+                    <span class="text-danger">Please select a category</span>
+                }
+            </div>
+            <div class="form-floating mb-3">
+                <input min="1" class="form-control" type="number" formControlName="remove_quantity" id="remove_quantity">
+                <label for="remove_quantity">Quantity to remove from stock</label>
+                @if (isSubmitted && stockBalanceForm.get('remove_quantity')?.errors) {
+                    <span class="text-danger">Please enter a quantity</span>
+                }
+            </div>
+            <button type="submit" class="col-12 btn btn-dark btn-lg">Submit</button>
+        </form>
+    </div>
+</div>

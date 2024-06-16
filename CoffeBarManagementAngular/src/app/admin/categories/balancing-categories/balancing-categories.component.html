@@ -1,0 +1,38 @@
+<div class="container ">
+    <div class="container mx-auto col-6 acrylic shadow">
+        <h3 class="text-center">Balance categories</h3>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-bordered">
+            <thead class="text-center">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Modify</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (category of productCategories; track category) {
+                <tr>
+                    <td>
+                        {{ category.removeCategoryId }}
+                    </td>
+                    <td>
+                        {{ category.removeCategoryName }}
+                    </td>
+                    <td style="text-align: center">
+                        <span (click)="modifyCategory(category.removeCategoryId, category.removeCategoryName)" style="cursor: pointer"
+                            ><fa-icon [icon]="faEdit"></fa-icon
+                        ></span>
+                    </td>
+                    <td style="text-align: center">
+                        <span (click)="deleteCategory()" style="cursor: pointer"><fa-icon [icon]="faTrashCan"></fa-icon></span>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <div class="col-8">
+            <button class="btn btn-primary btn-lg mt-3" (click)="addNewBalanceCategory()">Add a new balance category</button>
+        </div>
+    </div>
+</div>

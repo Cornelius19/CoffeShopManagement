@@ -1,0 +1,35 @@
+<div class="modal-header bg-primary">
+    <h5 class="modal-title pull-center" style="color: white">Complete the form please!</h5>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="formGroup" (submit)="modifyCategory()">
+        <div class="form-floating mb-3">
+            <input
+                class="form-control"
+                type="text"
+                formControlName="categoryName"
+                id="name"
+                placeholder="Category name"
+                [class.is-invalid]="isSubmitted && formGroup.get('categoryName')?.errors"
+            />
+            <label for="categoryName">Category name</label>
+            <span class="text-danger" *ngIf="isSubmitted && formGroup.get('categoryName')?.hasError('required')"> Category name is required </span>
+        </div>
+        <span>This category is for menu items?</span>
+        <div class="col form-check mt-2">
+            <input checked class="form-check-input" type="radio" [value]="true" formControlName="availableMenu" id="availableMenu1" />
+            <label class="form-check-label" for="availableMenu1"> Yes </label>
+        </div>
+        <div class="col form-check mb-1">
+            <input checked class="form-check-input" type="radio" [value]="false" formControlName="availableMenu" id="availableMenu2" />
+            <label class="form-check-label" for="availableMenu2"> No </label>
+        </div>
+        <div class="mb-3">
+            <span class="text-danger" *ngIf="isSubmitted && formGroup.get('availableMenu')?.hasError('required')"> Select yes or no please! </span>
+        </div>
+        <button type="submit" class="btn btn-primary">Modify category</button>        
+    </form>
+</div>

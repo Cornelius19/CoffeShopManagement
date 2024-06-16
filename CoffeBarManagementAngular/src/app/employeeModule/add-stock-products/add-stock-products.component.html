@@ -1,0 +1,28 @@
+<div class="container">
+    <h1 class="text-center mb-3">Add products quantities in stock</h1>
+    <div class="col-lg-6 col-sm-12 acrylic shadow mx-auto mt-3">
+        <form>
+            <form [formGroup]="formGroup" (submit)="addQuantity()">
+                <div class="form-floating mb-3">
+                    <select class="selectpicker form-select" formControlName="productId" id="productId">
+                        @for (item of allProducts; track item) {
+                            <option [value]="item.id">{{item.id}}. {{item.name}} -- {{item.quantity}}</option>
+                        }
+                    </select>
+                    <label for="productId">Select a product</label>
+                    @if (isSubmitted && formGroup.get('productId')?.errors) {
+                        <span class="text-danger">Please select a product</span>
+                    }
+                </div>
+                <div class="form-floating mb-3">
+                    <input min="1" class="form-control" type="number" formControlName="added_quantity" id="added_quantity">
+                    <label for="added_quantity">Quantity to add to the stock</label>
+                    @if (isSubmitted && formGroup.get('added_quantity')?.errors) {
+                        <span class="text-danger">Please enter a quantity</span>
+                    }
+                </div>
+                <button type="submit" class="col-12 btn btn-dark btn-lg">Submit</button>
+            </form>
+        </form>
+    </div>
+</div>
