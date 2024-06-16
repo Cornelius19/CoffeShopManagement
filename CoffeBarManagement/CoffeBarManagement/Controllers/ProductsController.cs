@@ -260,17 +260,18 @@ namespace CoffeBarManagement.Controllers
 
         [Authorize(Roles = ("Admin,POS"))]
         [HttpGet("get-all-products-stockbalance")]
-        public async Task<List<GetProductComponentDto>> GetAllProducts()
+        public async Task<List<StockBalanceProductsDto>> GetAllProducts()
         {
-            var list = new List<GetProductComponentDto>();
+            var list = new List<StockBalanceProductsDto>();
             var result =  await _applicationContext.Products.Where(q=> q.ComplexProduct == false).ToListAsync();
             if (result.Count > 0) {
                 foreach(var item in result)
                 {
-                    var productToAadd = new GetProductComponentDto
+                    var productToAadd = new StockBalanceProductsDto
                     {
                         name = item.Name,
                         id = item.ProductId,
+                        quantity = item.Quantity,
                     };
                     list.Add(productToAadd);
                 }
@@ -281,6 +282,18 @@ namespace CoffeBarManagement.Controllers
                 return null;
             }
             
+        }
+
+
+        [Authorize(Roles = "Admin, POS")]
+        [HttpPost("add-stock-quantity/{productId}/{quantity}")]
+        public async Task<IActionResult> AddStockQuantity(int productId, int quantity)
+        {
+            var productDetails = await _applicationContext.Products.FindAsync(productId);
+            if (productDetails == null) { return NotFound(new JsonResult(new { message = "Such a product doesn't exist in db :(" })); }
+            productDetails.Quantity += quantity;
+            await _applicationContext.SaveChangesAsync();
+            return Ok(new JsonResult(new { message = "Product quantity succeffuly modified!" }));
         }
     }
 }

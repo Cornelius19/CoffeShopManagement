@@ -727,7 +727,7 @@ namespace CoffeBarManagement.Controllers
         }
 
         [Authorize(Policy = "CheckOpenStatus")]
-        [Authorize(Roles = "Employee,Client")]
+        [Authorize(Roles = "Employee,Client,POS")]
         [HttpGet("get-order-note-data/{orderId}")]
         public async Task<GetNoteDataDto> GetOrderNoteData(int orderId)
         {
@@ -800,7 +800,7 @@ namespace CoffeBarManagement.Controllers
         }
 
         [Authorize(Policy = "CheckOpenStatus")]
-        [Authorize(Roles = "Employee")]
+        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpGet("get-receipt-data/{orderId}")]
         public async Task<GetReceiptDataDto> GetReceiptData(int orderId)
         {
@@ -862,7 +862,7 @@ namespace CoffeBarManagement.Controllers
             var tableDetails = await _applicationContext.Tables.FindAsync(orderDetails.TableId);
             if(orderDetails == null) return NotFound();
             orderDetails.OrderStatus = 5;
-            tableDetails.TableStatus = false;
+            if (tableDetails != null) { tableDetails.TableStatus = false; }
             await _applicationContext.SaveChangesAsync();
             return Ok(new JsonResult(new { message = "Order was canceled, please add back the cancelled quantities in stock! !" }));
 

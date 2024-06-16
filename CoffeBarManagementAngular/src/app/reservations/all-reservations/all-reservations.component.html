@@ -28,11 +28,11 @@
     </tbody>
 </table> -->
 
-<div class="container acrylic shadow">
+<div class="container ">
     <h3 class="text-center">Reservation history</h3>
-    <div class="row justify-content-center">
+    <div class="col-lg-6 col-sm-12 mx-auto mt-3 acrylic shadow">
         @for (reservation of allReservations; track $index) {
-        <div class="col-md-4 col-sm-12 mt-3 mb-5">
+        <div class="col-md-4 col-sm-12 mt-3 mb-5 mx-auto">
             <h6>{{$index+1}}.Reservation id: #{{reservation.reservationId}}</h6>
             <div style="margin-left: 5%;">
                 <h6>FirstName: {{reservation.firstName}}</h6>

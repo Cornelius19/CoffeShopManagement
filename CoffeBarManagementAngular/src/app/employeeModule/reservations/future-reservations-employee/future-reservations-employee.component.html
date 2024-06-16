@@ -1,13 +1,13 @@
 <div class="container ">
     <h3 class="text-center">Please select a date to see reservations!</h3>
-    <div class="row justify-content-center acrylic shadow">
-        <input class="col-md-4 col-sm-12 mt-3 " type="date" [(ngModel)]="startDate">
+    <div class="col-lg-6 col-sm-12 mx-auto acrylic shadow">
+        <input class="form-control col-lg-12 col-sm-12 mt-3 mx-auto " type="date" [(ngModel)]="startDate">
         <div class="v1"></div>
-        <button class="col-md-4 col-sm-12 mt-3 btn btn-warning ml-6" (click)="getFutureReservations()">Find by date</button>
+        <button class="col-lg-12 col-sm-12 mt-3 btn mx-auto btn-warning btn-lg ml-6" (click)="getFutureReservations()">Find by date</button>
     </div>
-    <div class="row justify-content-center">
+    <div class="col-lg-6 col-sm-12 mx-auto mt-3">
         @for (reservation of futureReservations; track $index) {
-        <div class="col-md-7 col-sm-12 mt-3">
+        <div class="col-lg-6 col-sm-12 mx-auto  acrylic shadow mt-3">
             <h6>{{$index+1}}.Reservation id: #{{reservation.reservationId}}</h6>
             <div style="margin-left: 5%;">
                 <h6>FirstName: {{reservation.firstName}}</h6>
@@ -22,7 +22,7 @@
                 }@else {
                     <h6 class="text-primary">Status: Confirmed</h6>
                 }
-                <button class="col-md-6 col-12 btn btn-danger  mb-2">Cancel</button>
+                <button (click)="cancelReservation(reservation.reservationId)" class="col-md-12 col-12 btn btn-danger btn-lg mb-2">Cancel</button>
             </div>
         </div>
         <hr>

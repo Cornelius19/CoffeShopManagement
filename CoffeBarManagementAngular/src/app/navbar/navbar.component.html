@@ -108,6 +108,9 @@
                         <li><a class="dropdown-item" routerLink="/admin/balancing-categories">Balancing categories</a></li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/reports" routerLinkActive="active"><strong>Reports</strong></a>
+                </li>
                 }
             </ul>
             @if (((accountService.user$ | async) !== null) && ((accountService.getUserRole() === roles.Employee1) || (accountService.getUserRole() ===

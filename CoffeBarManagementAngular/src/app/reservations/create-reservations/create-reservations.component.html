@@ -1,11 +1,11 @@
-<div class="d-flex justify-content-center acrylic shadow">
+<div class="d-flex justify-content-center ">
     <div class="col-12 col-lg-5">
         <main class="form-reservation">
             <div class="text-center mb-5">
                 <h3>Create your new reservation!</h3>
                 <p>For more complex reservations please call us! +4071666273</p>
             </div>
-            <form [formGroup]="reservationForm" (ngSubmit)="createReservation()">
+            <form [formGroup]="reservationForm" class="acrylic shadow" (ngSubmit)="createReservation()">
                 <div class="form-floating mb-3">
                     <input formControlName="guestNumber" type="number" max="10" min="1" placeholder="number" class="form-control"
                     [class.is-invalid]="isSubmitted && reservationForm.get('guestNumber')?.errors">

@@ -328,7 +328,17 @@ namespace CoffeBarManagement.Controllers
             return allReservationsToShow;
         }
 
+        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [HttpDelete("delete-reservation/{reservationId}")]
+        public async Task<IActionResult> DeleteReservationById(int reservationId)
+        {
+            var reservation = await _applicationContext.Reservations.FindAsync(reservationId);
+            if (reservation == null) { return NotFound(); }
+            _applicationContext.Reservations.Remove(reservation);
+            await _applicationContext.SaveChangesAsync();
+            return Ok(new JsonResult(new { message = "Reservation was deleted!" }));
 
+        }
 
         private bool CheckTablecapacity(int table_id, int capacity)
         {
@@ -371,6 +381,8 @@ namespace CoffeBarManagement.Controllers
             }
             return false;
         }
+
+
     }   
 
 }
