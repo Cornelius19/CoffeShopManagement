@@ -1,0 +1,35 @@
+@if(sharedService.posStatus == false){
+<div class="container acrylic shadow">
+    <h1 class="text-center">POS is closed!</h1>
+</div>
+}@else {
+<div class="container acrylic shadow text-center">
+    <h2>Tables orders</h2>
+    <div class="row">
+        @for (item of allTables; track item) {
+        <div class="col-lg-3 col-sm-12">
+            <div class="card mt-3" [class.free]="item.tableStatus == false" [class.not-free]="item.tableStatus == true" style="width: 18rem">
+                <div class="card-body">
+                    <h5 class="card-title">Table: {{ item.tableID }}</h5>
+                    @if (item.tableStatus == true) {
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Status: busy</h6>
+                    } @else {
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Status: free</h6>
+                    }
+                </div>
+                <div class="row p-3">
+                    @if(item.tableStatus == true){
+                    <button [routerLink]="['/employees', 'order-details', item.tableID]" class="btn btn-dark btn-lg">See order</button>
+                    <button (click)="changeTableStatus(item.tableID, false)" class="btn btn-success mt-3">Change to free</button>
+
+                    } @else {
+                    <button (click)="createOrder(item.tableID)" class="btn btn-dark btn-lg">Take order</button>
+                    <button (click)="changeTableStatus(item.tableID, true)" class="btn btn-danger mt-3">Change to busy</button>
+                    }
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+}

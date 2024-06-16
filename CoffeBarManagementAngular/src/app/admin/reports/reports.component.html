@@ -1,0 +1,18 @@
+<div class="container">
+    <h1 class="text-center">Here you can generate all available reports!</h1>
+    <div class="container col-6 acrylic shadow mb-3 mt-3">
+        <h5 class="text-center">Generate current stock report</h5>
+        <div class="col-8 form-floating mx-auto">
+            <select [(ngModel)]="categoryId" class="form-control" name="categoryId" id="categoryId">
+                <option [value]="0">All</option>
+                @for (item of allCategories; track item) {
+                <option [value]="item.categoryId">{{ item.categoryName }}</option>
+                }
+            </select>
+            <label for="categoryId">Select a category</label>
+        </div>
+        <div class="text-center mt-3 mx-auto">
+            <button (click)="generateStockProductsReport()" class="text-center btn btn-dark btn-lg">Generate report</button>
+        </div>
+    </div>
+</div>

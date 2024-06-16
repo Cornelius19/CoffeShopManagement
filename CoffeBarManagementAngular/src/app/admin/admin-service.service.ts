@@ -133,4 +133,8 @@ export class AdminService {
     addComplexProduct(model: AddComplexProduct) {
         return this.http.post(`${environment.appUrl}/api/products/add-new-product-complex`, model);
     }
+
+    getStockProductsReportData(categoryId: number){
+        return this.http.get<any[]>(`${environment.appUrl}/api/reports/get-stock-products-report/${categoryId}`);
+    }
 }

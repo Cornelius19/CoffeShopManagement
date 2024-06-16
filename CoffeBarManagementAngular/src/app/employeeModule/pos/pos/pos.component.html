@@ -1,0 +1,266 @@
+@if(sharedService.posStatus == false && accountService.getUserRole() === roles.Employee1){
+<div class="container acrylic shadow">
+    <h1 class="text-center">POS is closed!</h1>
+</div>
+} @else {
+<div class="row">
+    <div class="col-md-8 col-sm-12">
+        <!-- <div id="carouselExampleIndicators" class="carousel carousel-dark slide">
+            <div class="carousel-inner">
+                @for (slide of getSlides(); track $index) {
+                <div class="carousel-item" [class.active]="$index === 0">
+                    <div class="d-flex justify-content-center align-items-center" style="height: 100%">
+                        <div>
+                            @for (item of slide; track $index) {
+                            <button class="btn btn-dark mx-2 mt-2" (click)="getMenuProducts(item.categoryId)">{{ item.categoryName }}</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                }
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div> -->
+        <!-- <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-outline-dark btn-lg" (click)="getAllProducts()">All products</button>
+
+            @for (item of menuCategories; track $index) {
+
+            <button type="button" (click)="getMenuProducts(item.categoryId)" class="btn btn-outline-dark btn-lg">{{ item.categoryName }}</button>
+            }
+        </div> -->
+        <div class="row mb-2">
+            <div class="col-lg-3 col-sm-12">
+                <h3>Select table:</h3>
+            </div>
+            <div class="col-lg-5 col-sm-12">
+                <select [(ngModel)]="selectedValue" id="tableId" class="form-select">
+                    <option [value]="0" selected>Leave empty for no table needed</option>
+                    @for (table of allTables; track table) { @if (table.tableStatus == true) {
+                    <option [class.text-danger]="table.tableStatus == true" [value]="table.tableID">Table: {{ table.tableID }} Busy</option>
+                    }@else {
+                    <option [value]="table.tableID">Table: {{ table.tableID }} Free</option>
+                    } }
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                <select class="form-select" #selectMenu (change)="getProducts(selectMenu.value)" aria-label="Default select example">
+                    <option selected value="all">All categories</option>
+                    <option *ngFor="let item of menuCategories; let i = index" [value]="item.categoryId">{{ item.categoryName }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-12">
+        <div class="container d-flex justify-content-center">
+            @if ((accountService.user$ | async) !== null && accountService.getUserRole() === roles.Pos1) { @if (sharedService.posStatus == true) {
+            <button (click)="changeStatus(false)" class="col-6 btn btn-dark btn-lg p-2">Close POS</button>
+            } @else {
+            <button (click)="changeStatus(true)" class="col-6 btn btn-dark btn-lg p-2">Open POS</button>
+            } }
+        </div>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="container-main col-md-7 col-sm-12 acrylic shadow">
+        <div class="row">
+            <div class="col-10">
+                @if ( modifyOrderId != 0) { @if ((accountService.user$ | async) !== null && accountService.getUserRole() === roles.Pos1) {
+                <h3>MANAGER POS: order number {{ modifyOrderId }}</h3>
+                }@else {
+                <h3>POS: order number {{ modifyOrderId }}</h3>
+                } } @else { @if ((accountService.user$ | async) !== null && accountService.getUserRole() === roles.Pos1) {
+                <h3>MANAGER POS: new order</h3>
+                }@else {
+                <h3>POS: New order</h3>
+                } }
+            </div>
+            @if ( modifyOrderId != 0) {
+            <div class="col-2">
+                <button (click)="newOrder()" class="btn btn-dark">New order</button>
+            </div>
+            }
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="form-floating">
+                    <input
+                        class="form-control"
+                        id="search"
+                        [(ngModel)]="searchInput"
+                        (input)="showSearchResults()"
+                        type="text"
+                        placeholder="Search by name or id"
+                    />
+                    <label for="search">Search by name or id</label>
+                </div>
+            </div>
+        </div>
+        <div class="row col-sm-12 col-md-12">
+            @for (item of menuProducts; track $index) {
+            <div class="container col-md-4 col-sm-12 mt-3">
+                <div
+                    class="card"
+                    [class.out-of-stock]="item.complexProduct == false && item.productAvailability == 0"
+                    (click)="addProductToCart(item.productId)"
+                    style="width: 16rem; cursor: pointer"
+                >
+                    <!-- <img src="../../../../assets/images/product6.jpg" class="card-img-top" alt="..." /> -->
+                    <div class="card-body">
+                        <p class="card-text">Product id: {{ item.productId }}</p>
+                        <p class="card-text">
+                            <strong>Name: {{ item.productName }}</strong>
+                        </p>
+                        <p class="card-text">Price: {{ item.productPrice | number : '1.2-2' | currency }}</p>
+                        @if (item.productAvailability > 0 || item.complexProduct == true ) { @if (item.productAvailability > 0) {
+                        <p class="card-text" [class.text-danger]="item.productAvailability < item.productSupplyCheck">
+                            CurrentStock: {{ item.productAvailability }}
+                        </p>
+                        } @else {
+                        <p class="card-text">Complex Product</p>
+                        } } @else {
+                        <p class="card-text text-danger">OUT OF STOCK</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            } @if (menuProducts.length == 0) { @for (item of allProducts; track $index) {
+            <div class="container col-lg-4 col-sm-4 mt-3">
+                <div
+                    class="card mx-auto "
+                    [class.out-of-stock]="item.complexProduct == false && item.productAvailability == 0"
+                    (click)="addProductToCart(item.productId)"
+                    style="width: 16rem; cursor: pointer"
+                >
+                    <!-- <img src="../../../../assets/images/product6.jpg" class="card-img-top" alt="..." /> -->
+                    <div class="card-body">
+                        <p class="card-text">Product id: {{ item.productId }}</p>
+                        <p class="card-text">
+                            <strong>Name: {{ item.productName }}</strong>
+                        </p>
+                        <p class="card-text">Price: {{ item.productPrice }}$</p>
+                        @if (item.productAvailability > 0 || item.complexProduct == true ) { @if (item.productAvailability > 0) {
+                        <p class="card-text" [class.text-danger]="item.productAvailability < item.productSupplyCheck">
+                            CurrentStock: {{ item.productAvailability }}
+                        </p>
+                        } @else {
+                        <p class="card-text">Complex Product</p>
+                        } } @else {
+                        <p class="card-text text-danger">OUT OF STOCK</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            } }
+        </div>
+    </div>
+    <div class="container col-md-4 col-sm-12 mt-1 acrylic shadow">
+        <!-- <div class="row">
+            <div class="col-3 p-2">
+                <strong>Select table:</strong>
+            </div>
+            <div class="col-9">
+                <select [(ngModel)]="selectedValue" id="tableId" class="form-select">
+                    <option [value]="0" selected>Leave empty for no table needed</option>
+                    <option [class.text-danger]="table.tableStatus == true" *ngFor="let table of allTables" [value]="table.tableID">
+                        Table: {{ table.tableID }}
+                    </option>
+                </select>
+            </div>
+        </div> -->
+
+        <div class="container-cart">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product name:</th>
+                        <th>Quantity:</th>
+                        <th>Total:</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @if (modifyOrderId != 0) {
+                    <tr *ngFor="let item of modifyCartProducts; let i = index">
+                        <td>
+                            <div class="p-1">
+                                {{ item.productName }}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <input class="form-control short-input" min="1" type="number" [(ngModel)]="item.quantity" name="quantity{{ i }}" />
+                                <div class="input-group-append p-1">
+                                    <button class="btn btn-outline-primary" (click)="changeQuantity(item.productId, item.quantity)">
+                                        <fa-icon [icon]="faEdit"></fa-icon>
+                                    </button>
+                                </div>
+                                <div class="input-group-append p-1">
+                                    <button class="btn btn-outline-danger" (click)="deleteItem(item.productId)">
+                                        <fa-icon [icon]="faTrashCan"></fa-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-1">
+                                {{ item.total | number : '1.2-2' | currency }}
+                            </div>
+                        </td>
+                    </tr>
+                    }@else {
+                    <tr *ngFor="let item of localStorageList; let i = index">
+                        <td>
+                            <div class="p-1">
+                                {{ item.productName }}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <input class="form-control short-input" min="1" type="number" [(ngModel)]="item.quantity" name="quantity{{ i }}" />
+                                <div class="input-group-append p-1">
+                                    <button class="btn btn-outline-primary" (click)="changeQuantity(item.productId, item.quantity)">
+                                        <fa-icon [icon]="faEdit"></fa-icon>
+                                    </button>
+                                </div>
+                                <div class="input-group-append p-1">
+                                    <button class="btn btn-outline-danger" (click)="deleteItem(item.productId)">
+                                        <fa-icon [icon]="faTrashCan"></fa-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-1">
+                                {{ item.total | number : '1.2-2' | currency }}
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <strong style="font-size: 28px">Total to pay: {{ totalToPay | number : '1.2-2' }}$</strong>
+
+        <div class="row text-center mt-5">
+            <div class="col-lg-6 col-sm-12 mb-4">
+                <button (click)="createOrder()" class="btn btn-dark btn-lg">Create, pay later</button>
+            </div>
+            <div class="col-lg-6 col-sm-12 mb-2">
+                <button (click)="createAndPay(selectedValue)" class="btn btn-dark btn-lg">Create and pay</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
