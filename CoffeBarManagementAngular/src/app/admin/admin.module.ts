@@ -17,6 +17,8 @@ import { AddNewBalanceCategoryComponent } from './formsModals/add-new-balance-ca
 import { ModifyBalanceCategoryComponent } from './formsModals/modify-balance-category/modify-balance-category.component';
 import { ModifyComplexProductComponent } from './formsModals/modify-complex-product/modify-complex-product.component';
 import { ReportsComponent } from './reports/reports.component';
+import { CreateNewEmployeeComponent } from './create-new-employee/create-new-employee.component';
+import { EmployeesDataComponent } from './employees-data/employees-data.component';
 
 
 
@@ -35,6 +37,8 @@ import { ReportsComponent } from './reports/reports.component';
     ModifyBalanceCategoryComponent,
     ModifyComplexProductComponent,
     ReportsComponent,
+    CreateNewEmployeeComponent,
+    EmployeesDataComponent,
   ],
   imports: [
     CommonModule,

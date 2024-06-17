@@ -1,0 +1,112 @@
+<div class="d-flex justify-content-center">
+    <!--d-flex and justify-content-center is for centered content in bootstrap 5 -->
+    <div class="col-sm-12 col-lg-5 acrylic shadow">
+        <main class="form-signin">
+            <form [formGroup]="registerForm" (ngSubmit)="registerEmployee()" autocomplete="false">
+                <div class="text-center mb-4">
+                    <h3 class="mb-3 font-weight-normal">Register new employee</h3>
+                </div>
+                <div class="form-floating mb-3">
+                    <input
+                        formControlName="firstName"
+                        id="firstName"
+                        type="text"
+                        placeholder="FirstName"
+                        class="form-control"
+                        [class.is-invalid]="submitted && registerForm.get('firstName')?.errors"
+                    />
+                    <label for="firstName">First Name</label>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('firstName')?.hasError('required')"> First Name is required </span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input
+                        formControlName="lastName"
+                        id="lastName"
+                        type="text"
+                        placeholder="LastName"
+                        class="form-control"
+                        [class.is-invalid]="submitted && registerForm.get('lastName')?.errors"
+                    />
+                    <label for="lastName">Last Name</label>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('lastName')?.hasError('required')"> Last Name is required </span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input
+                        formControlName="email"
+                        type="text"
+                        id="email"
+                        placeholder="Email"
+                        class="form-control"
+                        [class.is-invalid]="submitted && registerForm.get('email')?.errors"
+                    />
+                    <label for="email">Email</label>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('email')?.hasError('required')"> Email is required </span>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('email')?.hasError('pattern')"> Invalid email address </span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input
+                        formControlName="salary"
+                        id="salary"
+                        type="text"
+                        placeholder="salary"
+                        class="form-control"
+                        [class.is-invalid]="submitted && registerForm.get('salary')?.errors"
+                    />
+                    <label for="salary">Salary</label>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('salary')?.hasError('required')"> Salary is required </span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <select formControlName="employeeRole" id="employeeRole" class="form-select">
+                        <option value="Employee">Employee</option>
+                        <option value="POS">Manager</option>
+                    </select>
+                    <label for="employeeRole">Role</label>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('employeeRole')?.hasError('required')"> Role is required </span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input
+                        formControlName="password"
+                        id="password"
+                        type="text"
+                        placeholder="Password"
+                        class="form-control"
+                        [class.is-invalid]="submitted && registerForm.get('password')?.errors"
+                    />
+                    <label for="password">Password</label>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('password')?.hasError('required')"> Password is required </span>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('password')?.hasError('pattern')">
+                        Password must contain min 8 char, 1 uppercase, 1 lowercase, 1 special char, 1 number
+                    </span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input
+                        formControlName="repassword"
+                        id="repassword"
+                        type="text"
+                        placeholder="RePassword"
+                        class="form-control"
+                        [class.is-invalid]="submitted && registerForm.get('repassword')?.errors?.['mismatch']"
+                    />
+                    <label for="repassword">RePassword</label>
+                    <span
+                        class="text-danger"
+                        *ngIf="submitted &&
+                        registerForm.errors?.['passwordMatchError']"
+                    >
+                        Password doesn't match!
+                    </span>
+                </div>
+
+                <div class="d-grid mt-4 mb-4 px-1">
+                    <button class="btn btn-lg btn-dark" type="submit">Create new employee</button>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>

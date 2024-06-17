@@ -31,7 +31,7 @@ namespace CoffeBarManagement.Controllers
             var checkEmailExist = await _userManager.Users.AnyAsync(x => x.Email == model.Email.ToLower());
             if (checkEmailExist)
             {
-                return BadRequest($"An existing employee is using {model.Email}, email address. Please try with another email address!");
+                return BadRequest(new JsonResult(new { message =  $"An existing employee is using {model.Email}, email address. Please try with another email address!" }));
             }
 
             var userToAdd = new User
@@ -41,12 +41,11 @@ namespace CoffeBarManagement.Controllers
                 UserName = model.Email.ToLower(),
                 Email = model.Email.ToLower(),
                 EmailConfirmed = true,
-
             };
 
             var result = await _userManager.CreateAsync(userToAdd, model.Password);
 
-            await _userManager.AddToRoleAsync(userToAdd, Dependencis.EMPLOYEE_ROLE);
+            await _userManager.AddToRoleAsync(userToAdd, model.EmployeeRole);
 
             if (!result.Succeeded) return BadRequest(result.Errors);
 
@@ -64,7 +63,7 @@ namespace CoffeBarManagement.Controllers
 
 
 
-            return Ok("A new employee account has been created!");
+            return Ok(new JsonResult(new { message = "A new employee account has been created!" }));
         }
 
         [HttpGet("get-users")]
@@ -73,11 +72,21 @@ namespace CoffeBarManagement.Controllers
             return await _applicationContext.Clients.ToListAsync();
         }
 
-        [HttpGet("get-employees")]
-        public async Task<List<Employee>> GetAllEmployee()
-        {
-            return await _applicationContext.Employees.ToListAsync();
-        }
+        //[HttpGet("get-employees")]
+        //public async Task<List<GetEmployeesDto>> GetAllEmployee()
+        //{
+        //    var listToReturn = new List<GetEmployeesDto>();
+        //    var allEmployees = await _applicationContext.Employees.ToListAsync();
+        //    if (allEmployees.Count > 0)
+        //    {
+        //        foreach (var employee in allEmployees) {
+        //            var totalTakenOrder = await _applicationContext.Orders.Where(q => q.TakenEmployeeId == employee.EmployeeId).ToListAsync();
+        //            var totalDelieveredOrder = await _applicationContext.Orders.Where(q => q.DeliveredEmployeeId == employee.EmployeeId).ToListAsync();
+        //            var user = await _userManager.Users.FirstOrDefaultAsync(employee.UserId);
+        //        }
+        //    }
+        //}
+        
 
 
         [HttpDelete("delete-client/{id}")]

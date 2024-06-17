@@ -3,13 +3,13 @@
     <h1 class="text-center">POS is closed!</h1>
 </div>
 } @else {
-<div class="container acrylic shadow">
+<div class="container ">
     @if (activeOrder.length === 0) {
     <h3 class="text-center">There are no active orders!</h3>
     } @else {
     <h3 class="mb-3 text-center">{{ activeOrder.length }} active order/s!</h3>
     }
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-center">
         <div class="row mb-3">
             <div class="col-md-12 col-sm-12">
                 <div class="form-floating">
@@ -30,7 +30,7 @@
     <div class="row justify-content-center">
         @for (orderDetails of activeOrder; track orderDetails.orderId; let i = $index) {
 
-        <div class="col-md-6 col-sm-12 mb-4">
+        <div class="col-md-6 col-sm-12 mb-4 acrylic shadow">
             <h6>{{ i + 1 }}. Order number #{{ orderDetails.orderId }}</h6>
             <div style="margin-left: 2%">
                 <h6>- Date: {{ orderDetails.orderDate | date : 'medium' }}</h6>

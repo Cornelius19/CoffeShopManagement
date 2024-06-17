@@ -18,6 +18,7 @@ import { BalanceCategories } from '../shared/models/balanceCategories';
 import { AddComplexProductComponent } from './formsModals/add-complex-product/add-complex-product.component';
 import { AddComplexProduct } from '../shared/models/addComplexProduct';
 import { ModifyComplexProductComponent } from './formsModals/modify-complex-product/modify-complex-product.component';
+import { RegisterNewEmployeeDto } from '../shared/models/registerEmployeeDto';
 
 @Injectable({
     providedIn: 'root',
@@ -136,5 +137,9 @@ export class AdminService {
 
     getStockProductsReportData(categoryId: number){
         return this.http.get<any[]>(`${environment.appUrl}/api/reports/get-stock-products-report/${categoryId}`);
+    }
+
+    registerNewEmployee(model: RegisterNewEmployeeDto){
+        return this.http.post(`${environment.appUrl}/api/admin/register-employee`,model);
     }
 }

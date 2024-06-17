@@ -77,7 +77,7 @@ export class ReportPdfServiceService {
                     style: '',
                 },
                 {
-                    text: product.selledValue != null ? product.selledValue.toString() : '',
+                    text: product.selledValue != null ? product.selledValue.toFixed(2).toString() : '',
                     style: '',
                 },
             ]);
@@ -91,7 +91,7 @@ export class ReportPdfServiceService {
                 { text: `Requested date: ${requestDate}`, style: 'normal' },
                 { text: `Finished Orders: ${report.finishedOrdersCounter}`, style: 'subheader' },
                 { text: `Canceled Orders: ${report.canceledOrdersCounter}`, style: 'subheader' },
-                { text: `Total orders value: ${report.totalOrdersValue} $`, style: 'header' },
+                { text: `Total orders value: ${report.totalOrdersValue.toFixed(2)} $`, style: 'header' },
                 { text: 'Employees Orders', style: 'subheader' },
                 {
                     style: 'table',
@@ -275,9 +275,10 @@ export class ReportPdfServiceService {
                             { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 270, y2: 0, lineWidth: 1 }] },
 
                             {
-                                text: `Total amount received: ${this.posCloseFiscalReport.totalOrdersValue} $`,
+                                text: `Total amount received: ${this.posCloseFiscalReport.totalOrdersValue.toFixed(2)} $`,
                                 style: 'subheader',
-                                margin: [0, 20, 0, 0],
+                                margin: [0, 20, 0, 20],
+                                alignment: 'right',
                             },
                             { text: `Closing day date:`, style: ['normal', 'center'] },
                             { text: `${createdAt}`, style: ['normal', 'center'] },
@@ -340,9 +341,9 @@ export class ReportPdfServiceService {
                     const docDefinition: any = {
                         content: [
                             { image: logoBase64, width: 70, height: 40, alignment: 'left' },
-                            { text: 'Stock Products Report', style: 'header',margin: [0,10,0,20], alignment: 'center' },
+                            { text: 'Stock Products Report', style: 'header', margin: [0, 10, 0, 20], alignment: 'center' },
                             { text: `Category name: ${this.productStockReport[1].categoryName}`, style: 'normal', alignment: '' },
-                            { text: `Created date: ${formattedDate}`, style: 'normal', margin: [0,0,0,20] },
+                            { text: `Created date: ${formattedDate}`, style: 'normal', margin: [0, 0, 0, 20] },
                             {
                                 style: 'table',
                                 table: {
@@ -353,14 +354,14 @@ export class ReportPdfServiceService {
                         ],
                         styles: {
                             header: { fontSize: 30, bold: 'true' },
-                            normal: { fontSize: 16, bold: 'false',margin:[0,5,0,5] },
+                            normal: { fontSize: 16, bold: 'false', margin: [0, 5, 0, 5] },
                             tableHeader: { bold: true, fontSize: 14, color: 'black' },
                             table: { margin: [0, 5, 0, 15] },
                         },
                     };
                     pdfMake.createPdf(docDefinition).open();
                 }
-                console.log(this.productStockReport);
+                //console.log(this.productStockReport);
             },
             error: (e) => {
                 console.log(e);

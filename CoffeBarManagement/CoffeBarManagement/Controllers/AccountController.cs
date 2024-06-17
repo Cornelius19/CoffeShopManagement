@@ -96,6 +96,9 @@ namespace CoffeBarManagement.Controllers
 
             return Ok(new JsonResult(new {title = "Account created", message = "Your account was created!"}));
         }
+
+
+
         private async Task<UserDto> CreateApplicationUserDto(User user)
         {
             // Generate JWT token asynchronously

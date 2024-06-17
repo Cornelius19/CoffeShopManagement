@@ -16,6 +16,9 @@ namespace CoffeBarManagement.DTOs.Account
         public double Salary { get; set; }
 
         [Required]
+        public string EmployeeRole { get; set; }
+
+        [Required]
         [StringLength(30, MinimumLength = 6, ErrorMessage = "Password must be at least {2}, and maximum {1} characters")]
         public string Password { get; set; }
     }
