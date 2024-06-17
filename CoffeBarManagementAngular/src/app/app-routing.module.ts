@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './shared/components/errors/not-found/not-found.component';
 import { RoleGuard } from './shared/guards/authorization.guard';
 import { Roles } from '../dependencies/roles';
+import { AccountDetailsComponent } from './account-details/account-details.component';
 
 const routes: Routes = [
     //client paths
@@ -38,6 +39,12 @@ const routes: Routes = [
         loadChildren: () => import('./admin/admin.module').then((module) => module.AdminModule),
         canActivate: [RoleGuard],
         data: { roles: [Roles.Admin] },
+    },
+    {
+        path: 'account-details',
+        component: AccountDetailsComponent,
+        canActivate: [RoleGuard],
+        data: { roles: [Roles.Admin,Roles.Client,Roles.Employee] },
     },
 
     //shared paths

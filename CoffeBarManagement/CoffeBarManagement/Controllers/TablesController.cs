@@ -31,7 +31,7 @@ namespace CoffeBarManagement.Controllers
             };
             await _applicationContext.AddAsync<Table>(tableToAdd);
             await _applicationContext.SaveChangesAsync();
-            return Ok("Table was succseffuly added!");
+            return Ok(new JsonResult(new { message = "Table was succseffuly added!" }));
         }
 
         [Authorize(Roles = Dependencis.ADMIN_ROLE)]
@@ -45,7 +45,7 @@ namespace CoffeBarManagement.Controllers
             }
             result.Capacity = model.Capacity;
             await _applicationContext.SaveChangesAsync();
-            return Ok($"New capacity for the table {tableId} is {model.Capacity} :D");
+            return Ok(new JsonResult(new { message = $"New capacity for the table {tableId} is {model.Capacity} :D" }));
         }
 
         [Authorize]
@@ -78,6 +78,32 @@ namespace CoffeBarManagement.Controllers
             result.TableStatus = model.TableStatus;
             await _applicationContext.SaveChangesAsync();
             return Ok(new JsonResult( new { message = "Table status was changed!" } ));
+        }
+
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpDelete("delete-table/{tableId}")]
+        public async Task<IActionResult> DeleteTable(int tableId)
+        {
+            var table = await _applicationContext.Tables.FindAsync(tableId);
+            if (table == null) return NotFound(new JsonResult(new { message = "Table was not found" }));
+            var orders = await _applicationContext.Orders.Where(q => q.TableId == tableId).ToListAsync();
+            if (orders.Count > 0)
+            {
+                foreach (var order in orders)
+                {
+                    order.TableId = null;
+                    await _applicationContext.SaveChangesAsync();
+                }
+                _applicationContext.Remove(table);
+                await _applicationContext.SaveChangesAsync();
+                return Ok(new JsonResult(new { message = "Table was deleted and all orders with this table modified!" }));
+            }
+            else
+            {
+                _applicationContext.Remove(table);
+                await _applicationContext.SaveChangesAsync();
+                return Ok(new JsonResult(new { message = "Table was deleted and there were no orders with this table!" }));
+            }
         }
     }
 }

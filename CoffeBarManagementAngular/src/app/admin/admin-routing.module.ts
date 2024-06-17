@@ -7,6 +7,8 @@ import { BalancingCategoriesComponent } from './categories/balancing-categories/
 import { ReportsComponent } from './reports/reports.component';
 import { CreateNewEmployeeComponent } from './create-new-employee/create-new-employee.component';
 import { EmployeesDataComponent } from './employees-data/employees-data.component';
+import { UsersComponent } from './users/users.component';
+import { TablesComponent } from './tables/tables.component';
 
 const routes : Routes = [
   {path:'dashboard', component: Dashboard1Component},
@@ -15,7 +17,9 @@ const routes : Routes = [
   {path:'balancing-categories', component: BalancingCategoriesComponent},
   {path:'reports', component: ReportsComponent},
   {path:'create-employee', component: CreateNewEmployeeComponent},
-  {path:'employees-data', component: EmployeesDataComponent}
+  {path:'employees-data', component: EmployeesDataComponent},
+  {path:'clients', component: UsersComponent},
+  {path:'tables', component: TablesComponent}
 ]
 
 @NgModule({

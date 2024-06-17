@@ -52,6 +52,7 @@ namespace CoffeBarManagement.Controllers
                 return Unauthorized(new JsonResult(new {title = "Error", message = "Invalid email or password!"}));
             }
             if (user.EmailConfirmed == false) return Unauthorized("Please confirm your email");
+            if (user.LockoutEnabled == false) return Unauthorized(new JsonResult(new { title = "Account blocked!", message = "Your account has been blocked!" }));
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
             if (!result.Succeeded) return Unauthorized(new JsonResult(new { title = "Error", message = "Invalid email or password!" }));
@@ -89,6 +90,7 @@ namespace CoffeBarManagement.Controllers
                 Email = model.Email.ToLower(),
                 PhoneNumber = model.PhoneNumber.ToLower(),
                 UserId = userToAdd.Id,
+                Lock = false,
             };
             
             _applicationContext.Clients.Add(userToAddInClient);

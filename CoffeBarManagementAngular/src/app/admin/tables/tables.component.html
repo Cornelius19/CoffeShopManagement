@@ -1,0 +1,47 @@
+<div class="container ">
+    <div class="container mx-auto col-6 acrylic shadow">
+        <h3 class="text-center">All tables</h3>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="center table  justify-content-center table-hover table-bordered">
+            <thead >
+                <tr >
+                    <th style="text-align: center" >Table id</th>
+                    <th style="text-align: center">Capacity</th>
+                    <th style="text-align: center">Table status</th>
+                    <th style="text-align: center">Modify</th>
+                    <th style="text-align: center">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (table of allTables; track table) {
+                <tr>
+                    <td style="text-align: center">
+                        {{ table.tableID }}
+                    </td>
+                    <td style="text-align: center">
+                        {{ table.capacity }}
+                    </td >
+                    <td style="text-align: center">
+                        @if (table.tableStatus == false) {
+                            Free
+                        }@else {
+                            Busy
+                        }
+                        
+                    </td>
+                    <td style="text-align: center">
+                        <button (click)="adminService.showModifyTable(table.tableID,table.capacity,true)" class="btn btn-outline-dark"  style="cursor: pointer"
+                            ><fa-icon [icon]="faEdit"></fa-icon
+                        ></button>
+                    </td>
+                    <td style="text-align: center">
+                        <button class="btn btn-outline-danger" (click)="deleteTable(table.tableID)" style="cursor: pointer"><fa-icon [icon]="faTrashCan"></fa-icon></button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <div class="col-8">
+            <button class="btn btn-dark btn-lg mt-3" (click)="adminService.showAddNewTable(0,false)">Add a new table</button>
+        </div>
+    </div>
+</div>

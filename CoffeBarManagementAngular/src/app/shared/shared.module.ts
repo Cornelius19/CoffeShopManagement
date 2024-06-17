@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NotificationComponent } from './components/errors/models/notification/notification.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ConfirmationModalComponent } from './components/errors/models/confirmation-modal/confirmation-modal.component';
 
 
 
@@ -14,6 +15,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   declarations: [
     NotFoundComponent,
     NotificationComponent,
+    ConfirmationModalComponent,
   ],
   imports: [
     CommonModule,

@@ -8,10 +8,10 @@ namespace CoffeBarManagement.DTOs.Account
         public string FirstName { get; set; }
         public string LastName { get; set; }       
         public string Email { get; set; }
-        public double Salary { get; set; }
+        public double? Salary { get; set; }
         public string EmployeeRole { get; set; }
-        public int TotalCreatedOrders { get; set; }
-        public int TotalDelieveredOrders { get; set; }
-
+        public int? TotalCreatedOrders { get; set; }
+        public int? TotalDelieveredOrders { get; set; }
+        public bool? Lock { get; set; }
     }
 }
