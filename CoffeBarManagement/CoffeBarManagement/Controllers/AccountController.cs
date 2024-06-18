@@ -39,6 +39,10 @@ namespace CoffeBarManagement.Controllers
         public async Task<ActionResult<UserDto>> RefreshUserToken()
         {
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.Email)?.Value);
+            if (user.LockoutEnabled == false)
+            {
+                return Unauthorized(new JsonResult(new { message = "Your account has been blocked!" }));
+            }
             return await CreateApplicationUserDto(user);
         }
 
@@ -49,7 +53,7 @@ namespace CoffeBarManagement.Controllers
             var user = await _userManager.FindByNameAsync(model.Email);
             if (user == null)
             {
-                return Unauthorized(new JsonResult(new {title = "Error", message = "Invalid email or password!"}));
+                return Unauthorized(new JsonResult(new { title = "Error", message = "Invalid email or password!" }));
             }
             if (user.EmailConfirmed == false) return Unauthorized("Please confirm your email");
             if (user.LockoutEnabled == false) return Unauthorized(new JsonResult(new { title = "Account blocked!", message = "Your account has been blocked!" }));
@@ -92,12 +96,19 @@ namespace CoffeBarManagement.Controllers
                 UserId = userToAdd.Id,
                 Lock = false,
             };
-            
+
             _applicationContext.Clients.Add(userToAddInClient);
             await _applicationContext.SaveChangesAsync();
 
-            return Ok(new JsonResult(new {title = "Account created", message = "Your account was created!"}));
+            return Ok(new JsonResult(new { title = "Account created", message = "Your account was created!" }));
         }
+
+        //[Authorize]
+        //[HttpGet("get-user-details/{userId}")]
+        //public async Task<RegisterDto> GetUserDetails(int userId)
+        //{
+        //    var 
+        //}
 
 
 
@@ -116,6 +127,7 @@ namespace CoffeBarManagement.Controllers
             {
                 userId = employee.EmployeeId;
             }
+
             return new UserDto
             {
                 UserId = userId,

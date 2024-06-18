@@ -1,1 +1,47 @@
-<p>users works!</p>
+<div class="container">
+    <h1 class="text-center mb-3">Clients</h1>
+    <div class="container col-12 mx-auto acrylic shadow">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="center table justify-content-center table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th style="text-align: center">Id</th>
+                    <th style="text-align: center">First name</th>
+                    <th style="text-align: center">Last name</th>
+                    <th style="text-align: center">Email</th>
+                    <th style="text-align: center">Phone number</th>
+                    <th style="text-align: center">Finished orders</th>
+                    <th style="text-align: center">Orders value</th>
+                    <th style="text-align: center">Lock</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (client of clientsData; track client) {
+                <tr>
+                    <td>{{ client.clientId }}</td>
+                    <td>{{ client.firstName }}</td>
+                    <td>{{ client.lastName }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.phoneNumber }}</td>
+                    <td>{{ client.ordersCount }}</td>
+                    <td>{{ client.ordersValue | currency}}</td>
+                    @if (client.lock == false) {
+                        <td style="text-align: center">
+                            <span (click)="lockUnlockClients(client.clientId, true)"  class="btn btn-outline-primary" style="cursor: pointer">
+                                <fa-icon [icon]="faUnlock"></fa-icon>
+                            </span>
+                        </td>
+                    }
+                    @else {
+                        <td style="text-align: center">
+                        <span (click)="lockUnlockClients(client.clientId, false)" class="btn btn-outline-danger" style="cursor: pointer">
+                            <fa-icon [icon]="faLock"></fa-icon>
+                        </span>
+                    </td>
+                    }
+                    
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

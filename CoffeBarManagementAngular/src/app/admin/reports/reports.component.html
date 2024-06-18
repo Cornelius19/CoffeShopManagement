@@ -15,4 +15,28 @@
             <button (click)="generateStockProductsReport()" class="text-center btn btn-dark btn-lg">Generate report</button>
         </div>
     </div>
+    <div class="container col-6 acrylic shadow mb-3 mt-3">
+        <h5 class="text-center">Generate daily POS Closing Report</h5>
+        <div class="col-8 form-floating mx-auto">
+            <input class="form-control" type="date" [(ngModel)]="dateForPosClosingReport" id="posDate">
+            <label for="posDate">Select a day</label>
+        </div>
+        <div class="text-center mt-3 mx-auto">
+            <button (click)="getCloseStatusData(dateForPosClosingReport)" class="text-center btn btn-dark btn-lg">Generate report</button>
+        </div>
+    </div>
+    <div class="container col-6 acrylic shadow mb-3 mt-3">
+        <h5 class="text-center">Generate between 2 dates!</h5>
+        <div class="col-8 form-floating mx-auto mb-3">
+            <input class="form-control" type="date" [(ngModel)]="posClosingStartDate" id="startDate">
+            <label for="startDate">Start date</label>
+        </div>
+        <div class="col-8 form-floating mx-auto">
+            <input class="form-control" type="date" [(ngModel)]="posClosingEndDate" id="endDate">
+            <label for="endDate">End date</label>
+        </div>
+        <div class="text-center mt-3 mx-auto">
+            <button (click)="getCloseStatusDataBetweenDates(posClosingStartDate,posClosingEndDate)" class="text-center btn btn-dark btn-lg">Generate report</button>
+        </div>
+    </div>
 </div>

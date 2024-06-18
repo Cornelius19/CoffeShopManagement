@@ -36,6 +36,8 @@ export class EmployeesDataComponent implements OnInit {
         next: (response:any) => {
           this.employeeData = response;
           this.dtTrigger.next(null);
+          console.log(this.employeeData);
+          
           
         },
         error: e => {

@@ -3,6 +3,7 @@ import { Chart,registerables } from 'chart.js';
 import { AdminService } from '../admin-service.service';
 import { OrdersStatisticsByMonth } from '../../shared/models/Reports/ordersByMonthsStatistics';
 import { CurrencyPipe } from '@angular/common';
+import { EmployeesOrdersDay } from '../../shared/models/PosReport/EmployeesOrdersDay';
 
 @Component({
     selector: 'app-dashboard1',
@@ -18,19 +19,20 @@ export class Dashboard1Component implements OnInit {
 
   ordersStatistics: OrdersStatisticsByMonth[] = [];
   months: string[] = [];
+  names: string[] = [];
+  takenOrders: number[] = [];
+  delieveredOrders: number[] = [];
   ordersCounter: number[] = [];
   ordersValue: number[] = [];
+  employeeOrders: EmployeesOrdersDay[] = [];
 
   ngOnInit(): void {
     this.getOrdersByMonthStatistics();
+    this.getEmployeesOrders();
     //this.createChart();
   }
 
-  createChart(): void {
-    let months: string[] = [];
-    this.ordersStatistics.forEach((obj) => {
-      months.push(obj.month)
-    });
+  createOrdersChart(): void {
     const ctx = document.getElementById('myChart1') as HTMLCanvasElement;
     new Chart(ctx, {
       type: 'line',
@@ -64,6 +66,40 @@ export class Dashboard1Component implements OnInit {
     });
   }
 
+  createEmployeesChart(): void {
+    const ctx = document.getElementById('myChart2') as HTMLCanvasElement;
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: this.names,
+        datasets: [
+          {
+            label: 'Taken orders',
+            data: this.takenOrders,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Delievered orders',
+            data: this.delieveredOrders,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
 
   getOrdersByMonthStatistics(){
     this.adminService.getOrdersByMonthsStatistic().subscribe({
@@ -74,11 +110,30 @@ export class Dashboard1Component implements OnInit {
           this.ordersCounter.push(obj.ordersCounter);
           this.ordersValue.push(obj.ordersValue);
         });     
-        this.createChart();   
+        this.createOrdersChart();   
       },
       error: e=> {
         console.log(e);
         
+      }
+    });
+  }
+
+  getEmployeesOrders(){
+    this.adminService.getEmployeesOrders().subscribe({
+      next: (response:any) => {
+        this.employeeOrders =response;
+        console.log(this.employeeOrders);
+        
+        this.employeeOrders.forEach((obj) => {
+          this.names.push(obj.name);
+          this.takenOrders.push(obj.takenOrders);
+          this.delieveredOrders.push(obj.delieveredOrders);
+        });    
+        this.createEmployeesChart();
+      },
+      error : e=> {
+        console.log(e);
       }
     });
   }

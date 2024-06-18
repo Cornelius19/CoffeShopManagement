@@ -44,9 +44,6 @@ namespace CoffeBarManagement.Controllers
 
         }
 
-
-
-
         [Authorize(Roles = "Admin,POS")]
         [HttpPut("change-status-pos/{status}")]
         public async Task<IActionResult> OpenPos(bool status)
@@ -210,7 +207,6 @@ namespace CoffeBarManagement.Controllers
             }
         }
 
-
         [Authorize(Roles = "Admin,POS")]
         [HttpGet("pos-closing-fiscal-report")]
         public async Task<PosClosingFiscalReport> GetFiscalReportData()
@@ -260,6 +256,95 @@ namespace CoffeBarManagement.Controllers
                 return new PosClosingFiscalReport();
             }
 
+        }
+
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpGet("pos-closing-report-between-dates/{startDate}/{endDate}")]
+        public async Task<PosClosingReportDto> GetPosClosingReport(DateTime startDate, DateTime endDate)
+        {
+            DateTime start = startDate.Date;
+            DateTime end = endDate.Date.AddDays(1).AddTicks(-1); // Include the entire end date
+
+            double? totalOrdersValue = 0;
+            var currentDate = DateTime.UtcNow;
+            var organization = await _applicationContext.Organizations.FindAsync(1);
+
+            // Get all orders within the date range
+            var orders = await _applicationContext.Orders
+                .Where(q => q.OrderDate.HasValue &&
+                            q.OrderDate.Value >= start &&
+                            q.OrderDate.Value <= end)
+                .ToListAsync();
+
+            var finishedOrders = orders.Where(q => q.OrderStatus == 4).ToList();
+            var cancelledOrders = orders.Where(q => q.OrderStatus == 5).ToList();
+
+            if (!finishedOrders.Any() && !cancelledOrders.Any())
+            {
+                return new PosClosingReportDto();
+            }
+
+            var orderIds = finishedOrders.Select(o => o.OrderId).ToList();
+            var orderProducts = await _applicationContext.OrderProducts
+                .Where(q => orderIds.Contains(q.OrderId))
+                .ToListAsync();
+
+            foreach (var product in orderProducts)
+            {
+                totalOrdersValue += product.UnitPrice * product.Quantity;
+            }
+
+            var employees = await _applicationContext.Employees.ToListAsync();
+            var employeeDataList = new List<EmployeeOrdersDto>();
+
+            foreach (var employee in employees)
+            {
+                var takenOrdersCount = orders.Count(q => q.TakenEmployeeId == employee.EmployeeId);
+                var deliveredOrdersCount = orders.Count(q => q.DeliveredEmployeeId == employee.EmployeeId);
+
+                var employeeToAdd = new EmployeeOrdersDto
+                {
+                    Name = $"{employee.LastName} {employee.FirstName}",
+                    TakenOrders = takenOrdersCount,
+                    DelieveredOrders = deliveredOrdersCount
+                };
+                employeeDataList.Add(employeeToAdd);
+            }
+
+            var productsData = new List<ProductSellPerDayDto>();
+            var products = await _applicationContext.Products.Where(q => q.AvailableForUser == true).ToListAsync();
+
+            foreach (var product in products)
+            {
+                var soldProducts = orderProducts.Where(op => op.ProductId == product.ProductId).ToList();
+                var soldQuantity = soldProducts.Sum(sp => sp.Quantity);
+                var soldValue = soldProducts.Sum(sp => sp.UnitPrice * sp.Quantity);
+
+                if (soldQuantity > 0)
+                {
+                    var productToAdd = new ProductSellPerDayDto
+                    {
+                        name = product.Name,
+                        selledQuantity = soldQuantity,
+                        selledValue = soldValue
+                    };
+                    productsData.Add(productToAdd);
+                }
+            }
+
+            var reportData = new PosClosingReportDto
+            {
+                Name = organization.Name,
+                CreatedAt = startDate,
+                ForDay = endDate, // Use start date for report reference
+                FinishedOrdersCounter = finishedOrders.Count,
+                CanceledOrdersCounter = cancelledOrders.Count,
+                TotalOrdersValue = totalOrdersValue,
+                EmployeesOrders = employeeDataList,
+                Products = productsData
+            };
+
+            return reportData;
         }
     }
     }

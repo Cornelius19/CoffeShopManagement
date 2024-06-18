@@ -31,16 +31,16 @@
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </span>
                     </td>
-                    @if (employee.lock == true) {
+                    @if (employee.lock == false) {
                         <td style="text-align: center">
-                            <span (click)="lockUnlockEmployee(employee.employeeId,false)" class="btn btn-outline-primary" style="cursor: pointer">
+                            <span (click)="lockUnlockEmployee(employee.employeeId,true)" class="btn btn-outline-primary" style="cursor: pointer">
                                 <fa-icon [icon]="faUnlock"></fa-icon>
                             </span>
                         </td>
                     }
                     @else {
                         <td style="text-align: center">
-                        <span (click)="lockUnlockEmployee(employee.employeeId,true)" class="btn btn-outline-danger" style="cursor: pointer">
+                        <span (click)="lockUnlockEmployee(employee.employeeId,false)" class="btn btn-outline-danger" style="cursor: pointer">
                             <fa-icon [icon]="faLock"></fa-icon>
                         </span>
                     </td>

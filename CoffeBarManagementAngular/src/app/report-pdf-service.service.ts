@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { auto } from '@popperjs/core';
+import { auto, end } from '@popperjs/core';
 import { PosClosedReport } from './shared/models/PosReport/PosCloseReport';
 import { ImageService } from './shared/ImageService';
 import { text } from '@fortawesome/fontawesome-svg-core';
@@ -89,6 +89,102 @@ export class ReportPdfServiceService {
                 { text: 'REPORT: Pos Closing ', style: ['header', 'center'] },
                 { text: `Created date: ${createdAt}`, style: 'normal' },
                 { text: `Requested date: ${requestDate}`, style: 'normal' },
+                { text: `Finished Orders: ${report.finishedOrdersCounter}`, style: 'subheader' },
+                { text: `Canceled Orders: ${report.canceledOrdersCounter}`, style: 'subheader' },
+                { text: `Total orders value: ${report.totalOrdersValue.toFixed(2)} $`, style: 'header' },
+                { text: 'Employees Orders', style: 'subheader' },
+                {
+                    style: 'table',
+                    table: {
+                        widths: ['*', '*', '*'],
+                        body: employeesTableBody,
+                    },
+                },
+                { text: 'Products Sold', style: 'subheader' },
+                {
+                    style: 'table',
+                    table: {
+                        widths: ['*', '*', '*'],
+                        body: productsTableBody,
+                    },
+                },
+            ],
+            styles: {
+                normal: { fontSize: 14, margin: [0, 5, 0, 5] },
+                header: { fontSize: 24, bold: true, margin: [0, 5, 0, 10] },
+                center: { alignment: 'center', margin: [0, 5, 0, 5] },
+                right: { alignment: 'right', margin: [0, 5, 0, 5] },
+                subheader: { fontSize: 18, bold: true, margin: [0, 5, 0, 5] },
+                tableHeader: { bold: true, fontSize: 13, color: 'black' },
+                table: { margin: [0, 5, 0, 15] },
+            },
+            defaultStyles: {},
+        };
+
+        pdfMake.createPdf(docDefinition).open();
+    }
+
+    async generateClosePosReportBetweenDatesPdf(report: PosClosedReport) {
+        const logoBase64 = await this.imageService.convertImageToBase64('../assets/images/sdbar-high-resolution-logo-black-transparent.png');
+        const today = new Date()
+        const createdAt = this.sharedService.convertDateToYYMMDDHHMMSS(today);
+        const startDate = this.sharedService.convertDateToDDMMYY(report.createdAt);
+        const endDate = this.sharedService.convertDateToDDMMYY(report.forDay);
+
+        const employeesTableBody = [
+            [
+                { text: 'Employee Name', style: 'tableHeader' },
+                { text: 'Taken Orders', style: 'tableHeader' },
+                { text: 'Delivered Orders', style: 'tableHeader' },
+            ],
+        ];
+        report.employeesOrders.forEach((employee) => {
+            employeesTableBody.push([
+                {
+                    text: employee.name || '',
+                    style: '',
+                },
+                {
+                    text: employee.takenOrders != null ? employee.takenOrders.toString() : '',
+                    style: '',
+                },
+                {
+                    text: employee.delieveredOrders != null ? employee.delieveredOrders.toString() : '',
+                    style: '',
+                },
+            ]);
+        });
+
+        const productsTableBody = [
+            [
+                { text: 'Product Name', style: 'tableHeader' },
+                { text: 'Sold Quantity', style: 'tableHeader' },
+                { text: 'Sold Value', style: 'tableHeader' },
+            ],
+        ];
+        report.products.forEach((product) => {
+            productsTableBody.push([
+                {
+                    text: product.name || '',
+                    style: '',
+                },
+                {
+                    text: product.selledQuantity != null ? product.selledQuantity.toString() : '',
+                    style: '',
+                },
+                {
+                    text: product.selledValue != null ? product.selledValue.toFixed(2).toString() : '',
+                    style: '',
+                },
+            ]);
+        });
+
+        const docDefinition: any = {
+            content: [
+                { image: logoBase64, width: 50, height: 30, alignment: 'right' },
+                { text: 'REPORT: sales ', style: ['header', 'center'] },
+                { text: `Created date: ${createdAt}`, style: 'normal' },
+                { text: `Date period: ${startDate} - ${endDate}`, style: 'normal' },
                 { text: `Finished Orders: ${report.finishedOrdersCounter}`, style: 'subheader' },
                 { text: `Canceled Orders: ${report.canceledOrdersCounter}`, style: 'subheader' },
                 { text: `Total orders value: ${report.totalOrdersValue.toFixed(2)} $`, style: 'header' },

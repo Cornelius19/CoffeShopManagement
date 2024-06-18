@@ -186,6 +186,10 @@ export class AdminService {
         return this.http.put(`${environment.appUrl}/api/admin/lock-unlock-employee/${employeeId}/${status}`,null);
     }
 
+    lockUnlockClients(clientId: number,status:boolean){
+        return this.http.put(`${environment.appUrl}/api/admin/lock-unlock-client/${clientId}/${status}`,null);
+    }
+
     modifyEmployeeData(model: Object){
         return this.http.put(`${environment.appUrl}/api/admin/modify-employee`,model);
     }
@@ -204,5 +208,13 @@ export class AdminService {
 
     deleteTable(tableId:number){
         return this.http.delete(`${environment.appUrl}/api/tables/delete-table/${tableId}`);
+    }
+
+    getClientData(){
+        return this.http.get(`${environment.appUrl}/api/admin/get-clients-data`);
+    }
+
+    getEmployeesOrders(){
+        return this.http.get(`${environment.appUrl}/api/admin/get-orders-employees-chart`);
     }
 }

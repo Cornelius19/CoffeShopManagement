@@ -205,6 +205,39 @@ namespace CoffeBarManagement.Controllers
 
         }
 
+        [HttpPut("lock-unlock-client/{userId}/{status}")]
+        public async Task<IActionResult> LockUnlockClient(int userId, bool status)
+        {
+            var clientDetails = await _applicationContext.Clients.FindAsync(userId);
+            if (clientDetails != null)
+            {
+                var user = await _userManager.FindByIdAsync(clientDetails.UserId);
+                if (user != null)
+                {
+                    if (status)
+                    {
+                        clientDetails.Lock = true;
+                        user.LockoutEnabled = false;
+                        await _applicationContext.SaveChangesAsync();
+                        await _userManager.UpdateAsync(user);
+                        return Ok(new JsonResult(new { message = "User access is blocked now!" }));
+                    }
+                    else
+                    {
+                        clientDetails.Lock = false;
+                        user.LockoutEnabled = true;
+                        await _applicationContext.SaveChangesAsync();
+                        await _userManager.UpdateAsync(user);
+                        return Ok(new JsonResult(new { message = "User access is enabed now!" }));
+                    }
+
+                }
+                return NotFound();
+            }
+            return NotFound();
+
+        }
+
         [HttpPut("modify-employee")]
         public async Task<IActionResult> ModifyEmployee(ModifyEmployeeDto model)
         {
@@ -299,6 +332,34 @@ namespace CoffeBarManagement.Controllers
 
             return monthlyStatistics;
         }
+
+        [HttpGet("get-orders-employees-chart")]
+        public async Task<List<EmployeeOrdersDto>> GetEmployeeOrderStatistics()
+        {
+            var listToReturn = new List<EmployeeOrdersDto>();
+            var employees = await _applicationContext.Employees.Where(e => e.Lock == false).ToListAsync();
+            if(employees.Count > 0)
+            {
+                foreach (var employee in employees) {
+                    var takenOrders = await _applicationContext.Orders.Where(o => o.TakenEmployeeId == employee.EmployeeId && o.OrderStatus == 4).ToListAsync();
+                    var delieveredOrders = await _applicationContext.Orders.Where(o => o.DeliveredEmployeeId == employee.EmployeeId && o.OrderStatus == 4).ToListAsync();
+                    var employeeToAdd = new EmployeeOrdersDto
+                    {
+                        Name = employee.LastName,
+                        TakenOrders = takenOrders.Count,
+                        DelieveredOrders = delieveredOrders.Count
+                    };
+                    listToReturn.Add(employeeToAdd);
+                }
+                return listToReturn;
+            }
+            return listToReturn;
+        }
+
+
+
+
+
 
         [HttpGet("get-clients-data")]
         public async Task<List<GetClientDataDto>> GetClientsData()
