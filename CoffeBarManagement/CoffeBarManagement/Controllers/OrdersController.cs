@@ -519,7 +519,7 @@ namespace CoffeBarManagement.Controllers
         {
             //double total = 0;
             var orderList = new List<GetOrderByTableDto>();
-            var result = await _applicationContext.Orders.Where(q => q.OrderStatus != 4 && q.OrderStatus != 5).ToListAsync();
+            var result = await _applicationContext.Orders.Where(q => q.OrderStatus != 4 && q.OrderStatus != 5 && q.OrderStatus != 1).ToListAsync();
             foreach (var order in result)
             {
                 var takeEmployee = await _applicationContext.Employees.FindAsync(order.TakenEmployeeId);

@@ -26,7 +26,7 @@ export class IntervalFuntionsService {
         }
     }
 
-    startPeriodicFunction(callback: () => void, intervalTime: number = 60000) {
+    startPeriodicFunction(callback: () => void, intervalTime: number = 10000) {
         if (!this.intervalId) {
             this.intervalId = setInterval(callback, intervalTime);
         }
