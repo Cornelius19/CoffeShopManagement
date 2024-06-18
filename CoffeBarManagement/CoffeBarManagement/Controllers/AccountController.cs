@@ -103,12 +103,82 @@ namespace CoffeBarManagement.Controllers
             return Ok(new JsonResult(new { title = "Account created", message = "Your account was created!" }));
         }
 
-        //[Authorize]
-        //[HttpGet("get-user-details/{userId}")]
-        //public async Task<RegisterDto> GetUserDetails(int userId)
-        //{
-        //    var 
-        //}
+        [Authorize]
+        [HttpPost("change-password/{userId}")]
+        public async Task<IActionResult> ChangePassword(ResetPassword model, int userId)
+        {
+            var employeeDetails = await _applicationContext.Employees.FindAsync(userId);
+            if (employeeDetails != null)
+            {
+                var userDetails = await _userManager.FindByIdAsync(employeeDetails.UserId);
+                if (userDetails != null)
+                {
+                    if (model.CurrentPassword == model.Password)
+                    {
+                        return BadRequest(new JsonResult(new { message = "Passwords are the same!" }));
+                    }
+                    var result = await _userManager.ChangePasswordAsync(userDetails, model.CurrentPassword, model.Password);
+                    if (!result.Succeeded) return BadRequest(new JsonResult(new { message = "Old password doesn't match!" }));
+                    else return Ok(new JsonResult(new { message = "Password was changed!" }));
+                }
+            }
+            var clientDetails = await _applicationContext.Clients.FindAsync(userId);
+            if (clientDetails != null)
+            {
+                if (model.CurrentPassword == model.Password)
+                {
+                    return BadRequest(new JsonResult(new { message = "Passwords are the same!" }));
+                }
+                var userDetails = await _userManager.FindByIdAsync(clientDetails.UserId);
+                if (userDetails != null)
+                {
+                    var result = await _userManager.ChangePasswordAsync(userDetails, model.CurrentPassword, model.Password);
+                    if (!result.Succeeded) return BadRequest(new JsonResult(new { message = "Old password doesn't match!" }));
+                    else return Ok(new JsonResult(new { message = "Password was changed!" }));
+                }
+            }
+            return NotFound(new JsonResult(new { message = "Something went wrong!" }));
+        }
+
+        [Authorize]
+        [HttpGet("get-user-details/{userId}/{role}")]
+        public async Task<RegisterDto> GetUserDetails(int userId, string role)
+        {
+            if (role != "Client")
+            {
+                var employeeDetails = await _applicationContext.Employees.FindAsync(userId);
+                if (employeeDetails != null)
+                {
+                    var userDetails = new RegisterDto
+                    {
+                        FirstName = employeeDetails.FirstName,
+                        LastName = employeeDetails.LastName,
+                        Email = employeeDetails.Email,
+                        PhoneNumber = "X"
+                    };
+                    return userDetails;
+                }
+                return null;
+            }
+            else
+            {
+                var clientDetails = await _applicationContext.Clients.FindAsync(userId);
+                if (clientDetails != null)
+                {
+                    var userDetails = new RegisterDto
+                    {
+                        FirstName = clientDetails.FirstName,
+                        LastName = clientDetails.LastName,
+                        Email = clientDetails.Email,
+                        PhoneNumber = clientDetails.PhoneNumber,
+                    };
+                    return userDetails;
+                }
+                return null;
+            }
+
+
+        }
 
 
 
@@ -145,5 +215,5 @@ namespace CoffeBarManagement.Controllers
 
     }
 
-    
+
 }
