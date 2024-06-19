@@ -40,7 +40,7 @@ public partial class ApplicationContext : DbContext
 
     public virtual DbSet<Table> Tables { get; set; }
 
-   
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
@@ -78,6 +78,7 @@ public partial class ApplicationContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("lastName");
+            entity.Property(e => e.Lock).HasColumnName("lock");
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(15)
                 .IsUnicode(false)
@@ -133,6 +134,11 @@ public partial class ApplicationContext : DbContext
                 .IsUnicode(false)
                 .HasDefaultValueSql("(NULL)")
                 .HasColumnName("lastName");
+            entity.Property(e => e.Lock).HasColumnName("lock");
+            entity.Property(e => e.Role)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("role");
             entity.Property(e => e.Salary)
                 .HasDefaultValueSql("(NULL)")
                 .HasColumnName("salary");

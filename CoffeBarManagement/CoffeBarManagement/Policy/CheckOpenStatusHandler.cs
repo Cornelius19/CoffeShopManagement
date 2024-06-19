@@ -19,11 +19,10 @@ namespace CoffeBarManagement.Policy
         {
             var status = await _applicationContext.Organizations.FindAsync(1);
             if (status == null || status.OpenStatus != requirement.Status) {
-                context.Fail();    
+                context.Fail();
                 return; 
             }
             context.Succeed(requirement);
-
         }
     }
 }

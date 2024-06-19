@@ -4,6 +4,7 @@ import { NotificationComponent } from './components/errors/models/notification/n
 import { User } from './models/user';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
+import { ConfirmationModalComponent } from './components/errors/models/confirmation-modal/confirmation-modal.component';
 
 @Injectable({
     providedIn: 'root',
@@ -24,6 +25,20 @@ export class SharedService {
         };
         this.bsModalRef = this.modalService.show(NotificationComponent, initialState);
     }
+
+    // confirm(message: string): Promise<boolean> {
+    //     return new Promise<boolean>((resolve, reject) => {
+    //         const initialState = {
+    //             message,
+    //         };
+
+    //         this.bsModalRef = this.modalService.show(ConfirmationModalComponent, { initialState });
+
+    //         this.bsModalRef.content.confirmed.subscribe((result: boolean) => {
+    //             resolve(result);
+    //         });
+    //     });
+    // }
 
     showNotificationAndReload(isSuccess: boolean, title: string, message: string, needToRefresh: boolean) {
         const initialState: ModalOptions = {
@@ -90,6 +105,10 @@ export class SharedService {
 
     getClosePOSData(date: string) {
         return this.http.get(`${environment.appUrl}/api/pos/pos-closing-report/${date}`);
+    }
+
+    getClosePOSDataBetweenDates(startDate: string, endDate: string) {
+        return this.http.get(`${environment.appUrl}/api/pos/pos-closing-report-between-dates/${startDate}/${endDate}`);
     }
 
     convertDateToYYMMDD(date: Date): string {

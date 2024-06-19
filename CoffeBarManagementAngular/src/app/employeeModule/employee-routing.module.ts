@@ -25,9 +25,9 @@ const routes: Route[] = [
   {path: 'payment', component:PaymentComponent},
   {path: 'order-details/:tableId', component:OrderDetailsComponent},
   {path: 'stock-balance', component: StockBalanceComponent,canActivate: [RoleGuard],
-    data: { roles: [Roles.Pos] },},
+    data: { roles: [Roles.Pos,Roles.Admin] },},
     {path: 'add-stock-balance', component: AddStockProductsComponent,canActivate: [RoleGuard],
-      data: { roles: [Roles.Pos] },}
+      data: { roles: [Roles.Pos,Roles.Admin] },}
 
 ] 
 

@@ -50,7 +50,18 @@
                             [icon]="faEdit"
                         ></fa-icon>
                         } @else {
-                        <fa-icon (click)="modifyComplexProduct()" [icon]="faEdit"></fa-icon>
+                        <fa-icon (click)="modifyComplexProduct(product.productId,
+                        product.name,
+                        product.unitPrice,
+                        product.unitMeasure,
+                        product.availableForUser,
+                        product.complexProduct,
+                        product.categoryId,
+                        product.quantity,
+                        product.supplyCheck,
+                        product.tva,
+                        product.componentProducts,
+                        true)" [icon]="faEdit"></fa-icon>
                         }
                     </span>
                 </td>
@@ -59,9 +70,10 @@
         </tbody>
     </table>
     <div class="row">
-        <button class="col-4 btn btn-primary mt-3" (click)="createNonComplexProduct()">Add NON complex product</button>
-    </div>
-    <div class="row">
-        <button class="col-4 btn btn-primary mt-3" (click)="createComplexProduct()">Add complex product</button>
+        <button class="col-4 btn btn-dark btn-lg mt-3" (click)="createNonComplexProduct()">Add NON complex product</button>
+        <div class="col-4">
+
+        </div>
+        <button class="col-4 btn btn-dark btn-lg mt-3" (click)="createComplexProduct()">Add complex product</button>
     </div>
 </div>

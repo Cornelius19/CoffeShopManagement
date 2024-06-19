@@ -17,6 +17,8 @@ public partial class Client
 
     public string PhoneNumber { get; set; }
 
+    public bool? Lock { get; set; }
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();

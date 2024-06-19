@@ -62,7 +62,7 @@
                             <strong>AllActiveOrders</strong>
                         </a>
                     </li>
-                    @if ((accountService.user$ | async) !== null && accountService.getUserRole() === roles.Pos1) {
+                    @if ((accountService.user$ | async) !== null && accountService.getUserRole() === roles.Pos1 ) {
                         <li class="nav-item dropdown">
                         <a class="nav-link" routerLink="/employees/stock-balance" role="button" aria-expanded="false">
                             <strong>Stock balance</strong>
@@ -107,6 +107,32 @@
                         <li><a class="dropdown-item" routerLink="/admin/product-categories">Product categories</a></li>
                         <li><a class="dropdown-item" routerLink="/admin/balancing-categories">Balancing categories</a></li>
                     </ul>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <strong>Employees</strong>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" routerLink="/admin/create-employee">Create new employee</a></li>
+                        <li><a class="dropdown-item" routerLink="/admin/employees-data">Employees data</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/clients" routerLinkActive="active"><strong>Clients</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/tables" routerLinkActive="active"><strong>Tables</strong></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" routerLink="/employees/stock-balance" role="button" aria-expanded="false">
+                        <strong>Stock balance</strong>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" routerLink="/employees/add-stock-balance" role="button" aria-expanded="false">
+                        <strong>Add stock balance</strong>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/admin/reports" routerLinkActive="active"><strong>Reports</strong></a>

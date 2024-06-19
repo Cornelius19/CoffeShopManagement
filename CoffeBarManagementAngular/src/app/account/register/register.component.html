@@ -85,18 +85,18 @@
                     <input
                         formControlName="password"
                         id="password"
-                        type="{{ showPassword ? 'text' : 'password' }}"
+                        type="{{ showPassword1 ? 'text' : 'password' }}"
                         placeholder="Password"
                         class="form-control"
                         [class.is-invalid]="submitted && registerForm.get('password')?.errors"
                     />
                     <label for="password">Password</label>
                     <ng-template #passwordHiddenTemplate>
-                        <span (click)="togglePasswordVisible()" style="cursor: pointer">
+                        <span (click)="togglePasswordVisible(1)" style="cursor: pointer">
                             <fa-icon [icon]="faEye" class="input-icon"></fa-icon>
                         </span>
                     </ng-template>
-                    <span (click)="togglePasswordVisible()" style="cursor: pointer" *ngIf="!showPassword; else passwordHiddenTemplate"
+                    <span (click)="togglePasswordVisible(1)" style="cursor: pointer" *ngIf="!showPassword1; else passwordHiddenTemplate"
                         ><fa-icon [icon]="faEyeClosed" class="input-icon"></fa-icon>
                     </span>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('password')?.hasError('required')"> Password is required </span>
@@ -114,12 +114,20 @@
                     <input
                         formControlName="repassword"
                         id="repassword"
-                        type="{{ showPassword ? 'text' : 'password' }}"
+                        type="{{ showPassword2 ? 'text' : 'password' }}"
                         placeholder="RePassword"
                         class="form-control"
                         [class.is-invalid]="submitted && registerForm.get('repassword')?.errors?.['mismatch']"
                     />
                     <label for="repassword">RePassword</label>
+                    <ng-template #passwordHiddenTemplate1>
+                        <span (click)="togglePasswordVisible(2)" style="cursor: pointer">
+                            <fa-icon [icon]="faEye" class="input-icon"></fa-icon>
+                        </span>
+                    </ng-template>
+                    <span (click)="togglePasswordVisible(2)" style="cursor: pointer" *ngIf="!showPassword2; else passwordHiddenTemplate1"
+                        ><fa-icon [icon]="faEyeClosed" class="input-icon"></fa-icon>
+                    </span>
                     <span
                         class="text-danger"
                         *ngIf="submitted &&

@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="container col-12 mx-auto acrylic shadow">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="center table justify-content-center table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Email</th>
+                    <th>Salary</th>
+                    <th>Role</th>
+                    <th>Taken orders</th>
+                    <th>Delievered orders</th>
+                    <th>Edit</th>
+                    <th>Lock</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (employee of employeeData; track employee) {
+                <tr>
+                    <td>{{ employee.employeeId }}</td>
+                    <td>{{ employee.firstName }}</td>
+                    <td>{{ employee.lastName }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.salary | currency }}</td>
+                    <td>{{ employee.employeeRole }}</td>
+                    <td>{{ employee.totalCreatedOrders }} orders</td>
+                    <td>{{ employee.totalDelieveredOrders }} orders</td>
+                    <td style="text-align: center">
+                        <span (click)="adminService.showModifyEmployee(employee.employeeId,employee.salary,employee.employeeRole)" class="btn btn-outline-dark" style="cursor: pointer">
+                            <fa-icon [icon]="faEdit"></fa-icon>
+                        </span>
+                    </td>
+                    @if (employee.lock == false) {
+                        <td style="text-align: center">
+                            <span (click)="lockUnlockEmployee(employee.employeeId,true)" class="btn btn-outline-primary" style="cursor: pointer">
+                                <fa-icon [icon]="faUnlock"></fa-icon>
+                            </span>
+                        </td>
+                    }
+                    @else {
+                        <td style="text-align: center">
+                        <span (click)="lockUnlockEmployee(employee.employeeId,false)" class="btn btn-outline-danger" style="cursor: pointer">
+                            <fa-icon [icon]="faLock"></fa-icon>
+                        </span>
+                    </td>
+                    }
+                    
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

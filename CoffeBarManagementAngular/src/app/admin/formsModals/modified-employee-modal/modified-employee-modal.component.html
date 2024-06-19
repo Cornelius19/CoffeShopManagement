@@ -1,0 +1,30 @@
+<div class="modal-header bg-dark">
+    <h5 class="modal-title pull-center" style="color: white">Complete the form please!</h5>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="formGroup" (submit)="modifyEmployee()">
+        <div class="form-floating mb-3">
+            <input
+                class="form-control"
+                type="number"
+                formControlName="salary"
+                id="salary"
+                placeholder="Modify salary"
+                [class.is-invalid]="isSubmitted && formGroup.get('salary')?.errors"
+            />
+            <label for="salary">Enter new salary</label>
+            <span class="text-danger" *ngIf="isSubmitted && formGroup.get('salary')?.hasError('required')"> New salary is required </span>
+        </div>
+        <div class="form-floating mb-3">
+            <select class="form-select" formControlName="role" id="role">
+                <option value="manager">Manager</option>
+                <option value="employee">Employee</option>
+            </select>
+            <label for="role">Change role</label>
+        </div>
+        <button type="submit" class="col-12 btn btn-dark btn-lg">Apply changes</button>
+    </form>
+</div>

@@ -77,7 +77,7 @@ export class ModifyProductModalComponent implements OnInit {
         }
     }
     getCategories() {
-        this.menuService.getMenuCategories().subscribe({
+        this.menuService.getAllCategories().subscribe({
             next: (response: any) => {
                 this.categoryList = response;
             },

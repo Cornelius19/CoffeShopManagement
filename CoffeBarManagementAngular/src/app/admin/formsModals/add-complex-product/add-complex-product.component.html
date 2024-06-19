@@ -91,7 +91,7 @@
                 <div class="form-floating mb-3 mt-1">
                     <select
                         formControlName="id"
-                        id="categoryId"
+                        id="id{{i}}"
                         class="form-select"
                         [class.is-invalid]="isSubmitted && newProductForm.get('id')?.errors"
                     >
@@ -99,15 +99,22 @@
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
-                    <label for="categoryId">Component Product ID</label>
-                    <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('categoryId')?.hasError('required')">
-                        Select a category please
+
+                    <label for="id{{i}}">Component Product ID</label>
+
+                    <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('id')?.hasError('required')">
+                        Select a product please
                     </span>
+
                 </div>
+
+
                 <div class="form-floating mb-3">
-                    <input formControlName="used_quantity" type="number" placeholder="Used Quantity" class="form-control" />
-                    <label for="used_quantity">Used Quantity</label>
+                    <input formControlName="quantity" type="number" min="0" placeholder="Used Quantity" id="quantity{{i}}" class="form-control" />
+                    <label for="quantity{{i}}">Used Quantity</label>
                 </div>
+
+
                 <button type="button" class="btn col-12 btn-danger mb-1" (click)="removeComponentProduct(i)">Remove product</button>
             </div>
         </div>
@@ -115,7 +122,11 @@
         <button type="button" class="col-12 btn btn-warning mb-3" (click)="addComponentProduct()">Add new component product</button>
         <div class="modal-footer">
             <button type="submit" class="col-12 btn btn-primary btn-lg mt-2" [disabled]="productComponenetsId.length == 0">
-                Create complex product
+                @if (modifyStatus) {
+                    Modify product
+                }@else {
+                    Create new complex product
+                }
             </button>
         </div>
     </form>

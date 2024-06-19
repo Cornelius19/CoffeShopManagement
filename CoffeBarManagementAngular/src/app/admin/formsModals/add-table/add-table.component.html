@@ -1,0 +1,29 @@
+<div class="modal-header bg-dark">
+    <h5 class="modal-title pull-center" style="color: white">Complete the form please!</h5>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="formGroup" (submit)="addNewTable(tableId)">
+        <div class="form-floating mb-3">
+            <input
+                class="form-control"
+                type="text"
+                formControlName="capacity"
+                id="capacity"
+                placeholder="Table capacity"
+                [class.is-invalid]="isSubmitted && formGroup.get('capacity')?.errors"
+            />
+            <label for="capacity">Table capacity</label>
+            <span class="text-danger" *ngIf="isSubmitted && formGroup.get('capacity')?.hasError('required')"> Capacity is required </span>
+        </div>
+        @if (modifyStatus == false) {
+            <button type="submit" class="col-12 btn btn-dark btn-lg">Add new table!</button>
+        }
+        @else {
+            <button type="submit" class="col-12 btn btn-dark btn-lg">Apply changes!</button>
+        }
+        
+    </form>
+</div>

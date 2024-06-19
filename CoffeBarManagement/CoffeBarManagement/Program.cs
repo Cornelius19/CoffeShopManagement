@@ -142,6 +142,7 @@ using (var scope = app.Services.CreateScope())
 //Create admin account in case it doesn't exist
 using (var scope = app.Services.CreateScope())
 {
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
@@ -160,6 +161,23 @@ using (var scope = app.Services.CreateScope())
     {
         await userManager.CreateAsync(adminCreating, "P@ssword1!");
         await userManager.AddToRoleAsync(adminCreating, Dependencis.ADMIN_ROLE);
+    }
+
+    var checkAnotherDb = await context.Employees.Where(q => q.UserId == checkIfExist.Id).FirstOrDefaultAsync();
+    if(checkAnotherDb == null)
+    {
+        var admin = new Employee
+        {
+            FirstName = "Corneliu",
+            LastName = "Museteanu",
+            UserId = checkIfExist.Id,
+            Email = checkIfExist.Email,
+            Role = "admin",
+            Lock = false,
+            Salary = 1,
+        };
+        await context.AddAsync(admin);
+        await context.SaveChangesAsync();
     }
 }
 using (var scope = app.Services.CreateScope())

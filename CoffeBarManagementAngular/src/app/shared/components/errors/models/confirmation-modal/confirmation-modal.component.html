@@ -1,0 +1,16 @@
+<div class="modal-header bg-dark">
+    <h4 class="modal-title pull-left" style="color: white;">Confirmation required</h4>
+    <button type="button" class="btn-close close pull-right"  aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div style="color: black;">
+        {{ message }}
+    </div>
+    
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-dark btn-lg" (click)="confirm()">Confirm</button>
+    <button type="button" class="btn btn-danger btn-lg" (click)="cancel()">Cancel</button>
+</div>

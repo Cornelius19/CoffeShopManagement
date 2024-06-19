@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PosService } from '../pos/pos.service';
 import { GetComponentProducts } from '../../shared/models/getComponentProducts';
 import { error } from 'jquery';
@@ -19,14 +19,30 @@ export class AddStockProductsComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeForm();
+        this.addNewProduct();
         this.getAllProduct();
     }
 
     initializeForm() {
         this.formGroup = this.formBuilder.group({
-            productId: ['', [Validators.required]],
-            added_quantity: ['', [Validators.required]],
+            productsToAdd: this.formBuilder.array([]),
         });
+    }
+
+    get productsToAdd(): FormArray {
+        return this.formGroup.get('productsToAdd') as FormArray;
+    }
+
+    addNewProduct() {
+        const newProduct = this.formBuilder.group({
+            productId: ['', [Validators.required]],
+            added_quantity: ['', [Validators.required,Validators.min(1)]],
+        });
+        this.productsToAdd.push(newProduct);
+    }
+
+    removeNewProduct(index: number) {
+        this.productsToAdd.removeAt(index);
     }
 
     getAllProduct() {
@@ -42,12 +58,12 @@ export class AddStockProductsComponent implements OnInit {
 
     addQuantity() {
         this.isSubmitted = true;
-        const productId = this.formGroup.get('productId')?.value;
-        const quantity = this.formGroup.get('added_quantity')?.value;
         if (this.formGroup.valid) {
-            if (productId != null && quantity != null) {
-                if (confirm("The introduced quantity is correct?")) {
-                    this.posService.addStockQuantity(productId, quantity).subscribe({
+            console.log(this.formGroup.value);
+            const list:Object[] = this.formGroup.get('productsToAdd')?.value;
+            if(list.length> 0){
+                if (confirm('The introduced quantity is correct?')) {
+                    this.posService.addStockQuantity(list).subscribe({
                         next: (response: any) => {
                             this.sharedService.showNotificationAndReload(true, 'Success', response.value.message, true);
                             this.formGroup.reset();
