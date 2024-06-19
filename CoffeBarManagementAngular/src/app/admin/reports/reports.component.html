@@ -3,7 +3,7 @@
     <div class="container col-6 acrylic shadow mb-3 mt-3">
         <h5 class="text-center">Generate current stock report</h5>
         <div class="col-8 form-floating mx-auto">
-            <select [(ngModel)]="categoryId" class="form-control" name="categoryId" id="categoryId">
+            <select [(ngModel)]="categoryId" class="form-select" name="categoryId" id="categoryId">
                 <option [value]="0">All</option>
                 @for (item of allCategories; track item) {
                 <option [value]="item.categoryId">{{ item.categoryName }}</option>
@@ -26,17 +26,59 @@
         </div>
     </div>
     <div class="container col-6 acrylic shadow mb-3 mt-3">
-        <h5 class="text-center">Generate between 2 dates!</h5>
+        <h5 class="text-center">Generate selled products between 2 dates!</h5>
         <div class="col-8 form-floating mx-auto mb-3">
             <input class="form-control" type="date" [(ngModel)]="posClosingStartDate" id="startDate">
             <label for="startDate">Start date</label>
         </div>
-        <div class="col-8 form-floating mx-auto">
+        <div class="col-8 form-floating mx-auto mb-3">
             <input class="form-control" type="date" [(ngModel)]="posClosingEndDate" id="endDate">
             <label for="endDate">End date</label>
         </div>
+        <div class="col-8 form-floating mx-auto">
+            <select [(ngModel)]="orderProductBy" class="form-select" name="orderBy" id="orderBy">
+                <option [value]="1">Order by selled quantity</option>
+                <option [value]="2">Order by selled value</option>
+            </select>
+            <label for="orderBy">OrderBy</label>
+        </div>
         <div class="text-center mt-3 mx-auto">
-            <button (click)="getCloseStatusDataBetweenDates(posClosingStartDate,posClosingEndDate)" class="text-center btn btn-dark btn-lg">Generate report</button>
+            <button (click)="getSelledProductsDataBetweenDates(posClosingStartDate,posClosingEndDate)" class="text-center btn btn-dark btn-lg">Generate report</button>
+        </div>
+    </div>
+    <div class="container col-6 acrylic shadow mb-3 mt-3">
+        <h5 class="text-center">Generate total earnings between 2 dates!</h5>
+        <div class="col-8 form-floating mx-auto mb-3">
+            <input class="form-control" type="date" [(ngModel)]="earningsStartDate" id="startDate">
+            <label for="startDate">Start date</label>
+        </div>
+        <div class="col-8 form-floating mx-auto mb-3">
+            <input class="form-control" type="date" [(ngModel)]="earningsEndDate" id="endDate">
+            <label for="endDate">End date</label>
+        </div>
+        <div class="text-center mt-3 mx-auto">
+            <button (click)="getEarningsBetweenDates(earningsStartDate,earningsEndDate)" class="text-center btn btn-dark btn-lg">Generate report</button>
+        </div>
+    </div>
+    <div class="container col-6 acrylic shadow mb-3 mt-3">
+        <h5 class="text-center">Generate low stock products!</h5>
+        <div class="text-center mt-3 mx-auto">
+            <button (click)="reportService.generateSupplyProducts()" class="text-center btn btn-dark btn-lg">Generate report</button>
+        </div>
+    </div>
+    <div class="container col-6 acrylic shadow mb-3 mt-3">
+        <h5 class="text-center">Generate orders between 2 dates!</h5>
+        <p class="text-center">For all orders please leave empty!</p>
+        <div class="col-8 form-floating mx-auto mb-3">
+            <input class="form-control" type="date" [(ngModel)]="ordersStart" id="startDate">
+            <label for="startDate">Start date</label>
+        </div>
+        <div class="col-8 form-floating mx-auto mb-3">
+            <input class="form-control" type="date" [(ngModel)]="ordersEnd" id="endDate">
+            <label for="endDate">End date</label>
+        </div>
+        <div class="text-center mt-3 mx-auto">
+            <button (click)="getOrdersBetweenDates(ordersStart,ordersEnd)" class="text-center btn btn-dark btn-lg">Generate report</button>
         </div>
     </div>
 </div>

@@ -1,0 +1,25 @@
+<div class="modal-header bg-warning">
+    <h4 class="modal-title pull-center">Order details</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    @for (item of products; track $index) {
+    <div>
+        <strong>{{ $index + 1 }}. {{ item.productName }}</strong>
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-11">
+                <div class="mt-2">
+                    <p>Quantity: {{ item.quantity }}</p>
+                </div>
+                <div class="mb-1">
+                    <p>Selling price: {{ item.unitPrice | currency }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    }
+</div>

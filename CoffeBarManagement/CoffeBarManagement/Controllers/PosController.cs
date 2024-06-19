@@ -259,11 +259,11 @@ namespace CoffeBarManagement.Controllers
         }
 
         [Authorize(Roles = Dependencis.ADMIN_ROLE)]
-        [HttpGet("pos-closing-report-between-dates/{startDate}/{endDate}")]
-        public async Task<PosClosingReportDto> GetPosClosingReport(DateTime startDate, DateTime endDate)
+        [HttpGet("pos-closing-report-between-dates/{startDate}/{endDate}/{orderBy}")]
+        public async Task<PosClosingReportDto> GetPosClosingReport(DateTime startDate, DateTime endDate,int orderBy)
         {
             DateTime start = startDate.Date;
-            DateTime end = endDate.Date.AddDays(1).AddTicks(-1); // Include the entire end date
+            DateTime end = endDate.Date.AddDays(1).AddTicks(-1); 
 
             double? totalOrdersValue = 0;
             var currentDate = DateTime.UtcNow;
@@ -294,7 +294,7 @@ namespace CoffeBarManagement.Controllers
                 totalOrdersValue += product.UnitPrice * product.Quantity;
             }
 
-            var employees = await _applicationContext.Employees.ToListAsync();
+            var employees = await _applicationContext.Employees.Where(e => e.Role != "Admin").ToListAsync();
             var employeeDataList = new List<EmployeeOrdersDto>();
 
             foreach (var employee in employees)
@@ -328,9 +328,62 @@ namespace CoffeBarManagement.Controllers
                         selledQuantity = soldQuantity,
                         selledValue = soldValue
                     };
+                    
                     productsData.Add(productToAdd);
+                    
                 }
             }
+            if(orderBy == 1)
+            {
+                //Sorting products
+                var temp = new ProductSellPerDayDto();
+                bool swapped;
+                for (int i = 0; i <= productsData.Count - 1; i++)
+                {
+                    swapped = false;
+                    for (int j = 0; j < productsData.Count - i - 1; j++)
+                    {
+                        if (productsData[j].selledQuantity < productsData[j + 1].selledQuantity)
+                        {
+                            temp = productsData[j];
+                            productsData[j] = productsData[j + 1];
+                            productsData[j + 1] = temp;
+                            swapped = true;
+                        }
+                    }
+                    if (swapped == false)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (orderBy == 2)
+            {
+                //Sorting products
+                var temp = new ProductSellPerDayDto();
+                bool swapped;
+                for (int i = 0; i <= productsData.Count - 1; i++)
+                {
+                    swapped = false;
+                    for (int j = 0; j < productsData.Count - i - 1; j++)
+                    {
+                        if (productsData[j].selledValue < productsData[j + 1].selledValue)
+                        {
+                            temp = productsData[j];
+                            productsData[j] = productsData[j + 1];
+                            productsData[j + 1] = temp;
+                            swapped = true;
+                        }
+                    }
+                    if (swapped == false)
+                    {
+                        break;
+                    }
+                }
+            }
+
+
 
             var reportData = new PosClosingReportDto
             {

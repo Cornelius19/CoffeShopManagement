@@ -23,6 +23,8 @@ import { ModifiedEmployeeModalComponent } from './formsModals/modified-employee-
 import { UsersComponent } from './users/users.component';
 import { TablesComponent } from './tables/tables.component';
 import { AddTableComponent } from './formsModals/add-table/add-table.component';
+import { OrdersComponent } from './orders/orders.component';
+import { OrderProductsModalComponent } from './formsModals/order-products-modal/order-products-modal.component';
 
 
 
@@ -47,6 +49,8 @@ import { AddTableComponent } from './formsModals/add-table/add-table.component';
     UsersComponent,
     TablesComponent,
     AddTableComponent,
+    OrdersComponent,
+    OrderProductsModalComponent,
   ],
   imports: [
     CommonModule,

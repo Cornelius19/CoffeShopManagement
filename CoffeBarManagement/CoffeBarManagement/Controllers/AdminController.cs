@@ -357,10 +357,6 @@ namespace CoffeBarManagement.Controllers
         }
 
 
-
-
-
-
         [HttpGet("get-clients-data")]
         public async Task<List<GetClientDataDto>> GetClientsData()
         {
