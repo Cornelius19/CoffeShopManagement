@@ -4,10 +4,10 @@
         <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-bordered">
             <thead class="text-center">
                 <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Modify</th>
-                    <th>Delete</th>
+                    <th style="text-align: center">Id</th>
+                    <th style="text-align: center">Name</th>
+                    <th style="text-align: center">Modify</th>
+                    <!-- <th>Delete</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -20,13 +20,13 @@
                         {{ category.removeCategoryName }}
                     </td>
                     <td style="text-align: center">
-                        <span (click)="modifyCategory(category.removeCategoryId, category.removeCategoryName)" style="cursor: pointer"
+                        <button class="btn btn-outline-primary" (click)="modifyCategory(category.removeCategoryId, category.removeCategoryName)" style="cursor: pointer"
                             ><fa-icon [icon]="faEdit"></fa-icon
-                        ></span>
+                        ></button>
                     </td>
-                    <td style="text-align: center">
+                    <!-- <td style="text-align: center">
                         <span (click)="deleteCategory()" style="cursor: pointer"><fa-icon [icon]="faTrashCan"></fa-icon></span>
-                    </td>
+                    </td> -->
                 </tr>
                 }
             </tbody>

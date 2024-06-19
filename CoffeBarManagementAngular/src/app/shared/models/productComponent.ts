@@ -1,4 +1,5 @@
 export interface ProductComponent {
     id: number;
-    used_quantity: number;
+    name: string;
+    quantity: number;
 }

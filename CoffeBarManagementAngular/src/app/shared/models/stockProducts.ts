@@ -1,3 +1,4 @@
+import { GetComponentProducts } from './getComponentProducts';
 import { ProductComponent } from './productComponent';
 
 export interface StockProducts {
@@ -11,5 +12,5 @@ export interface StockProducts {
     quantity: number;
     supplyCheck: number;
     tva: number;
-    componentProducts: ProductComponent[];
+    componentProducts: GetComponentProducts[];
 }

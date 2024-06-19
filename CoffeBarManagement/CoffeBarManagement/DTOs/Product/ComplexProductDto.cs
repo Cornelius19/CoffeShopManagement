@@ -3,6 +3,7 @@ namespace CoffeBarManagement.DTOs.Product
 {
     public class ComplexProductDto
     {
+        public int ProductId { get; set; }
         public string Name { get; set; }
         public double? UnitPrice { get; set; }
 

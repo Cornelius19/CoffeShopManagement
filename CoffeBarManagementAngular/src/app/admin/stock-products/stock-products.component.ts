@@ -10,6 +10,7 @@ import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { SharedService } from '../../shared/shared.service';
 import { ProductComponent } from '../../shared/models/productComponent';
+import { GetComponentProducts } from '../../shared/models/getComponentProducts';
 
 @Component({
     selector: 'app-stock-products',
@@ -67,7 +68,7 @@ export class StockProductsComponent implements OnInit {
         quantity: number,
         supplyCheck: number,
         tva: number,
-        componentProducts: ProductComponent[],
+        componentProducts: GetComponentProducts[],
         modifyStatus: boolean
     ) {
         this.adminService.showModifyComplexProduct(

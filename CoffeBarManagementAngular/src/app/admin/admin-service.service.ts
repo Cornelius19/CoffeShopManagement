@@ -22,6 +22,7 @@ import { RegisterNewEmployeeDto } from '../shared/models/registerEmployeeDto';
 import { ModifiedEmployeeModalComponent } from './formsModals/modified-employee-modal/modified-employee-modal.component';
 import { AddTableComponent } from './formsModals/add-table/add-table.component';
 import { ProductComponent } from '../shared/models/productComponent';
+import { GetComponentProducts } from '../shared/models/getComponentProducts';
 
 @Injectable({
     providedIn: 'root',
@@ -75,7 +76,7 @@ export class AdminService {
         quantity: number,
         supplyCheck: number,
         tva: number,
-        componentProducts:ProductComponent[],
+        componentProducts:GetComponentProducts[],
         modifyStatus:boolean
     ) {
         const initialState: ModalOptions = {
@@ -98,6 +99,10 @@ export class AdminService {
     }
     modifyProduct(model: StockProducts) {
         return this.http.put(`${environment.appUrl}/api/products/modify-nonComplexProduct`, model);
+    }
+
+    modifyComplexProduct(model: AddComplexProduct){
+        return this.http.put(`${environment.appUrl}/api/products/modify-complex-product`,model)
     }
 
     showAddNewNonComplexProduct() {

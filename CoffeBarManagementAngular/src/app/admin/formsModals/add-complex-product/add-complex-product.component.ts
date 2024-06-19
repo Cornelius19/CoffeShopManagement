@@ -33,8 +33,9 @@ export class AddComplexProductComponent implements OnInit {
     quantity: number = 0;
     supplyCheck: number = 0;
     tva: number = 0;
-    componentProducts: ProductComponent[] = [];
+    componentProducts: GetComponentProducts[] = [];
 
+    componentProducts1: { id: 1; quantity: 2 }[] = [];
     constructor(
         public bsModalRef: BsModalRef,
         private formBuilder: FormBuilder,
@@ -47,11 +48,22 @@ export class AddComplexProductComponent implements OnInit {
         this.initializeForm();
         this.getCategories();
         this.getComponentProducts();
+        if (this.modifyStatus) {
+            for (let item of this.componentProducts) {
+                const componentProductForm = this.formBuilder.group({
+                    id: [item.id, [Validators.required]],
+                    quantity: [item.quantity, [Validators.required, Validators.min(0)]],
+                });
+
+                this.productComponenetsId.push(componentProductForm);
+            }
+        }
     }
 
     initializeForm() {
         if (this.modifyStatus == false) {
             this.newProductForm = this.formBuilder.group({
+                productId: [0],
                 name: ['', [Validators.required]],
                 unitPrice: ['', [Validators.required, Validators.min(0)]],
                 unitMeasure: ['', [Validators.required]],
@@ -62,14 +74,16 @@ export class AddComplexProductComponent implements OnInit {
             });
         } else {
             this.newProductForm = this.formBuilder.group({
+                productId: [this.productId],
                 name: [this.name, [Validators.required]],
                 unitPrice: [this.unitPrice, [Validators.required, Validators.min(0)]],
                 unitMeasure: [this.unitMeasure, [Validators.required]],
                 availableForUser: [this.availableForUser, [Validators.required]],
                 categoryId: [this.categoryId, [Validators.required]],
                 tva: [this.tva, [Validators.required, Validators.min(0)]],
-                productComponenetsId: this.formBuilder.array(this.componentProducts),
+                productComponenetsId: this.formBuilder.array([]),
             });
+            //console.log(this.newProductForm);
         }
     }
 
@@ -80,7 +94,7 @@ export class AddComplexProductComponent implements OnInit {
     addComponentProduct() {
         const componentProductForm = this.formBuilder.group({
             id: ['', [Validators.required]],
-            used_quantity: ['', [Validators.required, Validators.min(0)]],
+            quantity: ['', [Validators.required, Validators.min(0)]],
         });
 
         this.productComponenetsId.push(componentProductForm);
@@ -108,15 +122,34 @@ export class AddComplexProductComponent implements OnInit {
             const model: AddComplexProduct = this.newProductForm.value;
             console.log(model);
 
-            this.adminService.addComplexProduct(model).subscribe({
-                next: (response: any) => {
-                    this.bsModalRef.hide();
-                    this.sharedService.showNotificationAndReload(true, 'Success', response.value.message, true);
-                },
-                error: (error) => {
-                    this.sharedService.showNotification(false, 'Error occurred', error.error.value.message);
-                },
-            });
+            if (this.modifyStatus) {
+                this.adminService.modifyComplexProduct(model).subscribe({
+                    next: (response: any) => {
+                        this.bsModalRef.hide();
+                        this.sharedService.showNotificationAndReload(true, 'Success', response.value.message, true);
+                    },
+                    error: (error) => {
+                        this.sharedService.showNotification(false, 'Error occurred', error.error.value.message);
+                    },
+                });
+            } else {
+                console.log(1);
+                console.log(model);
+                
+                this.adminService.addComplexProduct(model).subscribe({
+                    next: (response: any) => {
+                        console.log(response);
+                        
+                        this.bsModalRef.hide();
+                        this.sharedService.showNotificationAndReload(true, 'Success', response.value.message, true);
+                    },
+                    error: (error:any) => {
+                        console.log(error);
+                        
+                        this.sharedService.showNotification(false, 'Error occurred', error.error.value.message);
+                    },
+                });
+            }
         }
     }
 
@@ -124,6 +157,7 @@ export class AddComplexProductComponent implements OnInit {
         this.adminService.getComponentProducts().subscribe({
             next: (response: any) => {
                 this.componentProductsList = response;
+               // console.log(this.componentProductsList);
             },
             error: (error) => {
                 console.log(error);

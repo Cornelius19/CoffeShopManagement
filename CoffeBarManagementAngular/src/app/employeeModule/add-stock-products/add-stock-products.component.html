@@ -30,6 +30,12 @@
                             id="added_quantity{{ i }}"
                         />
                         <label for="added_quantity{{ i }}">Added quantity</label>
+                        <span class="text-danger" *ngIf="isSubmitted && componentProduct.get('added_quantity')?.hasError('required')">
+                            Quantity is required
+                        </span>
+                        <span class="text-danger" *ngIf="isSubmitted && componentProduct.get('added_quantity')?.hasError('min')">
+                            Minimum value is 1
+                        </span>
                     </div>
                     <div class="row">
                         <div class="col-5">

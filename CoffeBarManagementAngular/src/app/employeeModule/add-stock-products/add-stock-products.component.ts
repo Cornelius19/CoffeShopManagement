@@ -36,7 +36,7 @@ export class AddStockProductsComponent implements OnInit {
     addNewProduct() {
         const newProduct = this.formBuilder.group({
             productId: ['', [Validators.required]],
-            added_quantity: ['', [Validators.required]],
+            added_quantity: ['', [Validators.required,Validators.min(1)]],
         });
         this.productsToAdd.push(newProduct);
     }

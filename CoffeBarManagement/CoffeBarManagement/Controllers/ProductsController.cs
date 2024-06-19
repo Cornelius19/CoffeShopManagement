@@ -97,7 +97,7 @@ namespace CoffeBarManagement.Controllers
                     {
                         TargetProductId = productToAdd.ProductId,
                         ComponentProductId = item.id,
-                        UsageQuantity = item.used_quantity,
+                        UsageQuantity = item.quantity,
                     };
                     await _applicationContext.ComplexProductsComponents.AddAsync(componentProduct);
                     await _applicationContext.SaveChangesAsync();
@@ -110,6 +110,60 @@ namespace CoffeBarManagement.Controllers
             }
             return Ok(new JsonResult(new { message = $"Product {model.Name} was successfuly added!" }));
         }
+
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpPut("modify-complex-product")]
+        public async Task<IActionResult> ModifyComplexProduct(ComplexProductDto model)
+        {
+            var productToModify = await _applicationContext.Products.FindAsync(model.ProductId);
+            if (productToModify == null) { return NotFound(); }
+            productToModify.Quantity = 0;
+            productToModify.SupplyCheck = 0;
+            productToModify.Name = model.Name;
+            productToModify.UnitPrice = model.UnitPrice;
+            productToModify.UnitMeasure = model.UnitMeasure;
+            productToModify.CategoryId = model.CategoryId;
+            productToModify.Tva = model.Tva;
+            productToModify.AvailableForUser = model.AvailableForUser;
+            await _applicationContext.SaveChangesAsync();
+            var componentProducts = await _applicationContext.ComplexProductsComponents.Where(q => q.TargetProductId == productToModify.ProductId).ToListAsync();
+            foreach(var item in componentProducts)
+            {
+                _applicationContext.ComplexProductsComponents.Remove(item);
+                await _applicationContext.SaveChangesAsync();
+            }
+            
+            foreach(var item in model.ProductComponenetsId)
+            {
+                var result = await _applicationContext.ComplexProductsComponents.Where(q => q.TargetProductId == model.ProductId && q.ComponentProductId == item.id).FirstOrDefaultAsync();
+                if (result == null) 
+                {
+                    var componentToAdd = new ComplexProductsComponent
+                    {
+                        TargetProductId = model.ProductId,
+                        ComponentProductId = item.id,
+                        UsageQuantity = item.quantity,
+                    };
+                    await _applicationContext.ComplexProductsComponents.AddAsync(componentToAdd);
+                    await _applicationContext.SaveChangesAsync();
+                    continue;
+                }
+                if(result.UsageQuantity == item.quantity)
+                {
+                    continue;
+                }
+                else
+                {
+                    result.UsageQuantity = item.quantity;
+                    await _applicationContext.SaveChangesAsync();
+                }
+            }
+            return Ok(new JsonResult(new { message = "Product was modified succesfully" }));
+            
+
+        }
+
+
 
         [Authorize(Roles = Dependencis.ADMIN_ROLE)]
         [HttpGet("get-stock")]
@@ -143,7 +197,8 @@ namespace CoffeBarManagement.Controllers
                         var componentProductToAdd = new ComponentProductDto
                         {
                             id = componentProduct.ComponentProductId,
-                            used_quantity = componentProduct.UsageQuantity,
+                            name = componentProduct.ComponentProduct.Name,
+                            quantity = componentProduct.UsageQuantity,
                         };
                         productToAdd.ComponentProducts.Add(componentProductToAdd);
                     }
@@ -249,7 +304,7 @@ namespace CoffeBarManagement.Controllers
             {
                 var itemToAdd = new GetProductComponentDto
                 {
-                     = item.ProductId,
+                    id= item.ProductId,
                     name = item.Name,
                 };
                 listToReturn.Add(itemToAdd);
