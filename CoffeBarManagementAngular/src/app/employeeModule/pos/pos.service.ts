@@ -78,61 +78,56 @@ export class PosService {
         return this.http.post(`${environment.appUrl}/api/orders/add-new-product-to-order-employee/${orderId}`, model);
     }
 
-    
-
-    changeOpenStatus(status: boolean){
-        return this.http.put(`${environment.appUrl}/api/pos/change-status-pos/${status}`,null);
+    changeOpenStatus(status: boolean) {
+        return this.http.put(`${environment.appUrl}/api/pos/change-status-pos/${status}`, null);
     }
 
-
-    showDeleteProductModal(orderId: number){
+    showDeleteProductModal(orderId: number) {
         const initialState: ModalOptions = {
             initialState: {
-                orderId
+                orderId,
             },
         };
         this.bsModalRef = this.modalService.show(DeleteProductModalComponent, initialState);
-    }    
-    
-
-    cancelOrder(orderId: number){
-        return this.http.put(`${environment.appUrl}/api/orders/order-status-cancel/${orderId}`,null);
     }
 
-    deleteProductFromOrder(orderId: number,productId: number){
+    cancelOrder(orderId: number) {
+        return this.http.put(`${environment.appUrl}/api/orders/order-status-cancel/${orderId}`, null);
+    }
+
+    deleteProductFromOrder(orderId: number, productId: number) {
         return this.http.delete(`${environment.appUrl}/api/orders/delete-order-product/${orderId}/${productId}`);
     }
 
-    getAllProductStockBalance(){
+    getAllProductStockBalance() {
         return this.http.get(`${environment.appUrl}/api/products/get-all-products-stockbalance`);
     }
 
-    addNewBalanceRecord(productId:number,categoryId:number,quantity:number){
-        return this.http.post(`${environment.appUrl}/api/pos/new-balace-record/${productId}/${categoryId}/${quantity}`,null);
+    addNewBalanceRecord(productId: number, categoryId: number, quantity: number) {
+        return this.http.post(`${environment.appUrl}/api/pos/new-balace-record/${productId}/${categoryId}/${quantity}`, null);
     }
 
-    cancelOrderById(orderId:number) {
-            if (confirm('Are you sure about this?')) {
-                if (orderId != 0) {
-                    this.cancelOrder(orderId).subscribe({
-                        next: (response: any) => {
-                            this.sharedService.showNotificationAndReload(true, 'Success', response.value.message,true);
-                            localStorage.removeItem(environment.ordersToConfirmCounter);
-                        },
-                        error: (e) => {
-                            console.log(e);
-                        },
-                    });
-                }
+    cancelOrderById(orderId: number) {
+        if (confirm('Are you sure about this?')) {
+            if (orderId != 0) {
+                this.cancelOrder(orderId).subscribe({
+                    next: (response: any) => {
+                        this.sharedService.showNotificationAndReload(true, 'Success', response.value.message, true);
+                        localStorage.removeItem(environment.ordersToConfirmCounter);
+                    },
+                    error: (e) => {
+                        console.log(e);
+                    },
+                });
             }
+        }
     }
 
-    addStockQuantity(productId: number, quantity: number){
-        return this.http.post(`${environment.appUrl}/api/products/add-stock-quantity/${productId}/${quantity}`,null);
+    addStockQuantity(list: Object[]) {
+        return this.http.post(`${environment.appUrl}/api/products/add-stock-quantity`, list);
     }
 
-    getPosCloseFiscalReport(){
+    getPosCloseFiscalReport() {
         return this.http.get(`${environment.appUrl}/api/pos/pos-closing-fiscal-report`);
     }
-
 }

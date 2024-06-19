@@ -21,6 +21,7 @@ import { ModifyComplexProductComponent } from './formsModals/modify-complex-prod
 import { RegisterNewEmployeeDto } from '../shared/models/registerEmployeeDto';
 import { ModifiedEmployeeModalComponent } from './formsModals/modified-employee-modal/modified-employee-modal.component';
 import { AddTableComponent } from './formsModals/add-table/add-table.component';
+import { ProductComponent } from '../shared/models/productComponent';
 
 @Injectable({
     providedIn: 'root',
@@ -61,6 +62,39 @@ export class AdminService {
             },
         };
         this.bsModalRef = this.modalService.show(ModifyProductModalComponent, initialState);
+    }
+
+    showModifyComplexProduct(
+        productId: number,
+        name: string,
+        unitPrice: number,
+        unitMeasure: string,
+        availableForUser: boolean,
+        complexProduct: boolean,
+        categoryId: number,
+        quantity: number,
+        supplyCheck: number,
+        tva: number,
+        componentProducts:ProductComponent[],
+        modifyStatus:boolean
+    ) {
+        const initialState: ModalOptions = {
+            initialState: {
+                productId,
+                name,
+                unitPrice,
+                unitMeasure,
+                availableForUser,
+                complexProduct,
+                categoryId,
+                quantity,
+                supplyCheck,
+                tva,
+                componentProducts,
+                modifyStatus
+            },
+        };
+        this.bsModalRef = this.modalService.show(AddComplexProductComponent, initialState);
     }
     modifyProduct(model: StockProducts) {
         return this.http.put(`${environment.appUrl}/api/products/modify-nonComplexProduct`, model);
@@ -157,9 +191,6 @@ export class AdminService {
         this.bsModalRef = this.modalService.show(AddComplexProductComponent);
     }
 
-    showModifyComplexProduct(name:string,unitPrice:number,unitMeasure:number,availableUser:boolean) {
-        this.bsModalRef = this.modalService.show(ModifyComplexProductComponent);
-    }
 
     getComponentProducts() {
         return this.http.get(`${environment.appUrl}/api/products/get-component-products`);

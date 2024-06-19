@@ -9,6 +9,7 @@ import { AdminService } from '../../admin-service.service';
 import { GetComponentProducts } from '../../../shared/models/getComponentProducts';
 import { error } from 'jquery';
 import { AddComplexProduct } from '../../../shared/models/addComplexProduct';
+import { ProductComponent } from '../../../shared/models/productComponent';
 
 @Component({
     selector: 'app-add-complex-product',
@@ -20,6 +21,19 @@ export class AddComplexProductComponent implements OnInit {
     componentProductsList: GetComponentProducts[] = [];
     newProductForm: FormGroup = new FormGroup({});
     isSubmitted: boolean = false;
+    modifyStatus: boolean = false;
+
+    productId: number = 0;
+    name: string = '';
+    unitPrice: number = 0;
+    unitMeasure: string = '';
+    availableForUser: boolean = false;
+    complexProduct: boolean = false;
+    categoryId: number = 0;
+    quantity: number = 0;
+    supplyCheck: number = 0;
+    tva: number = 0;
+    componentProducts: ProductComponent[] = [];
 
     constructor(
         public bsModalRef: BsModalRef,
@@ -36,15 +50,27 @@ export class AddComplexProductComponent implements OnInit {
     }
 
     initializeForm() {
-        this.newProductForm = this.formBuilder.group({
-            name: ['', [Validators.required]],
-            unitPrice: ['', [Validators.required, Validators.min(0)]],
-            unitMeasure: ['', [Validators.required]],
-            availableForUser: ['', [Validators.required]],
-            categoryId: ['', [Validators.required]],
-            tva: ['', [Validators.required, Validators.min(0)]],
-            productComponenetsId: this.formBuilder.array([]),
-        });
+        if (this.modifyStatus == false) {
+            this.newProductForm = this.formBuilder.group({
+                name: ['', [Validators.required]],
+                unitPrice: ['', [Validators.required, Validators.min(0)]],
+                unitMeasure: ['', [Validators.required]],
+                availableForUser: ['', [Validators.required]],
+                categoryId: ['', [Validators.required]],
+                tva: ['', [Validators.required, Validators.min(0)]],
+                productComponenetsId: this.formBuilder.array([]),
+            });
+        } else {
+            this.newProductForm = this.formBuilder.group({
+                name: [this.name, [Validators.required]],
+                unitPrice: [this.unitPrice, [Validators.required, Validators.min(0)]],
+                unitMeasure: [this.unitMeasure, [Validators.required]],
+                availableForUser: [this.availableForUser, [Validators.required]],
+                categoryId: [this.categoryId, [Validators.required]],
+                tva: [this.tva, [Validators.required, Validators.min(0)]],
+                productComponenetsId: this.formBuilder.array(this.componentProducts),
+            });
+        }
     }
 
     get productComponenetsId(): FormArray {

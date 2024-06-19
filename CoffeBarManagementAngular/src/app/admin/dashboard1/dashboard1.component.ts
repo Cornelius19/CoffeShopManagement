@@ -123,7 +123,7 @@ export class Dashboard1Component implements OnInit {
     this.adminService.getEmployeesOrders().subscribe({
       next: (response:any) => {
         this.employeeOrders =response;
-        console.log(this.employeeOrders);
+        //console.log(this.employeeOrders);
         
         this.employeeOrders.forEach((obj) => {
           this.names.push(obj.name);

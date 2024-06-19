@@ -62,7 +62,7 @@
                             <strong>AllActiveOrders</strong>
                         </a>
                     </li>
-                    @if ((accountService.user$ | async) !== null && accountService.getUserRole() === roles.Pos1) {
+                    @if ((accountService.user$ | async) !== null && accountService.getUserRole() === roles.Pos1 ) {
                         <li class="nav-item dropdown">
                         <a class="nav-link" routerLink="/employees/stock-balance" role="button" aria-expanded="false">
                             <strong>Stock balance</strong>
@@ -123,6 +123,16 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/admin/tables" routerLinkActive="active"><strong>Tables</strong></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" routerLink="/employees/stock-balance" role="button" aria-expanded="false">
+                        <strong>Stock balance</strong>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" routerLink="/employees/add-stock-balance" role="button" aria-expanded="false">
+                        <strong>Add stock balance</strong>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/admin/reports" routerLinkActive="active"><strong>Reports</strong></a>

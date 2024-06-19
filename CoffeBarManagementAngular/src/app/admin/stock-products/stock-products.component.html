@@ -50,7 +50,18 @@
                             [icon]="faEdit"
                         ></fa-icon>
                         } @else {
-                        <fa-icon (click)="modifyComplexProduct()" [icon]="faEdit"></fa-icon>
+                        <fa-icon (click)="modifyComplexProduct(product.productId,
+                        product.name,
+                        product.unitPrice,
+                        product.unitMeasure,
+                        product.availableForUser,
+                        product.complexProduct,
+                        product.categoryId,
+                        product.quantity,
+                        product.supplyCheck,
+                        product.tva,
+                        product.componentProducts,
+                        true)" [icon]="faEdit"></fa-icon>
                         }
                     </span>
                 </td>

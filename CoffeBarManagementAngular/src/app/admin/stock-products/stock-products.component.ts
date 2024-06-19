@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { SharedService } from '../../shared/shared.service';
+import { ProductComponent } from '../../shared/models/productComponent';
 
 @Component({
     selector: 'app-stock-products',
@@ -55,8 +56,34 @@ export class StockProductsComponent implements OnInit {
     }
 
 
-    modifyComplexProduct(){
-        //this.adminService.showModifyComplexProduct();
+    modifyComplexProduct(
+        productId: number,
+        name: string,
+        unitPrice: number,
+        unitMeasure: string,
+        availableForUser: boolean,
+        complexProduct: boolean,
+        categoryId: number,
+        quantity: number,
+        supplyCheck: number,
+        tva: number,
+        componentProducts: ProductComponent[],
+        modifyStatus: boolean
+    ) {
+        this.adminService.showModifyComplexProduct(
+            productId,
+            name,
+            unitPrice,
+            unitMeasure,
+            availableForUser,
+            complexProduct,
+            categoryId,
+            quantity,
+            supplyCheck,
+            tva,
+            componentProducts,
+            modifyStatus
+        );
     }
 
 

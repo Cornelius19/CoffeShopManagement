@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -116,9 +117,9 @@ namespace CoffeBarManagement.Controllers
         {
             var returnList = new List<StockProducts>();
             var products = await _applicationContext.Products.ToListAsync();
-            if(products.Count == 0) return new List<StockProducts>();
+            if (products.Count == 0) return new List<StockProducts>();
 
-            foreach(var product in products)
+            foreach (var product in products)
             {
                 var productToAdd = new StockProducts
                 {
@@ -134,11 +135,11 @@ namespace CoffeBarManagement.Controllers
                     TVA = product.Tva,
                     ComponentProducts = new List<ComponentProductDto>()
                 };
-                if(product.ComplexProduct == true)
+                if (product.ComplexProduct == true)
                 {
                     var componentProducts = await _applicationContext.ComplexProductsComponents.Where(q => q.TargetProductId == product.ProductId).ToListAsync();
-                    foreach(var componentProduct in componentProducts)
-                    { 
+                    foreach (var componentProduct in componentProducts)
+                    {
                         var componentProductToAdd = new ComponentProductDto
                         {
                             id = componentProduct.ComponentProductId,
@@ -176,7 +177,7 @@ namespace CoffeBarManagement.Controllers
         public async Task<List<GetMenuProductDto>> GetMenuProducts(int categoryId)
         {
             var result = await _applicationContext.Products.Where(q => q.CategoryId == categoryId && q.AvailableForUser == true).ToListAsync();
-            if(result == null) return new List<GetMenuProductDto>();
+            if (result == null) return new List<GetMenuProductDto>();
             var categoryProducts = new List<GetMenuProductDto>();
             foreach (var item in result)
             {
@@ -222,13 +223,13 @@ namespace CoffeBarManagement.Controllers
         public async Task<IActionResult> ModifyNonComplexProduct(StockProducts model)
         {
             var productToModify = await _applicationContext.Products.FindAsync(model.ProductId);
-            if(productToModify == null) return NotFound(new JsonResult(new { message = "The product cannot be found!" }));
+            if (productToModify == null) return NotFound(new JsonResult(new { message = "The product cannot be found!" }));
             productToModify.Name = model.Name;
             productToModify.UnitPrice = model.UnitPrice;
             productToModify.UnitMeasure = model.UnitMeasure;
             productToModify.AvailableForUser = model.AvailableForUser;
             productToModify.ComplexProduct = false;
-            productToModify.CategoryId  = model.CategoryId;
+            productToModify.CategoryId = model.CategoryId;
             productToModify.Quantity = model.Quantity;
             productToModify.SupplyCheck = model.SupplyCheck;
             productToModify.Tva = model.TVA;
@@ -248,10 +249,10 @@ namespace CoffeBarManagement.Controllers
             {
                 var itemToAdd = new GetProductComponentDto
                 {
-                    id = item.ProductId,
+                     = item.ProductId,
                     name = item.Name,
                 };
-                listToReturn.Add(itemToAdd);   
+                listToReturn.Add(itemToAdd);
             }
 
             return listToReturn;
@@ -263,9 +264,10 @@ namespace CoffeBarManagement.Controllers
         public async Task<List<StockBalanceProductsDto>> GetAllProducts()
         {
             var list = new List<StockBalanceProductsDto>();
-            var result =  await _applicationContext.Products.Where(q=> q.ComplexProduct == false).ToListAsync();
-            if (result.Count > 0) {
-                foreach(var item in result)
+            var result = await _applicationContext.Products.Where(q => q.ComplexProduct == false).ToListAsync();
+            if (result.Count > 0)
+            {
+                foreach (var item in result)
                 {
                     var productToAadd = new StockBalanceProductsDto
                     {
@@ -281,19 +283,25 @@ namespace CoffeBarManagement.Controllers
             {
                 return null;
             }
-            
+
         }
 
 
         [Authorize(Roles = "Admin, POS")]
-        [HttpPost("add-stock-quantity/{productId}/{quantity}")]
-        public async Task<IActionResult> AddStockQuantity(int productId, int quantity)
+        [HttpPost("add-stock-quantity")]
+        public async Task<IActionResult> AddStockQuantity(List<AddProductsQuantityDto> model)
         {
-            var productDetails = await _applicationContext.Products.FindAsync(productId);
-            if (productDetails == null) { return NotFound(new JsonResult(new { message = "Such a product doesn't exist in db :(" })); }
-            productDetails.Quantity += quantity;
-            await _applicationContext.SaveChangesAsync();
-            return Ok(new JsonResult(new { message = "Product quantity succeffuly modified!" }));
+            if (model.Count > 0)
+            {
+                foreach (var item in model)
+                {
+                    var productDetails = await _applicationContext.Products.FindAsync(item.ProductId);
+                    productDetails.Quantity += item.Added_quantity;
+                    await _applicationContext.SaveChangesAsync();
+                }
+                return Ok(new JsonResult(new { message = "Products quantities was succeffully modified!" }));
+            }
+            return BadRequest();
         }
     }
 }
