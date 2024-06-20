@@ -179,32 +179,60 @@ export class ReportsComponent implements OnInit {
         if (start == '' || end == '') {
             dateStart = new Date('1900-01-01');
             endStart = new Date('1900-01-01');
+        } else {
+            let validation = false;
+            const startDate1 = new Date(start);
+            const endDate1 = new Date(end);
+            if (endDate1 < startDate1) {
+                validation = false;
+                this.sharedService.showNotification(false, 'Error', 'Start date is bigger than end date!');
+            } else {
+                if (endDate1 > new Date() || startDate1 > new Date()) {
+                    validation = false;
+                    this.sharedService.showNotification(false, 'Error', 'One of the dates is in the future!');
+                } else {
+                    validation = true;
+                }
+            }
+            if (validation) {
+                dateStart = new Date(start);
+                endStart = new Date(end);
+                this.reportService.generateOrdersBetweenTwoDates(dateStart, endStart);
+            }
         }
-        else{
-            dateStart = new Date(start);
-            endStart = new Date(end);
-        }
-
-        
-        this.reportService.generateOrdersBetweenTwoDates(dateStart, endStart);
     }
 
-    getReservationsBetweenDates(start: string, end: string){
+    getReservationsBetweenDates(start: string, end: string) {
         let dateStart = new Date();
         let endStart = new Date();
         if (start == '' || end == '') {
             dateStart = new Date('1900-01-01');
             endStart = new Date('1900-01-01');
+        } else {
+            let validation = false;
+            const startDate1 = new Date(start);
+            const endDate1 = new Date(end);
+            if (endDate1 < startDate1) {
+                validation = false;
+                this.sharedService.showNotification(false, 'Error', 'Start date is bigger than end date!');
+            } else {
+                if (endDate1 > new Date() || startDate1 > new Date()) {
+                    validation = false;
+                    this.sharedService.showNotification(false, 'Error', 'One of the dates is in the future!');
+                } else {
+                    validation = true;
+                }
+            }
+            if (validation) {
+                dateStart = new Date(start);
+                endStart = new Date(end);
+                this.reportService.generateReservationReport(dateStart, endStart);
+            }
         }
-        else{
-            dateStart = new Date(start);
-            endStart = new Date(end);
-        }
-        this.reportService.generateReservationReport(dateStart,endStart);
     }
 
-    getEmployeesDataReport(startDate: string, endDate: string){
-        let validation:boolean = false;
+    getEmployeesDataReport(startDate: string, endDate: string) {
+        let validation: boolean = false;
         if (startDate == '' || endDate == '') {
             this.sharedService.showNotification(false, 'Error', 'Select the dates please');
         } else {

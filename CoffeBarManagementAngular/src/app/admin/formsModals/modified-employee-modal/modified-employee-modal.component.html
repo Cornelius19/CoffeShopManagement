@@ -17,6 +17,9 @@
             />
             <label for="salary">Enter new salary</label>
             <span class="text-danger" *ngIf="isSubmitted && formGroup.get('salary')?.hasError('required')"> New salary is required </span>
+            @if (isSubmitted && formGroup.get('salary')?.hasError('min')) {
+                <span class="text-danger">Min salary is 1</span>
+            }
         </div>
         <div class="form-floating mb-3">
             <select class="form-select" formControlName="role" id="role">

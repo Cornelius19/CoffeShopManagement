@@ -30,11 +30,11 @@ export class AddTableComponent implements OnInit {
     initializeForm() {
         if (this.modifyStatus) {
             this.formGroup = this.formBuilder.group({
-                capacity: [this.capacity, [Validators.required]],
+                capacity: [this.capacity, [Validators.required,Validators.min(1),Validators.max(99)]],
             });
         } else {
             this.formGroup = this.formBuilder.group({
-                capacity: ['', [Validators.required]],
+                capacity: ['', [Validators.required,Validators.min(1),Validators.max(99)]],
             });
         }
     }
