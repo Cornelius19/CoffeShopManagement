@@ -20,6 +20,10 @@ export class ReservationsService {
     return null;
   }
 
+  cancelReservation(userId:number,reservationId:number){
+   return this.http.delete(`${environment.appUrl}/api/reservations/delete-reservation/${userId}/${reservationId}`);
+  }
+
   getReservations() {
     const userId = this.getUserId();
     if (userId) {
@@ -35,5 +39,9 @@ export class ReservationsService {
       `${environment.appUrl}/api/reservations/create-reservation-client/${userId}`,
       model
     );
+  }
+
+  clearHistory(userId:number){
+    return this.http.delete(`${environment.appUrl}/api/reservations/clear-reservations-history/${userId}`)
   }
 }

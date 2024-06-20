@@ -13,7 +13,7 @@
                 formControlName="name"
                 id="name"
                 placeholder="Category name"
-                [class.is-invalid]="isSubmitted && formGroup.get('name')?.errors"
+                [class.is-invalid1]="isSubmitted && formGroup.get('name')?.errors"
             />
             <label for="name">Category name</label>
             <span class="text-danger" *ngIf="isSubmitted && formGroup.get('name')?.hasError('required')"> Category name is required </span>

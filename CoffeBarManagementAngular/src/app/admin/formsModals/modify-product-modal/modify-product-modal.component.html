@@ -14,7 +14,7 @@
                 id="name"
                 autocomplete="false"
                 class="form-control"
-                [class.is-invalid]="isSubmitted && modifyProductForm.get('name')?.errors"
+                [class.is-invalid1]="isSubmitted && modifyProductForm.get('name')?.errors"
             />
             <label for="name">Product name</label>
             <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('name')?.hasError('required')"> Product name is required </span>
@@ -28,7 +28,7 @@
                 id="unitPrice"
                 autocomplete="false"
                 class="form-control"
-                [class.is-invalid]="isSubmitted && modifyProductForm.get('unitPrice')?.errors"
+                [class.is-invalid1]="isSubmitted && modifyProductForm.get('unitPrice')?.errors"
             />
             <label for="unitPrice">Unit price</label>
             <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('unitPrice')?.hasError('required')"> Unit price is required </span>
@@ -42,7 +42,7 @@
                 id="unitMeasure"
                 autocomplete="false"
                 class="form-control"
-                [class.is-invalid]="isSubmitted && modifyProductForm.get('unitMeasure')?.errors"
+                [class.is-invalid1]="isSubmitted && modifyProductForm.get('unitMeasure')?.errors"
             />
             <label for="unitMeasure">Unit measure</label>
             <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('unitMeasure')?.hasError('required')">
@@ -80,7 +80,7 @@
                 formControlName="categoryId"
                 id="categoryId"
                 class="form-select"
-                [class.is-invalid]="isSubmitted && modifyProductForm.get('categoryId')?.errors"
+                [class.is-invalid1]="isSubmitted && modifyProductForm.get('categoryId')?.errors"
             >
                 @for (category of categoryList; track category) {
                 <option value="{{ category.categoryId }}">{{ category.categoryName }}</option>
@@ -100,7 +100,7 @@
                 id="quantity"
                 autocomplete="false"
                 class="form-control"
-                [class.is-invalid]="isSubmitted && modifyProductForm.get('quantity')?.errors"
+                [class.is-invalid1]="isSubmitted && modifyProductForm.get('quantity')?.errors"
             />
             <label for="quantity">Quantity</label>
             <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('quantity')?.hasError('required')"> Quantity is required </span>
@@ -114,7 +114,7 @@
                 id="supplyCheck"
                 autocomplete="false"
                 class="form-control"
-                [class.is-invalid]="isSubmitted && modifyProductForm.get('supplyCheck')?.errors"
+                [class.is-invalid1]="isSubmitted && modifyProductForm.get('supplyCheck')?.errors"
             />
             <label for="supplyCheck">Supply Check</label>
             <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('supplyCheck')?.hasError('required')">
@@ -122,14 +122,12 @@
             </span>
         </div>
         <div class="form-floating mb-3 mt-3">
-            <select formControlName="tva" id="tva" class="form-select" [class.is-invalid]="isSubmitted && modifyProductForm.get('tva')?.errors">
+            <select formControlName="tva" id="tva" class="form-select" [class.is-invalid1]="isSubmitted && modifyProductForm.get('tva')?.errors">
                 <option [value]="9">9%</option>
                 <option [value]="19">19%</option>
             </select>
             <label for="categoryId">Select applied TVA</label>
-            <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('categoryId')?.hasError('required')">
-                Select applied TVA
-            </span>
+            <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('categoryId')?.hasError('required')"> Select applied TVA </span>
         </div>
         <div class="row">
             <button type="submit" class="btn btn-warning">Apply changes</button>

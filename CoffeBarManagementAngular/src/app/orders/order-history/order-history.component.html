@@ -1,4 +1,4 @@
-<div class="container acrylic shadow">
+<div class="container ">
     @if (orderHistory.length === 0) {
     <h3 class="text-center">There are no orders registered for this account!</h3>
     }
@@ -8,10 +8,10 @@
     <div class="row justify-content-center">
         @for (item of orderHistory; track item.orderId; let i = $index) {
 
-        <div class="col-md-6 col-sm-12 mb-4">
+        <div class="col-md-6 col-sm-12 mb-4 acrylic shadow">
             <h6>{{i+1}}. Order number {{item.orderId}}</h6>
             <div style="margin-left: 2%;">
-                <h6>- Order date {{item.orderDate}}</h6>
+                <h6>- Order date {{item.orderDate | date:'dd/MM/yy hh:mm a'}}</h6>
                 <h6>- Table number {{item.tableId}}</h6>
                 <h6>- Employee name: "{{item.employeeName}}"</h6>
                 <h6>- Status: {{item.status}}</h6>

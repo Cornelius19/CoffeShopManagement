@@ -13,7 +13,7 @@
                 formControlName="salary"
                 id="salary"
                 placeholder="Modify salary"
-                [class.is-invalid]="isSubmitted && formGroup.get('salary')?.errors"
+                [class.is-invalid1]="isSubmitted && formGroup.get('salary')?.errors"
             />
             <label for="salary">Enter new salary</label>
             <span class="text-danger" *ngIf="isSubmitted && formGroup.get('salary')?.hasError('required')"> New salary is required </span>

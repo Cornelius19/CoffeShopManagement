@@ -27,30 +27,41 @@
         </tr>
     </tbody>
 </table> -->
-
-<div class="container ">
+<div class="row">
+    <button [disabled]="allReservations.length <= 0" (click)="clearHistory()" class="btn col-sm-12 col-lg-2 btn-outline-danger btn-lg">
+        Clear history
+    </button>
+</div>
+<div class="container mt-2">
+    @if (allReservations.length <= 0) {
+    <h3 class="text-center">There are no reservations registered on this account!</h3>
+    } @else {
     <h3 class="text-center">Reservation history</h3>
-    <div class="col-lg-6 col-sm-12 mx-auto mt-3 acrylic shadow">
+    }
+ 
+    <div class="col-lg-6 col-sm-12 mx-auto mt-3">
         @for (reservation of allReservations; track $index) {
-        <div class="col-md-4 col-sm-12 mt-3 mb-5 mx-auto">
-            <h6>{{$index+1}}.Reservation id: #{{reservation.reservationId}}</h6>
-            <div style="margin-left: 5%;">
-                <h6>FirstName: {{reservation.firstName}}</h6>
-                <h6>LastName: {{reservation.lastName}}</h6>
-                <h6>Reservation Date: {{reservation.reservationDate | date:'medium'}}</h6>
-                <h6>PhoneNumber: {{reservation.phoneNumber}}</h6>
-                <h6>Duration: {{reservation.duration}} hour</h6>
-                <h6>Table number: {{reservation.tableNumber}}</h6>
-                <h6>Guest number: {{reservation.guestNumber}}</h6>
+        <div class="col-md-7 col-sm-12 mt-3 mb-3 mx-auto acrylic shadow">
+            <h6>{{ $index + 1 }}.Reservation id: #{{ reservation.reservationId }}</h6>
+            <div style="margin-left: 5%">
+                <h6>FirstName: {{ reservation.firstName }}</h6>
+                <h6>LastName: {{ reservation.lastName }}</h6>
+                <h6>Reservation Date: {{ reservation.reservationDate | date : 'medium' }}</h6>
+                <h6>PhoneNumber: {{ reservation.phoneNumber }}</h6>
+                <h6>Duration: {{ reservation.duration }} hour</h6>
+                <h6>Table number: {{ reservation.tableNumber }}</h6>
+                <h6>Guest number: {{ reservation.guestNumber }}</h6>
                 @if (reservation.reservationStatus === false) {
-                    <h6 class="text-warning">Status: Pending</h6>
+                <h6 class="text-warning">Status: Pending</h6>
                 }@else {
-                    <h6 class="text-primary">Status: Confirmed</h6>
+                <h6 class="text-primary">Status: Confirmed</h6>
                 }
+                <button (click)="cancelReservation(reservation.reservationId)" class="col-md-12 col-sm-12 mt-2 btn btn-lg btn-danger mb-2">
+                    Cancel
+                </button>
             </div>
         </div>
-        <hr>
+        <hr />
         }
     </div>
-
 </div>

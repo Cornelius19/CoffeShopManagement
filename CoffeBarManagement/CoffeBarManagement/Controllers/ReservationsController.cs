@@ -252,11 +252,11 @@ namespace CoffeBarManagement.Controllers
         public async Task<IActionResult> DeleteReservation(int userId, int reservationId)
         {
             var result = await _applicationContext.Reservations.FindAsync(reservationId);
-            if(result == null) { return BadRequest("Such a reservation does not exist!"); }
+            if(result == null) { return BadRequest(new JsonResult(new { message = "Such a reservation does not exist!" })); }
             var checkDate = CheckReservationDate(result.ReservationDate);
             if (!checkDate)
             {
-                return BadRequest("You can't cancel reservation from the past!");
+                return BadRequest(new JsonResult(new { message = "You can't cancel reservation from the past!" }));
             }
             try
             {
@@ -265,12 +265,26 @@ namespace CoffeBarManagement.Controllers
             }
             catch
             {
-                return BadRequest("Something went wrong!");
+                return BadRequest(new JsonResult(new { message = "Something went wrong!" }));
             }
 
-            return Ok("Reservation was succsesfully deleted!");
+            return Ok(new JsonResult(new { message = "Reservation was succsesfully deleted!" }));
+        }
 
-
+        [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
+        [HttpDelete("clear-reservations-history/{userId}")]
+        public async Task<IActionResult> ClearHistory(int userId)
+        {
+            var today = DateTime.Now;
+            var result = await _applicationContext.Reservations.Where(q => q.ReservationDate < today).ToListAsync();
+            if (result.Count > 0) {
+                foreach (var item in result) {
+                    _applicationContext.Remove(item);
+                    await _applicationContext.SaveChangesAsync();
+                }
+                return Ok(new JsonResult(new { message = "All reservations from the past was deleted!" }));
+            }
+            return BadRequest(new JsonResult(new { message = "There was 0 reservations to be cleared!" }));
         }
 
         [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
@@ -376,7 +390,7 @@ namespace CoffeBarManagement.Controllers
             if (reservation == null) { return NotFound(); }
             _applicationContext.Reservations.Remove(reservation);
             await _applicationContext.SaveChangesAsync();
-            return Ok(new JsonResult(new { message = "Reservation was deleted!" }));
+            return Ok(new JsonResult(new { message = "Reservation was deleted! Please contact the client for changing reservation!" }));
 
         }
 

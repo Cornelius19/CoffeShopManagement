@@ -32,13 +32,26 @@ export class ReservationToConfirmComponent implements OnInit {
         }
     }
 
+    cancelReservation(reservationId:number){
+        if(confirm('Are you sure you want to cancel this reservation?')){
+            this.reservationEmployeeService.deleteReservation(reservationId).subscribe({
+                next: (response:any) => {
+                    this.sharedService.showNotificationAndReload(true,'Success',response.value.message,true);
+                },
+                error: (error:any) => {
+                    this.sharedService.showNotification(false,'Success',error.error.value.message);
+                }
+            });
+        }
+    }
+
     getAllReservationsToConfirm() {
         this.reservationEmployeeService.getReservationsToConfirm().subscribe({
             next: (response: any[]) => {
                 this.reservationsToConfirm = response.map((reservation) => {
                     return {
                         reservationId: reservation.reservationId,
-                        reservationDate: new Date(reservation.reservationdate),
+                        reservationDate: new Date(reservation.reservationDate),
                         guestNumber: reservation.guestNumber,
                         firstName: reservation.firstName,
                         lastName: reservation.lastName,

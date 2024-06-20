@@ -50,11 +50,11 @@
                             </div>
                             <div class="row">
                                 <div class="row col-lg-3 col-sm-12">
-                                    <button class="btn btn-primary mt-1" (click)="changeQuantity(product.productId)">Change</button>
+                                    <button class="btn btn-primary btn-lg mt-2" (click)="changeQuantity(product.productId)">Change</button>
                                 </div>
                                 <div class="row col-lg-1"></div>
                                 <div class="row col-lg-3 col-sm-12 ml-2">
-                                    <button class="btn btn-danger mt-1" (click)="removeItem(product.productId)">Remove</button>
+                                    <button class="btn btn-danger btn-lg mt-2" (click)="removeItem(product.productId)">Remove</button>
                                 </div>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
         <div class="col-lg-4 col-md-12">
             <form>
                 <h3>Final price: {{ total | number : '1.2-2' }} $</h3>
-                <button class="btn btn-success" *ngIf="cartList.length > 0" type="submit" [routerLink]="'/orders/qr-scanner'">Create order!</button>
+                <button class="btn btn-success btn-lg col-12 mt-3" *ngIf="cartList.length > 0" type="submit" [routerLink]="'/orders/qr-scanner'">Create order!</button>
             </form>
         </div>
     </div>

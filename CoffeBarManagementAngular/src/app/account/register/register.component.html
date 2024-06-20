@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center ">
+<div class="d-flex justify-content-center">
     <!--d-flex and justify-content-center is for centered content in bootstrap 5 -->
     <div class="col-sm-12 col-lg-5 acrylic shadow">
         <main class="form-signin">
@@ -13,7 +13,7 @@
                         type="text"
                         placeholder="FirstName"
                         class="form-control"
-                        [class.is-invalid]="submitted && registerForm.get('firstName')?.errors"
+                        [class.is-invalid1]="submitted && registerForm.get('firstName')?.errors"
                     />
                     <label for="firstName">First Name</label>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('firstName')?.hasError('required')"> First Name is required </span>
@@ -35,7 +35,7 @@
                         type="text"
                         placeholder="LastName"
                         class="form-control"
-                        [class.is-invalid]="submitted && registerForm.get('lastName')?.errors"
+                        [class.is-invalid1]="submitted && registerForm.get('lastName')?.errors"
                     />
                     <label for="lastName">Last Name</label>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('lastName')?.hasError('required')"> Last Name is required </span>
@@ -56,7 +56,7 @@
                         id="email"
                         placeholder="Email"
                         class="form-control"
-                        [class.is-invalid]="submitted && registerForm.get('email')?.errors"
+                        [class.is-invalid1]="submitted && registerForm.get('email')?.errors"
                     />
                     <label for="email">Email</label>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('email')?.hasError('required')"> Email is required </span>
@@ -70,7 +70,7 @@
                         type="text"
                         placeholder="PhoneNumber"
                         class="form-control"
-                        [class.is-invalid]="submitted && registerForm.get('phoneNumber')?.errors"
+                        [class.is-invalid1]="submitted && registerForm.get('phoneNumber')?.errors"
                     />
                     <label for="phoneNumber">Phone Number</label>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('phoneNumber')?.hasError('required')">
@@ -88,7 +88,7 @@
                         type="{{ showPassword1 ? 'text' : 'password' }}"
                         placeholder="Password"
                         class="form-control"
-                        [class.is-invalid]="submitted && registerForm.get('password')?.errors"
+                        [class.is-invalid1]="submitted && registerForm.get('password')?.errors"
                     />
                     <label for="password">Password</label>
                     <ng-template #passwordHiddenTemplate>
@@ -117,7 +117,7 @@
                         type="{{ showPassword2 ? 'text' : 'password' }}"
                         placeholder="RePassword"
                         class="form-control"
-                        [class.is-invalid]="submitted && registerForm.get('repassword')?.errors?.['mismatch']"
+                        [class.is-invalid1]="submitted && registerForm.get('repassword')?.errors?.['mismatch']"
                     />
                     <label for="repassword">RePassword</label>
                     <ng-template #passwordHiddenTemplate1>

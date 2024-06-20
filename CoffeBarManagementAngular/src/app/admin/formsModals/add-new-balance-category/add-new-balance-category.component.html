@@ -13,10 +13,12 @@
                 formControlName="removeCategoryName"
                 id="removeCategoryName"
                 placeholder="Category name"
-                [class.is-invalid]="isSubmitted && formGroup.get('removeCategoryName')?.errors"
+                [class.is-invalid1]="isSubmitted && formGroup.get('removeCategoryName')?.errors"
             />
             <label for="removeCategoryName">Category name</label>
-            <span class="text-danger" *ngIf="isSubmitted && formGroup.get('removeCategoryName')?.hasError('required')"> Category name is required </span>
+            <span class="text-danger" *ngIf="isSubmitted && formGroup.get('removeCategoryName')?.hasError('required')">
+                Category name is required
+            </span>
         </div>
         <button type="submit" class="btn btn-primary">Add balance category!</button>
     </form>

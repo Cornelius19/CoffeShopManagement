@@ -14,7 +14,7 @@
                 id="name"
                 autocomplete="false"
                 class="form-control"
-                [class.is-invalid]="isSubmitted && newProductForm.get('name')?.errors"
+                [class.is-invalid1]="isSubmitted && newProductForm.get('name')?.errors"
             />
             <label for="name">Product name</label>
             <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('name')?.hasError('required')"> Product name is required </span>
@@ -28,7 +28,7 @@
                 id="unitPrice"
                 autocomplete="false"
                 class="form-control"
-                [class.is-invalid]="isSubmitted && newProductForm.get('unitPrice')?.errors"
+                [class.is-invalid1]="isSubmitted && newProductForm.get('unitPrice')?.errors"
             />
             <label for="unitPrice">Unit price</label>
             <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('unitPrice')?.hasError('required')"> Unit price is required </span>
@@ -42,7 +42,7 @@
                 id="unitMeasure"
                 autocomplete="false"
                 class="form-control"
-                [class.is-invalid]="isSubmitted && newProductForm.get('unitMeasure')?.errors"
+                [class.is-invalid1]="isSubmitted && newProductForm.get('unitMeasure')?.errors"
             />
             <label for="unitMeasure">Unit measure</label>
             <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('unitMeasure')?.hasError('required')"> Product name is required </span>
@@ -64,7 +64,7 @@
                 formControlName="categoryId"
                 id="categoryId"
                 class="form-select"
-                [class.is-invalid]="isSubmitted && newProductForm.get('categoryId')?.errors"
+                [class.is-invalid1]="isSubmitted && newProductForm.get('categoryId')?.errors"
             >
                 @for (category of categoryList; track category) {
                 <option value="{{ category.categoryId }}">{{ category.categoryName }}</option>
@@ -74,7 +74,7 @@
             <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('categoryId')?.hasError('required')"> Select a category please </span>
         </div>
         <div class="form-floating mb-3 mt-3">
-            <select formControlName="tva" id="tva" class="form-select" [class.is-invalid]="isSubmitted && newProductForm.get('tva')?.errors">
+            <select formControlName="tva" id="tva" class="form-select" [class.is-invalid1]="isSubmitted && newProductForm.get('tva')?.errors">
                 <option [value]="9">9%</option>
                 <option [value]="19">19%</option>
             </select>
@@ -93,7 +93,7 @@
                         formControlName="id"
                         id="categoryId"
                         class="form-select"
-                        [class.is-invalid]="isSubmitted && newProductForm.get('id')?.errors"
+                        [class.is-invalid1]="isSubmitted && newProductForm.get('id')?.errors"
                     >
                         @for (item of componentProductsList; track item) {
                         <option [value]="item.id">{{ item.name }}</option>

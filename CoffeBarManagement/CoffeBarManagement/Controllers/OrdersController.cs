@@ -75,18 +75,18 @@ namespace CoffeBarManagement.Controllers
                     notAddedProducts.Add(productDetails.Name);
                     continue;
                 }
-                if (productDetails.ComplexProduct == false)
-                {
-                    productDetails.Quantity -= product.quantity;
-                    var stockBalanceRecord = new StockBalance
-                    {
-                        BalanceDate = DateTime.Now,
-                        ProductId = productDetails.ProductId,
-                        RemoveQuantity = product.quantity,
-                        RemoveCategoryId = 1,
-                    };
-                    await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
-                }
+                //if (productDetails.ComplexProduct == false)
+                //{
+                //    productDetails.Quantity -= product.quantity;
+                //    var stockBalanceRecord = new StockBalance
+                //    {
+                //        BalanceDate = DateTime.Now,
+                //        ProductId = productDetails.ProductId,
+                //        RemoveQuantity = product.quantity,
+                //        RemoveCategoryId = 1,
+                //    };
+                //    await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
+                //}
                 await _applicationContext.OrderProducts.AddAsync(orderProduct);
                 await _applicationContext.SaveChangesAsync();
             }
@@ -97,6 +97,60 @@ namespace CoffeBarManagement.Controllers
 
             return Ok(new JsonResult(new { title = "Order sent", message = "Order was succesfully registered, you can see it in active orders! :D" }));
 
+        }
+
+        [Authorize(Policy = "CheckOpenStatus")]
+        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [HttpPut("confirm-order/{employeeId}/{orderId}")]
+        public async Task<IActionResult> ConfirmOrder(int employeeId, int orderId)
+        {
+            var notAddedProducts = new List<string>();
+            var result = await _applicationContext.Orders.FindAsync(orderId);
+            if (result == null) return BadRequest(new JsonResult(new { message = "Such an order does not exist!" }));
+            if (result.OrderStatus != 1)
+            {
+                return BadRequest(new JsonResult(new { message = "This order is already confirmed!" }));
+            }
+
+            result.OrderStatus += 1;
+            result.TakenEmployeeId = employeeId;
+            var orderProducts = await _applicationContext.OrderProducts.Where(q => q.OrderId == orderId).ToListAsync();
+            foreach (var product in orderProducts)
+            {
+                var productDetails = await _applicationContext.Products.FindAsync(product.ProductId);
+                if (productDetails == null)
+                {
+                    notAddedProducts.Add(productDetails.Name);
+                    continue;
+                }
+                if (productDetails.ComplexProduct == false && productDetails.Quantity < product.Quantity)
+                {
+                    notAddedProducts.Add(productDetails.Name);
+                    continue;
+                }
+                if (productDetails.ComplexProduct == false)
+                {
+                    productDetails.Quantity -= product.Quantity;
+
+                    var stockBalanceRecord = new StockBalance
+                    {
+                        BalanceDate = DateTime.Now,
+                        ProductId = productDetails.ProductId,
+                        RemoveQuantity = product.Quantity,
+                        RemoveCategoryId = 1,
+                    };
+
+                    await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
+                    await _applicationContext.SaveChangesAsync();
+                }
+            }
+            if (notAddedProducts.Count > 0)
+            {
+                await _applicationContext.SaveChangesAsync();
+                return Ok(new JsonResult(new { title = "Order was succesfully registered but:", message = $"The next products {string.Join(", ", notAddedProducts)} cannot be added to the order because of the insuficient quantity" }));
+            }
+            await _applicationContext.SaveChangesAsync();
+            return Ok(new JsonResult(new { message = "Order is confirmed!" }));
         }
 
 
@@ -353,69 +407,31 @@ namespace CoffeBarManagement.Controllers
                     await _applicationContext.SaveChangesAsync();
                 }
 
-                if (productDetails.ComplexProduct == false)
-                {
-                    productDetails.Quantity -= product.quantity;
-                    var stockBalanceRecord = new StockBalance
-                    {
-                        BalanceDate = DateTime.Now,
-                        ProductId = productDetails.ProductId,
-                        RemoveQuantity = product.quantity,
-                        RemoveCategoryId = 1,
-                    };
+                //if (productDetails.ComplexProduct == false)
+                //{
+                //    productDetails.Quantity -= product.quantity;
+                //    var stockBalanceRecord = new StockBalance
+                //    {
+                //        BalanceDate = DateTime.Now,
+                //        ProductId = productDetails.ProductId,
+                //        RemoveQuantity = product.quantity,
+                //        RemoveCategoryId = 1,
+                //    };
 
-                    await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
-                }
+                //    await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
+                //}
 
                 await _applicationContext.SaveChangesAsync();
             }
             if (insufficientProducts.Count > 0)
             {
-                return Ok(new JsonResult(new { title = "Well", message = $"The following products {string.Join(", ", insufficientProducts)} cannot be added to your order because they aren't availabale in that quantity!" }));
+                return Ok(new JsonResult(new { title = "Well", message = $"The following products: {string.Join(", ", insufficientProducts)}; cannot be added to your order because there is not enough stock!" }));
             }
 
             return Ok(new JsonResult(new { title = "Success", message = "The new products was added to your order!" }));
         }
 
-        [Authorize(Policy = "CheckOpenStatus")]
-        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
-        [HttpPut("confirm-order/{employeeId}/{orderId}")]
-        public async Task<IActionResult> ConfirmOrder(int employeeId, int orderId)
-        {
-            var result = await _applicationContext.Orders.FindAsync(orderId);
-            if (result == null) return BadRequest(new JsonResult(new { message = "Such an order does not exist!" }));
-            if (result.OrderStatus != 1)
-            {
-                return BadRequest(new JsonResult(new { message = "This order is already confirmed!" }));
-            }
-
-            result.OrderStatus += 1;
-            result.TakenEmployeeId = employeeId;
-            //var orderProducts = await _applicationContext.OrderProducts.Where(q => q.OrderId == orderId).ToListAsync();
-            //foreach (var product in orderProducts)
-            //{
-            //    var productDetails = await _applicationContext.Products.FindAsync(product.ProductId);
-            //    if (productDetails == null) { return BadRequest(new JsonResult(new { message = "Somthing went wrong!" })); }
-            //    if (productDetails.ComplexProduct == false)
-            //    {
-            //        if (productDetails.Quantity < product.Quantity) return BadRequest(new JsonResult(new { message = $"We don't have so much {productDetails.Name}!" }));
-            //        productDetails.Quantity -= product.Quantity;
-
-            //        var stockBalanceRecord = new StockBalance
-            //        {
-            //            BalanceDate = DateTime.Now,
-            //            ProductId = productDetails.ProductId,
-            //            RemoveQuantity = product.Quantity,
-            //            RemoveCategoryId = 1,
-            //        };
-
-            //        await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
-            //        await _applicationContext.SaveChangesAsync();
-            //    }
-            //}
-            await _applicationContext.SaveChangesAsync();
-            return Ok(new JsonResult(new { message = "Order is confirmed!" }));
-        }
+        
 
         [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]

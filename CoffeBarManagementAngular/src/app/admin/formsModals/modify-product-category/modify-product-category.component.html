@@ -13,7 +13,7 @@
                 formControlName="categoryName"
                 id="name"
                 placeholder="Category name"
-                [class.is-invalid]="isSubmitted && formGroup.get('categoryName')?.errors"
+                [class.is-invalid1]="isSubmitted && formGroup.get('categoryName')?.errors"
             />
             <label for="categoryName">Category name</label>
             <span class="text-danger" *ngIf="isSubmitted && formGroup.get('categoryName')?.hasError('required')"> Category name is required </span>
@@ -30,6 +30,6 @@
         <div class="mb-3">
             <span class="text-danger" *ngIf="isSubmitted && formGroup.get('availableMenu')?.hasError('required')"> Select yes or no please! </span>
         </div>
-        <button type="submit" class="btn btn-primary">Modify category</button>        
+        <button type="submit" class="btn btn-primary">Modify category</button>
     </form>
 </div>

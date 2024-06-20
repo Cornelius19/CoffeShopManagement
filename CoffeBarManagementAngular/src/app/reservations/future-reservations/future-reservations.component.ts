@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservationsService } from '../reservations.service';
 import { GetReservation } from '../../shared/models/getReservation';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-future-reservations',
@@ -9,7 +10,9 @@ import { GetReservation } from '../../shared/models/getReservation';
 })
 export class FutureReservationsComponent implements OnInit{
   
-  constructor(private reservationService: ReservationsService){}
+  constructor(private reservationService: ReservationsService,
+    private sharedService: SharedService
+  ){}
 
   public allReservations: GetReservation[] = [];
 
@@ -41,6 +44,22 @@ export class FutureReservationsComponent implements OnInit{
         console.log(error);
       },
     });
+  }
+
+
+  cancelReservation(reservationId:number){
+    const userId = this.sharedService.getUserId();
+    if(userId){
+      this.reservationService.cancelReservation(userId,reservationId).subscribe({
+        next:(response:any) => {
+          this.sharedService.showNotificationAndReload(true,'Success',response.value.message,true);
+        },
+        error: (e:any) => {
+          this.sharedService.showNotification(false,'Error',e.error.value.message);
+        }
+      });
+
+    }
   }
 
 }
