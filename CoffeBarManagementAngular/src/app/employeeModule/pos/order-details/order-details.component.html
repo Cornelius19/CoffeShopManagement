@@ -54,9 +54,9 @@
                         (orderDetails.products.length > 1) {
                         <button
                             (click)="deleteProductFromOrder(orderDetails.orderId, product.productId)"
-                            class="col-lg-4 col-sm-6 btn btn-danger mt-3"
+                            class="col-lg-2 col-sm-6 btn btn-lg btn-outline-danger mt-2 mb-2"
                         >
-                            Delete a product
+                            <fa-icon [icon]="faTrashCan"></fa-icon>
                         </button>
                         } }
                     </div>

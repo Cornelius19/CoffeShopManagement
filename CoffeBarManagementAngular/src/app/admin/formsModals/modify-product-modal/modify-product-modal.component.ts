@@ -46,9 +46,9 @@ export class ModifyProductModalComponent implements OnInit {
     initializeForm() {
         this.modifyProductForm = this.formBuilder.group({
             productId: [this.productId],
-            name: [this.name, [Validators.required]],
+            name: [this.name, [Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
             unitPrice: [this.unitPrice, [Validators.required, Validators.min(0)]],
-            unitMeasure: [this.unitMeasure, [Validators.required]],
+            unitMeasure: [this.unitMeasure, [Validators.required,Validators.minLength(2),Validators.maxLength(10)]],
             availableForUser: [this.availableForUser, [Validators.required]],
             categoryId: [this.categoryId, [Validators.required]],
             quantity: [this.quantity, [Validators.required, Validators.min(0)]],

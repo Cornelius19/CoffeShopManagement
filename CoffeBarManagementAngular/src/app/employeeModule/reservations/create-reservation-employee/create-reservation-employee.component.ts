@@ -34,9 +34,9 @@ export class CreateReservationEmployeeComponent implements OnInit {
             guestNumber: ['', [Validators.required, Validators.min(1), Validators.max(99)]],
             duration: ['', [Validators.required, Validators.min(1), Validators.max(14)]],
             tableId: ['', [Validators.required]],
-            firstName: ['', [Validators.required, Validators.min(3), Validators.max(20)]],
-            lastName: ['', [Validators.required, Validators.min(3), Validators.max(20)]],
-            phoneNumber: ['', [Validators.required, Validators.pattern('^\\+40[1-9][0-9]{8,9}$')]],
+            firstName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+            lastName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+            phoneNumber: ['', [Validators.required, Validators.pattern('^0[6-9][0-9]{8}$')]],
         });
     }
 
@@ -74,6 +74,7 @@ export class CreateReservationEmployeeComponent implements OnInit {
             if (model) {
                 this.reservationEmployeeService.createReservationEmployee(model).subscribe({
                     next: (response:any) => {
+                        this.isSubmitted = false;
                         this.sharedService.showNotification(true, "Reservation created!", response.value.message);
                         this.initializeForm();
                     },

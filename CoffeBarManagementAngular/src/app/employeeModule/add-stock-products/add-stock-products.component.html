@@ -13,7 +13,7 @@
                             [class.is-invalid1]="isSubmitted && componentProduct.get('productId')?.errors"
                         >
                             @for (item of allProducts; track item) {
-                            <option [value]="item.id">{{ item.name }}</option>
+                            <option [value]="item.id">{{ item.name }}: {{item.quantity}}</option>
                             }
                         </select>
                         <label for="productId{{ i }}">Select the product </label>
@@ -33,8 +33,8 @@
                         <span class="text-danger" *ngIf="isSubmitted && componentProduct.get('added_quantity')?.hasError('required')">
                             Quantity is required
                         </span>
-                        <span class="text-danger" *ngIf="isSubmitted && componentProduct.get('added_quantity')?.hasError('min')">
-                            Minimum value is 1
+                        <span class="text-danger" *ngIf="isSubmitted && componentProduct.get('added_quantity')?.hasError('min') || isSubmitted && componentProduct.get('added_quantity')?.hasError('max')">
+                            Minimum value is 1 and maxim value is 199
                         </span>
                     </div>
                     <div class="row">

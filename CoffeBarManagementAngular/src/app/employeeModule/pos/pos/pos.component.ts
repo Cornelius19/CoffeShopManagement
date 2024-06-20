@@ -40,7 +40,7 @@ export class PosComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private imageService: ImageService,
-        private reportService: ReportPdfServiceService
+        private reportService: ReportPdfServiceService,
     ) {}
     menuCategories: GetCategories[] = [];
     menuProducts: GetProducts[] = [];
@@ -84,28 +84,27 @@ export class PosComponent implements OnInit {
         this.posService.changeOpenStatus(status).subscribe({
             next: (response: any) => {
                 this.sharedService.showNotificationAndReload(true, 'Status changed', response.value.message, true);
-                if(response.value.status == false){
-                    this.getCloseStatusData(new Date())
+                if (response.value.status == false) {
+                    this.getCloseStatusData(new Date());
                 }
             },
-            error: (e:any) => {
-                this.sharedService.showNotification(false,'Error',e.error.value.message);
+            error: (e: any) => {
+                this.sharedService.showNotification(false, 'Error', e.error.value.message);
             },
         });
     }
 
-
     getCloseStatusData(date: Date) {
-        if(confirm('If this is the final closure for the day press ok for fiscal closure!')){
-            this.reportService.generateFiscalReportClosePos()
+        if (confirm('If this is the final closure for the day press ok for fiscal closure!')) {
+            this.reportService.generateFiscalReportClosePos();
         }
-        const presentDate = this.sharedService.convertDateToYYMMDD(date)
+        const presentDate = this.sharedService.convertDateToYYMMDD(date);
         this.sharedService.getClosePOSData(presentDate).subscribe({
             next: (response: any) => {
                 this.posClosedReportData = {
                     name: response.name,
-                    createdAt:new Date(response.createdAt),
-                    forDay:new Date(response.forDay),
+                    createdAt: new Date(response.createdAt),
+                    forDay: new Date(response.forDay),
                     finishedOrdersCounter: response.finishedOrdersCounter,
                     canceledOrdersCounter: response.canceledOrdersCounter,
                     totalOrdersValue: response.totalOrdersValue,
@@ -113,12 +112,11 @@ export class PosComponent implements OnInit {
                     products: response.products,
                 };
                 console.log(this.posClosedReportData);
-                
-                if(this.posClosedReportData.finishedOrdersCounter != 0){
-                    this.reportService.generateClosePosReportPdf(this.posClosedReportData)
-                }
-                else{
-                    this.sharedService.showNotification(false,'Error','There are no orders for today yep');
+
+                if (this.posClosedReportData.finishedOrdersCounter != 0) {
+                    this.reportService.generateClosePosReportPdf(this.posClosedReportData);
+                } else {
+                    this.sharedService.showNotification(false, 'Error', 'There are no orders for today yep');
                 }
             },
             error: (e) => {
@@ -247,18 +245,26 @@ export class PosComponent implements OnInit {
             if (productToModify) {
                 const result = this.allProducts.find((q) => q.productId == productId);
                 if (result) {
-                    if (result.complexProduct == false && productToModify.quantity >= result.productAvailability) {
+                    if (result.complexProduct == true && productToModify.quantity >= 99) {
                         this.sharedService.showNotification(
                             false,
                             `To much ${productToModify.productName}`,
-                            'The availability of this product is not enough!',
+                            'The max value for an complex product is set to 99!',
                         );
                     } else {
-                        productToModify.quantity++;
-                        productToModify.total = productToModify.quantity * productToModify.unitPrice;
-                        this.posService.addModifyCartItemsToLocalStorage(productListStorage);
-                        this.modifyCartProducts = this.posService.getModifyCartProductsToList();
-                        this.updateTotal();
+                        if (result.complexProduct == false && productToModify.quantity >= result.productAvailability) {
+                            this.sharedService.showNotification(
+                                false,
+                                `To much ${productToModify.productName}`,
+                                'The availability of this product is not enough!',
+                            );
+                        } else {
+                            productToModify.quantity++;
+                            productToModify.total = productToModify.quantity * productToModify.unitPrice;
+                            this.posService.addModifyCartItemsToLocalStorage(productListStorage);
+                            this.modifyCartProducts = this.posService.getModifyCartProductsToList();
+                            this.updateTotal();
+                        }
                     }
                 } else {
                     this.sharedService.showNotification(false, 'Error', 'Product was not found!');
@@ -348,8 +354,8 @@ export class PosComponent implements OnInit {
     }
 
     changeQuantity(productId: number, newQuantity: number) {
-        if (newQuantity < 1) {
-            this.sharedService.showNotification(false, 'Bad employee', 'Quantity must be greater than 1');
+        if (newQuantity < 1 || newQuantity > 99) {
+            this.sharedService.showNotificationAndReload(false, 'Bad employee', 'Quantity must be greater than 1 and less than 99', true);
         } else {
             const result = this.allProducts.find((q) => q.productId == productId);
             if (result) {

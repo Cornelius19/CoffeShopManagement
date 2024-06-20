@@ -77,7 +77,7 @@
                         Phone number is required
                     </span>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('phoneNumber')?.hasError('pattern')">
-                        Valid phone number "+407xxxxxxxx"
+                        Valid phone number "07xxxxxxxx"
                     </span>
                 </div>
 
@@ -106,7 +106,7 @@
                             (submitted && registerForm.get('password')?.hasError('pattern')) || registerForm.get('password')?.hasError('maxlength')
                         "
                     >
-                        Password must contain min 8 char, 1 uppercase, 1 lowercase, 1 special char, 01 number
+                        Password must contain min 8 char, 1 uppercase, 1 lowercase, 1 special char, 1 number
                     </span>
                 </div>
 

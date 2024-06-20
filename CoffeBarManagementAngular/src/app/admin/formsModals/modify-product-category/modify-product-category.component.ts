@@ -32,7 +32,7 @@ export class ModifyProductCategoryComponent implements OnInit {
     initializeForm() {
         this.formGroup = this.formBuilder.group({
             categoryId: [this.categoryId, [Validators.required]],
-            categoryName: [this.categoryName, [Validators.required]],
+            categoryName: [this.categoryName, [Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
             availableMenu: [this.availableMenu, [Validators.required]],
         });
     }

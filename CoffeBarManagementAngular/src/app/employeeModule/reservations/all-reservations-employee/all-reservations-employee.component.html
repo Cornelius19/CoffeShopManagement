@@ -1,8 +1,12 @@
 <div class="container ">
-    <h3 class="text-center">Here are all reservations!(need to implement sorting by date)</h3>
-    <div class="col-lg-6 col-sm-12 mx-auto justify-content-center acrylic shadow mt-3">
+    @if (allReservations.length === 0) {
+        <h3 class="text-center">There are no reservations!</h3>
+    }@else {
+        <h3 class="text-center">Here are all reservations!</h3>
+    }
+    <div class="col-lg-6 col-sm-12 mx-auto justify-content-center  mt-3">
         @for (reservation of allReservations; track $index) {
-        <div class="col-md-7 col-sm-12 mt-3 ">
+        <div class="col-md-8 col-sm-12 mt-3 mx-auto  acrylic shadow">
             <h6>{{$index+1}}.Reservation id: #{{reservation.reservationId}}</h6>
             <div style="margin-left: 5%;">
                 <h6>FirstName: {{reservation.firstName}}</h6>
@@ -13,10 +17,11 @@
                 <h6>Table number: {{reservation.tableNumber}}</h6>
                 <h6>Guest number: {{reservation.guestNumber}}</h6>
                 @if (reservation.reservationStatus === false) {
-                    <h6 class="text-warning mb-5">Status: Pending</h6>
+                    <h6 class="text-warning mb-3">Status: Pending</h6>
                 }@else {
-                    <h6 class="text-primary mb-5">Status: Confirmed</h6>
+                    <h6 class="text-primary mb-3">Status: Confirmed</h6>
                 }
+                <button (click)="cancelReservation(reservation.reservationId)" class="col-12 btn btn-lg btn-danger">Cancel</button>
             </div>
         </div>
         <hr>

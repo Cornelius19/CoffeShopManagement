@@ -31,7 +31,7 @@ export class ModifyBalanceCategoryComponent implements OnInit {
     initializeForm() {
         this.formGroup = this.formBuilder.group({
             removeCategoryId: [this.removeCategoryId],
-            removeCategoryName: [this.removeCategoryName, [Validators.required]],
+            removeCategoryName: [this.removeCategoryName,[Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
             stockBalances: [this.stockBalances]
         });
     }

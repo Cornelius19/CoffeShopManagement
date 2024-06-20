@@ -1,5 +1,5 @@
-<div class="modal-header bg-warning">
-    <h4 class="modal-title pull-center">Please edit and press commit!</h4>
+<div class="modal-header bg-dark">
+    <h5 class="modal-title pull-center" style="color: white">Complete the form please!</h5>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
         <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
@@ -18,6 +18,9 @@
             />
             <label for="name">Product name</label>
             <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('name')?.hasError('required')"> Product name is required </span>
+            @if(isSubmitted && modifyProductForm.get('name')?.hasError('minlength') || isSubmitted && modifyProductForm.get('name')?.hasError('maxlength')){
+                <span class="text-danger">The name must be at least 3 char and max 50</span>
+            }
         </div>
 
         <div class="form-floating mb-3">
@@ -32,6 +35,9 @@
             />
             <label for="unitPrice">Unit price</label>
             <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('unitPrice')?.hasError('required')"> Unit price is required </span>
+            @if(isSubmitted && modifyProductForm.get('unitPrice')?.hasError('min')){
+                <span class="text-danger">Minim price can be 0</span>
+            }
         </div>
 
         <div class="form-floating mb-3">
@@ -45,32 +51,19 @@
                 [class.is-invalid1]="isSubmitted && modifyProductForm.get('unitMeasure')?.errors"
             />
             <label for="unitMeasure">Unit measure</label>
-            <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('unitMeasure')?.hasError('required')">
-                Product name is required
-            </span>
+            <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('unitMeasure')?.hasError('required')"> Product name is required </span>
+            @if(isSubmitted && modifyProductForm.get('unitMeasure')?.hasError('minlength') || isSubmitted && modifyProductForm.get('unitMeasure')?.hasError('maxlength')){
+                <span class="text-danger">Unit measure must be at least 2 char and max 10 chars</span>
+            }
         </div>
 
         <span>The product is available for clients?</span>
         <div class="col form-check">
-            <input
-                class="form-check-input"
-                type="radio"
-                [value]="true"
-                formControlName="availableForUser"
-                id="availableForUser1"
-                [checked]="modifyProductForm.get('availableForUser')?.value === true"
-            />
+            <input checked class="form-check-input" type="radio" [value]="true" formControlName="availableForUser" id="availableForUser1" />
             <label class="form-check-label" for="availableForUser1"> Yes </label>
         </div>
         <div class="col form-check">
-            <input
-                class="form-check-input"
-                type="radio"
-                [value]="false"
-                formControlName="availableForUser"
-                id="availableForUser2"
-                [checked]="modifyProductForm.get('availableForUser')?.value === false"
-            />
+            <input class="form-check-input" type="radio" [value]="false" formControlName="availableForUser" id="availableForUser2" />
             <label class="form-check-label" for="availableForUser2"> No </label>
         </div>
         <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('availableForUser')?.hasError('required')"> Check one box please </span>
@@ -87,9 +80,7 @@
                 }
             </select>
             <label for="categoryId">Select category</label>
-            <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('categoryId')?.hasError('required')">
-                Select a category please
-            </span>
+            <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('categoryId')?.hasError('required')"> Select a category please </span>
         </div>
 
         <div class="form-floating mb-3">
@@ -104,6 +95,9 @@
             />
             <label for="quantity">Quantity</label>
             <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('quantity')?.hasError('required')"> Quantity is required </span>
+            @if(isSubmitted && modifyProductForm.get('quantity')?.hasError('min')){
+                <span class="text-danger">Minim quantity can be 0</span>
+            }
         </div>
 
         <div class="form-floating mb-3">
@@ -117,9 +111,10 @@
                 [class.is-invalid1]="isSubmitted && modifyProductForm.get('supplyCheck')?.errors"
             />
             <label for="supplyCheck">Supply Check</label>
-            <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('supplyCheck')?.hasError('required')">
-                Supply Check is required
-            </span>
+            <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('supplyCheck')?.hasError('required')"> Supply Check is required </span>
+            @if(isSubmitted && modifyProductForm.get('supplyCheck')?.hasError('min')){
+                <span class="text-danger">Supply check can be 0</span>
+            }
         </div>
         <div class="form-floating mb-3 mt-3">
             <select formControlName="tva" id="tva" class="form-select" [class.is-invalid1]="isSubmitted && modifyProductForm.get('tva')?.errors">
@@ -127,10 +122,10 @@
                 <option [value]="19">19%</option>
             </select>
             <label for="categoryId">Select applied TVA</label>
-            <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('categoryId')?.hasError('required')"> Select applied TVA </span>
+            <span class="text-danger" *ngIf="isSubmitted && modifyProductForm.get('categoryId')?.hasError('required')"> Select a tva please </span>
         </div>
         <div class="row">
-            <button type="submit" class="btn btn-warning">Apply changes</button>
+            <button type="submit" class="btn btn-lg btn-dark">Add new product</button>
         </div>
     </form>
 </div>

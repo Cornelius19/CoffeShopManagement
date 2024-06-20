@@ -1,4 +1,4 @@
-<div class="modal-header bg-primary">
+<div class="modal-header bg-dark">
     <h5 class="modal-title pull-center" style="color: white">Complete the form please!</h5>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
         <span aria-hidden="true" class="visually-hidden">&times;</span>
@@ -17,6 +17,9 @@
             />
             <label for="name">Category name</label>
             <span class="text-danger" *ngIf="isSubmitted && formGroup.get('name')?.hasError('required')"> Category name is required </span>
+            @if (isSubmitted && formGroup.get('name')?.hasError('minlength') || isSubmitted && formGroup.get('name')?.hasError('maxlength')) {
+                <span class="text-danger">Name must be at least 3 char and max 50</span>
+            }
         </div>
         <span>This category is for menu items?</span>
         <div class="col form-check mt-2">
@@ -30,6 +33,6 @@
         <div class="mb-3">
             <span class="text-danger" *ngIf="isSubmitted && formGroup.get('availableMenu')?.hasError('required')"> Select yes or no please! </span>
         </div>
-        <button type="submit" class="btn btn-primary">Add category</button>
+        <button type="submit" class="col-12 btn btn-dark btn-lg">Add category</button>
     </form>
 </div>

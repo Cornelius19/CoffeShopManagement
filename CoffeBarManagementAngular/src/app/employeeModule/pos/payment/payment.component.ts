@@ -142,8 +142,9 @@ export class PaymentComponent implements OnInit {
                         this.generateReceiptPdf(this.orderIdForPayment, payment, cash, change);
                         this.router.navigateByUrl('/employees/pos');
                     },
-                    error: (error) => {
-                        console.log(error);
+                    error: (error:any) => {
+                        this.sharedService.showNotification(false, error.error.value.title, error.error.value.message);
+
                     },
                 });
             } else {

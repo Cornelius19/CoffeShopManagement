@@ -7,7 +7,7 @@
     </div>
     <div class="col-lg-6 col-sm-12 mx-auto mt-3">
         @for (reservation of futureReservations; track $index) {
-        <div class="col-lg-6 col-sm-12 mx-auto  acrylic shadow mt-3">
+        <div class="col-lg-8 col-sm-12 mx-auto  acrylic shadow mt-3">
             <h6>{{$index+1}}.Reservation id: #{{reservation.reservationId}}</h6>
             <div style="margin-left: 5%;">
                 <h6>FirstName: {{reservation.firstName}}</h6>

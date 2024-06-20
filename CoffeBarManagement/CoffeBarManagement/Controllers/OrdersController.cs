@@ -101,6 +101,18 @@ namespace CoffeBarManagement.Controllers
 
         [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [HttpPut("status-accepted-order/{orderId}")]
+        public async Task<IActionResult> StatusAccepted(int orderId)
+        {
+            var result = await _applicationContext.Orders.FindAsync(orderId);
+            if(result == null) return NotFound();
+            result.OrderStatus = 2;
+            await _applicationContext.SaveChangesAsync();
+            return Ok();
+        }
+
+        [Authorize(Policy = "CheckOpenStatus")]
+        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
         [HttpPut("confirm-order/{employeeId}/{orderId}")]
         public async Task<IActionResult> ConfirmOrder(int employeeId, int orderId)
         {
@@ -898,7 +910,7 @@ namespace CoffeBarManagement.Controllers
                     _applicationContext.OrderProducts.Remove(product);
                 }
                 await _applicationContext.SaveChangesAsync();
-                return Ok(new JsonResult(new { message = "Product was deleted from order!" }));
+                return Ok(new JsonResult(new { message = "Product was deleted from order! Please add back product quantity if is needed!" }));
             }
             return BadRequest(new JsonResult(new { message = "Somethin went wrong!" }));
 
