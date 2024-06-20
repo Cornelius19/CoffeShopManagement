@@ -15,6 +15,8 @@ import { AdminService } from './admin/admin-service.service';
 import { StockProductsReport } from './shared/models/Reports/stockProductsReport';
 import { GetProducts } from './shared/models/getProducts';
 import { OrderDetailsDto } from './shared/models/orderDetailsDto';
+import { GetClientDataDto } from './shared/models/getClientsDataDto';
+import { GetReservation } from './shared/models/getReservation';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Injectable({
@@ -32,6 +34,9 @@ export class ReportPdfServiceService {
     productStockReport: StockProductsReport[] = [];
     supplyProducts: GetProducts[] = [];
     ordersDetails: OrderDetailsDto[] = [];
+    clientsData: GetClientDataDto[] = [];
+    allReservations: GetReservation[] = [];
+
 
     async generateSelledProductsBetweenDatesPdf(report: PosClosedReport) {
         const logoBase64 = await this.imageService.convertImageToBase64('../assets/images/sdbar-high-resolution-logo-black-transparent.png');
@@ -639,8 +644,8 @@ export class ReportPdfServiceService {
     async generateOrdersBetweenTwoDates(start:Date,end:Date){
         const stringStart = this.sharedService.convertDateToYYMMDD(start);
         const stringEnd = this.sharedService.convertDateToYYMMDD(end);
-        console.log(stringEnd);
-        console.log(stringStart);
+        //console.log(stringEnd);
+        //console.log(stringStart);
         
         this.adminService.getOrderDetails(stringStart,stringEnd).subscribe({
             next:async (response: any) => {
@@ -670,6 +675,9 @@ export class ReportPdfServiceService {
                             { text: 'Total', style: 'tableHeader' },
                         ],
                     ];
+                    this.ordersDetails.sort((a:OrderDetailsDto,b:OrderDetailsDto) => {
+                        return a.orderDate.valueOf() - b.orderDate.valueOf();
+                    });
 
                     this.ordersDetails.forEach((order, index) => {
                         let orderDate = this.sharedService.convertDateToYYMMDDHHMMSS(order.orderDate)
@@ -708,6 +716,7 @@ export class ReportPdfServiceService {
                     const formattedDate = this.sharedService.convertDateToYYMMDDHHMMSS(date);
 
                     const docDefinition: any = {
+                        pageOrientation: 'landscape',
                         content: [
                             { image: logoBase64, width: 70, height: 40, alignment: 'left' },
                             { text: 'Report: orders', style: 'header', margin: [0, 10, 0, 10], alignment: 'center' },
@@ -717,7 +726,7 @@ export class ReportPdfServiceService {
                             {
                                 style: 'table',
                                 table: {
-                                    widths: [30, 70, 60, 60, 70, 70, 45, 60],
+                                    widths: [40, 140, 60, 60, 140, 140, 45, '*'],
                                     body: ordersTableBody,
                                 },
                             },
@@ -739,5 +748,294 @@ export class ReportPdfServiceService {
                 this.sharedService.showNotification(false,'Error','Something went wrong!')
             }
         });
+    }
+
+    async generateUsersDataReport(){
+        this.adminService.getClientData().subscribe({
+            next: async (response: any) => {
+                this.clientsData = response;
+                if(this.clientsData.length > 0){
+                    const logoBase64 = await this.imageService.convertImageToBase64('../assets/images/sdbar-high-resolution-logo-black-transparent.png');
+                    const today = new Date();
+                    const createdAt = this.sharedService.convertDateToYYMMDDHHMMSS(today);
+            
+                    const clientTableBody = [
+                        [
+                            { text: 'Id', style: 'tableHeader' },
+                            { text: 'First Name', style: 'tableHeader' },
+                            { text: 'Last Name', style: 'tableHeader' },
+                            { text: 'Email', style: 'tableHeader' },
+                            { text: 'Phone number', style: 'tableHeader' },
+                            { text: 'Finished orders', style: 'tableHeader' },
+                            { text: 'Total earnings', style: 'tableHeader' },
+                        ],
+                    ];
+                    this.clientsData.forEach((client, index) => {
+                        clientTableBody.push([
+                            {
+                                text: (client.clientId).toString(),
+                                style: '',
+                            },
+                            {
+                                text: client.firstName || '',
+                                style: '',
+                            },
+                            {
+                                text: client.lastName,
+                                style: '',
+                            },
+                            {
+                                text: client.email,
+                                style: '',
+                            },
+                            {
+                                text: client.phoneNumber,
+                                style: '',
+                            },
+                            {
+                                text: client.ordersCount.toString(),
+                                style: '',
+                            },
+                            {
+                                text: ` ${client.ordersValue.toFixed(2).toString()} $`,
+                                style: '',
+                            },
+                        ]);
+                    });
+            
+                    const docDefinition: any = {
+                        pageOrientation: 'landscape',
+                        content: [
+                            { image: logoBase64, width: 50, height: 30, alignment: 'right' },
+                            { text: 'REPORT ', style: ['header', 'center'] },
+                            { text: 'Users data ', style: ['header', 'center'] },
+                            { text: `Created date: ${createdAt}`, style: 'normal' },
+                            { text: 'Clients data', style: 'subheader' },
+                            {
+                                style: 'table',
+                                table: {
+                                    widths: [40, 90, 90, '*', 90, 70, 80],
+                                    body: clientTableBody,
+                                },
+                            },
+                        ],
+                        styles: {
+                            normal: { fontSize: 14, margin: [0, 5, 0, 5] },
+                            header: { fontSize: 24, bold: true, margin: [0, 5, 0, 10] },
+                            center: { alignment: 'center', margin: [0, 5, 0, 5] },
+                            right: { alignment: 'right', margin: [0, 5, 0, 5] },
+                            subheader: { fontSize: 18, bold: true, margin: [0, 5, 0, 5] },
+                            tableHeader: { bold: true, fontSize: 13, color: 'black' },
+                            table: { margin: [0, 5, 0, 15] },
+                        },
+                        defaultStyles: {},
+                    };
+            
+                    pdfMake.createPdf(docDefinition).open();
+                }
+                else{
+                    this.sharedService.showNotification(false,'No data provided','Something went wrong when trying to get the needed data!')
+                }
+            },
+            error: (e: any) => {
+                console.log(e);
+            },
+        });
+        
+        
+        
+
+
+
+    }
+
+    async generateReservationReport(start:Date,end:Date){
+        const stringStart = this.sharedService.convertDateToYYMMDD(start);
+        const stringEnd = this.sharedService.convertDateToYYMMDD(end);
+        this.adminService.getAllReservationsBetweenDates(stringStart,stringEnd).subscribe({
+            next: async (response: any[]) => {
+                this.allReservations = response.map((reservation) => {
+                    return {
+                        reservationId: reservation.reservationId,
+                        reservationDate: new Date(reservation.reservationdate),
+                        guestNumber: reservation.guestNumber,
+                        firstName: reservation.firstName,
+                        lastName: reservation.lastName,
+                        phoneNumber: reservation.phoneNumber,
+                        reservationStatus: reservation.reservationStatus,
+                        duration: reservation.duration,
+                        tableNumber: reservation.tableNumber,
+                    };
+                    
+                });
+                if(this.allReservations.length > 0){
+                    const logoBase64 = await this.imageService.convertImageToBase64('../assets/images/sdbar-high-resolution-logo-black-transparent.png');
+                    const today = new Date();
+                    const createdAt = this.sharedService.convertDateToYYMMDDHHMMSS(today);
+            
+                    const reservationTableBody = [
+                        [
+                            { text: 'Id', style: 'tableHeader' },
+                            { text: 'Date', style: 'tableHeader' },
+                            { text: 'Guest number', style: 'tableHeader' },
+                            { text: 'First Name', style: 'tableHeader' },
+                            { text: 'Last Name', style: 'tableHeader' },
+                            { text: 'Phone number', style: 'tableHeader' },
+                            { text: 'Status', style: 'tableHeader' },
+                            { text: 'Duration', style: 'tableHeader' },
+                            { text: 'Table number', style: 'tableHeader' },
+                        ],
+                    ];
+                    this.allReservations.forEach((reservation, index) => {
+                        let reservationStatus;
+                        const reservationDate = this.sharedService.convertDateToYYMMDDHHMMSS(reservation.reservationDate)
+                        if(reservation.reservationStatus == true){
+                            reservationStatus = 'Confirmed'
+                        }
+                        else{
+                            reservationStatus = 'Unconfirmed'
+                        }
+                        
+                        reservationTableBody.push([
+                            {
+                                text: (reservation.reservationId).toString(),
+                                style: '',
+                            },
+                            {
+                                text: reservationDate || '',
+                                style: '',
+                            },
+                            {
+                                text: reservation.guestNumber.toString(),
+                                style: '',
+                            },
+                            {
+                                text: reservation.firstName,
+                                style: '',
+                            },
+                            {
+                                text: reservation.lastName,
+                                style: '',
+                            },
+                            {
+                                text: reservation.phoneNumber,
+                                style: '',
+                            },
+                            {
+                                text: reservationStatus,
+                                style: '',
+                            },
+                            {
+                                text: ` ${reservation.duration.toString()} hours`,
+                                style: '',
+                            },
+                            {
+                                text: ` ${reservation.tableNumber.toString()}`,
+                                style: '',
+                            },
+                        ]);
+                    });
+            
+                    const docDefinition: any = {
+                        pageOrientation: 'landscape',
+                        content: [
+                            { image: logoBase64, width: 50, height: 30, alignment: 'right' },
+                            { text: 'REPORT ', style: ['header', 'center'] },
+                            { text: 'Reservations data ', style: ['header', 'center'] },
+                            { text: `Created date: ${createdAt}`, style: 'normal' },
+                            { text: `Date period: ${stringStart} - ${stringEnd}`, style: 'subheader' },
+                            {
+                                style: 'table',
+                                table: {
+                                    widths: [40, 90, 90, 90, 90, 90, 80,50,50],
+                                    body: reservationTableBody,
+                                },
+                            },
+                        ],
+                        styles: {
+                            normal: { fontSize: 14, margin: [0, 5, 0, 5] },
+                            header: { fontSize: 24, bold: true, margin: [0, 5, 0, 10] },
+                            center: { alignment: 'center', margin: [0, 5, 0, 5] },
+                            right: { alignment: 'right', margin: [0, 5, 0, 5] },
+                            subheader: { fontSize: 18, bold: true, margin: [0, 5, 0, 5] },
+                            tableHeader: { bold: true, fontSize: 13, color: 'black' },
+                            table: { margin: [0, 5, 0, 15] },
+                        },
+                        defaultStyles: {},
+                    };
+            
+                    pdfMake.createPdf(docDefinition).open();
+                }
+                else{
+                    this.sharedService.showNotification(false,'No data','There are 0 reservations in that period!')
+                }
+            },
+            error: (e) => {
+                console.log(e);
+            },
+        });
+    }
+
+    async generateEmployeesReport(report: PosClosedReport){
+        const logoBase64 = await this.imageService.convertImageToBase64('../assets/images/sdbar-high-resolution-logo-black-transparent.png');
+        const today = new Date();
+        const createdAt = this.sharedService.convertDateToYYMMDDHHMMSS(today);
+        const startDate = this.sharedService.convertDateToDDMMYY(report.createdAt);
+        const endDate = this.sharedService.convertDateToDDMMYY(report.forDay);
+
+        const employeesTableBody = [
+            [
+                { text: 'Employee Name', style: 'tableHeader' },
+                { text: 'Taken Orders', style: 'tableHeader' },
+                { text: 'Delivered Orders', style: 'tableHeader' },
+            ],
+        ];
+        report.employeesOrders.forEach((employee) => {
+            employeesTableBody.push([
+                {
+                    text: employee.name || '',
+                    style: '',
+                },
+                {
+                    text: employee.takenOrders != null ? employee.takenOrders.toString() : '',
+                    style: '',
+                },
+                {
+                    text: employee.delieveredOrders != null ? employee.delieveredOrders.toString() : '',
+                    style: '',
+                },
+            ]);
+        });
+
+
+        const docDefinition: any = {
+            content: [
+                { image: logoBase64, width: 50, height: 30, alignment: 'right' },
+                { text: 'REPORT: Employees orders ', style: ['header', 'center'] },
+                { text: `Created date: ${createdAt}`, style: 'normal' },
+                { text: `Date period: ${startDate} - ${endDate}`, style: 'normal' },
+                { text: 'Employees Orders', style: 'subheader' },
+                {
+                    style: 'table',
+                    table: {
+                        widths: ['*', '*', '*'],
+                        body: employeesTableBody,
+                    },
+                },
+            ],
+            styles: {
+                normal: { fontSize: 14, margin: [0, 5, 0, 5] },
+                header: { fontSize: 24, bold: true, margin: [0, 5, 0, 10] },
+                center: { alignment: 'center', margin: [0, 5, 0, 5] },
+                right: { alignment: 'right', margin: [0, 5, 0, 5] },
+                subheader: { fontSize: 18, bold: true, margin: [0, 5, 0, 5] },
+                tableHeader: { bold: true, fontSize: 13, color: 'black' },
+                table: { margin: [0, 5, 0, 15] },
+            },
+            defaultStyles: {},
+        };
+
+        pdfMake.createPdf(docDefinition).open();
+
     }
 }

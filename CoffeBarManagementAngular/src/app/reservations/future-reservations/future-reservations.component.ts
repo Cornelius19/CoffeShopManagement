@@ -34,7 +34,7 @@ export class FutureReservationsComponent implements OnInit{
             tableNumber: reservation.tableNumber,
           };
         })
-        .filter((reservation) => (reservation.reservationDate > presentDate) && (reservation.reservationDate.getTime() > presentDate.getTime())); // Filtering reservations with date greater than present date
+        .filter((reservation:GetReservation) => (reservation.reservationDate > presentDate) && (reservation.reservationDate.getTime() > presentDate.getTime())); // Filtering reservations with date greater than present date
         
       },
       error: (error) => {

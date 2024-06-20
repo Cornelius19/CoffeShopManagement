@@ -38,14 +38,14 @@ export class ReservationToConfirmComponent implements OnInit {
                 this.reservationsToConfirm = response.map((reservation) => {
                     return {
                         reservationId: reservation.reservationId,
-                        reservationDate: new Date(reservation.reservationDate),
+                        reservationDate: new Date(reservation.reservationdate),
                         guestNumber: reservation.guestNumber,
                         firstName: reservation.firstName,
                         lastName: reservation.lastName,
                         phoneNumber: reservation.phoneNumber,
                         reservationStatus: reservation.reservationStatus,
                         duration: reservation.duration,
-                        tableNumber: reservation.tableId,
+                        tableNumber: reservation.tableNumber,
                     };
                 });
             },

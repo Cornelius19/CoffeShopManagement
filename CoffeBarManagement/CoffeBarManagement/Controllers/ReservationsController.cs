@@ -1,4 +1,5 @@
 ﻿using CoffeBarManagement.Data;
+using CoffeBarManagement.DTOs.Order;
 using CoffeBarManagement.DTOs.Reservation;
 using CoffeBarManagement.Models.IdentityModels;
 using CoffeBarManagement.Models.Models;
@@ -302,7 +303,7 @@ namespace CoffeBarManagement.Controllers
             return futureReservations;
         }
 
-        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [Authorize(Roles = "Employee,Admin,POS")]
         [HttpGet("get-all-reservations-employee")]
         public async Task<List<GetReservationDto>> GetAllReservationEmployee()
         {
@@ -328,7 +329,46 @@ namespace CoffeBarManagement.Controllers
             return allReservationsToShow;
         }
 
-        [Authorize(Roles = Dependencis.EMPLOYEE_ROLE)]
+        [Authorize(Roles = "Employee,Admin,POS")]
+        [HttpGet("get-all-reservations-employee-between/{startDate}/{endDate}")]
+        public async Task<List<GetReservationDto>> GetAllReservationBetween(DateTime startDate, DateTime endDate)
+        {
+            var reservations = new List<Reservation>();
+            if (startDate.Date == new DateTime(1900, 01, 01) && endDate.Date == new DateTime(1900, 01, 01))
+            {
+                reservations = await _applicationContext.Reservations.ToListAsync();
+            }
+            else
+            {
+                DateTime start = startDate.Date;
+                DateTime end = endDate.Date.AddDays(1).AddTicks(-1);
+                reservations = await _applicationContext.Reservations.Where(q => q.ReservationDate >= start && q.ReservationDate <= end).ToListAsync();
+            }
+            var listToReturn = new List<GetReservationDto>();
+            if (reservations.Count > 0) {
+                foreach (var reservation in reservations)
+                {
+                    var reservationToAdd = new GetReservationDto
+                    {
+                        ReservationId = reservation.ReservationId,
+                        Reservationdate = reservation.ReservationDate,
+                        GuestNumber = reservation.GuestNumber,
+                        FirstName = reservation.FirstName,
+                        LastName = reservation.LastName,
+                        PhoneNumber = reservation.PhoneNumber,
+                        ReservationStatus = reservation.ReservationStatus,
+                        Duration = reservation.Duration,
+                        TableNumber = reservation.TableId,
+                    };
+                    listToReturn.Add(reservationToAdd);
+                }
+                return listToReturn;
+            }
+            return listToReturn;
+        }
+
+
+        [Authorize(Roles = "Employee,Admin,POS")]
         [HttpDelete("delete-reservation/{reservationId}")]
         public async Task<IActionResult> DeleteReservationById(int reservationId)
         {

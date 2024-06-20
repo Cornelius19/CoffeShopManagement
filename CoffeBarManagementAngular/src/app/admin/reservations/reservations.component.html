@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="container col-12 mx-auto acrylic shadow">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="center table justify-content-center table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>Guest number</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Phone number</th>
+                    <th>Status</th>
+                    <th>Duration</th>
+                    <th>Table number</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (reservation of allReservations; track reservation) {
+                <tr>
+                    <td>{{ reservation.reservationId }}</td>
+                    <td>{{ reservation.reservationDate | date: 'dd/MM/yy hh:mm a' }}</td>
+                    <td>{{ reservation.guestNumber }}</td>
+                    <td>{{ reservation.firstName }}</td>
+                    <td>{{ reservation.lastName }}</td>
+                    <td>{{ reservation.phoneNumber }}</td>
+                    <td>{{ reservation.reservationStatus }}</td>
+                    <td>{{ reservation.duration }} hours</td>
+                    <td>{{ reservation.tableNumber }}</td>
+                    <td style="text-align: center">
+                        <span (click)="deleteReservation(reservation.reservationId)"  class="btn btn-outline-danger" style="cursor: pointer">
+                            <fa-icon [icon]="faTrashCan"></fa-icon>
+                        </span>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

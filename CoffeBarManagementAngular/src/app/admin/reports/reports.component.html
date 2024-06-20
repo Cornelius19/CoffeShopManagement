@@ -81,4 +81,40 @@
             <button (click)="getOrdersBetweenDates(ordersStart,ordersEnd)" class="text-center btn btn-dark btn-lg">Generate report</button>
         </div>
     </div>
+    <div class="container col-6 acrylic shadow mb-3 mt-3">
+        <h5 class="text-center">Generate users data!</h5>
+        <div class="text-center mt-3 mx-auto">
+            <button (click)="reportService.generateUsersDataReport()" class="text-center btn btn-dark btn-lg">Generate report</button>
+        </div>
+    </div>
+    <div class="container col-6 acrylic shadow mb-3 mt-3">
+        <h5 class="text-center">Generate reservations between 2 dates!</h5>
+        <p class="text-center">For all reservations please leave empty!</p>
+        <div class="col-8 form-floating mx-auto mb-3">
+            <input class="form-control" type="date" [(ngModel)]="reservationStart" id="startDate">
+            <label for="startDate">Start date</label>
+        </div>
+        <div class="col-8 form-floating mx-auto mb-3">
+            <input class="form-control" type="date" [(ngModel)]="reservationEnd" id="endDate">
+            <label for="endDate">End date</label>
+        </div>
+        <div class="text-center mt-3 mx-auto">
+            <button (click)="getReservationsBetweenDates(reservationStart,reservationEnd)" class="text-center btn btn-dark btn-lg">Generate report</button>
+        </div>
+    </div>
+    <div class="container col-6 acrylic shadow mb-3 mt-3">
+        <h5 class="text-center">Generate employee orders data between 2 dates!</h5>
+        <p class="text-center">All employee orders data can be seen in dashboard page!</p>
+        <div class="col-8 form-floating mx-auto mb-3">
+            <input class="form-control" type="date" [(ngModel)]="employeesStart" id="startDate">
+            <label for="startDate">Start date</label>
+        </div>
+        <div class="col-8 form-floating mx-auto mb-3">
+            <input class="form-control" type="date" [(ngModel)]="employeesEnd" id="endDate">
+            <label for="endDate">End date</label>
+        </div>
+        <div class="text-center mt-3 mx-auto">
+            <button (click)="getEmployeesDataReport(employeesStart,employeesEnd)" class="text-center btn btn-dark btn-lg">Generate report</button>
+        </div>
+    </div>
 </div>

@@ -10,6 +10,7 @@ import { EmployeesDataComponent } from './employees-data/employees-data.componen
 import { UsersComponent } from './users/users.component';
 import { TablesComponent } from './tables/tables.component';
 import { OrdersComponent } from './orders/orders.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 const routes : Routes = [
   {path:'dashboard', component: Dashboard1Component},
@@ -22,6 +23,7 @@ const routes : Routes = [
   {path:'clients', component: UsersComponent},
   {path:'tables', component: TablesComponent},
   {path:'orders', component: OrdersComponent},
+  {path:'reservations', component: ReservationsComponent},
 ]
 
 @NgModule({

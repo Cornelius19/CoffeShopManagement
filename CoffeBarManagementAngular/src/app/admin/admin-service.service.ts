@@ -272,4 +272,8 @@ export class AdminService {
     getOrderDetails(start:string,end:string){
         return this.http.get<any>(`${environment.appUrl}/api/reports/get-orders-details/${start}/${end}`);
     }
+
+    getAllReservationsBetweenDates(start:string, end:string){
+        return this.http.get<any>(`${environment.appUrl}/api/reservations/get-all-reservations-employee-between/${start}/${end}`);
+    }
 }

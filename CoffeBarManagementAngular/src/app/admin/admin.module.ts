@@ -25,6 +25,7 @@ import { TablesComponent } from './tables/tables.component';
 import { AddTableComponent } from './formsModals/add-table/add-table.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderProductsModalComponent } from './formsModals/order-products-modal/order-products-modal.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 
 
@@ -51,6 +52,7 @@ import { OrderProductsModalComponent } from './formsModals/order-products-modal/
     AddTableComponent,
     OrdersComponent,
     OrderProductsModalComponent,
+    ReservationsComponent,
   ],
   imports: [
     CommonModule,
