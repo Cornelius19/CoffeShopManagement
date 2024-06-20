@@ -98,6 +98,32 @@ namespace CoffeBarManagement.Controllers
         }
 
         [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpGet("get-orders-statistics")]
+        public async Task<GetOrdersStatistics> GetOrederStatistics()
+        {
+            double? total = 0;
+            var ordersStatistics = await _applicationContext.Orders.Where(q => q.OrderStatus == 4).ToListAsync();
+            if (ordersStatistics.Count > 0) 
+            {
+                foreach(var order in ordersStatistics)
+                {
+                    var products = await _applicationContext.OrderProducts.Where(q => q.OrderId == order.OrderId).ToListAsync();
+                    if (products.Count > 0) {
+                        total += products.Sum(q => q.Quantity * q.UnitPrice);
+                    }
+                }
+                var orderToReturn = new GetOrdersStatistics
+                {
+                    ordersCounter = ordersStatistics.Count,
+                    orderTotal = total,
+                };
+                return orderToReturn;
+            }
+            return null;
+        }
+
+
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
         [HttpGet("get-orders-details/{startDate}/{endDate}")]
         public async Task<List<GetOrderDetails>> GetOrderDetails(DateTime startDate, DateTime endDate)
         {
