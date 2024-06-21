@@ -2,7 +2,7 @@
     @if (reservationsToConfirm.length === 0) {
     <h3 class="text-center " style="color: rgb(0, 0, 0)">There is no reservations to confirm! :(</h3>
     }@else {
-    <h3 class="text-center">There are {{ reservationsToConfirm.length }} to confirm!</h3>
+    <h3 class="text-center">There are {{ reservationsToConfirm.length }} reservations to confirm!</h3>
     }
     <div class="col-lg-6 col-sm-12 mx-auto justify-content-center">
         @for (reservation of reservationsToConfirm; track $index) {

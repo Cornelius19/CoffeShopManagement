@@ -3,16 +3,16 @@
     <h1 class="text-center">POS is closed!</h1>
 </div>
 } @else {
-<div class="container acrylic shadow">
+<div class="container ">
     @if (ordersToConfirm.length === 0) {
     <h3 class="text-center">There are no orders to confirm!</h3>
     } @else {
     <h3 class="mb-5 text-center">{{ ordersToConfirm.length }} orders waiting for confirmation!</h3>
     }
-    <div class="row justify-content-center">
+    <div class="row justify-content-center ">
         @for (item of ordersToConfirm; track item.orderId; let i = $index) {
 
-        <div class="col-md-6 col-sm-12 mb-4">
+        <div class="col-md-6 col-sm-12 mb-4 acrylic shadow ">
             <h6>{{ i + 1 }}. Order number #{{ item.orderId }}</h6>
             <div style="margin-left: 2%">
                 <h6>- Order date {{ item.orderDate | date : 'medium' }}</h6>
