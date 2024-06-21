@@ -14,7 +14,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { RouterModule } from '@angular/router';
 import { AccountDetailsComponent } from './account-details/account-details.component';
 @NgModule({
-    declarations: [AppComponent, NavbarComponent, FooterComponent, HomeComponent, SideBarComponent, AccountDetailsComponent,],
+    declarations: [AppComponent, NavbarComponent, FooterComponent, HomeComponent, SideBarComponent, AccountDetailsComponent],
     imports: [BrowserModule, AppRoutingModule, SharedModule, FontAwesomeModule, DataTablesModule],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, // for using the interceptor

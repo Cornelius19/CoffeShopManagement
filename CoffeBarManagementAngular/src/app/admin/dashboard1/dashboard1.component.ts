@@ -131,8 +131,6 @@ export class Dashboard1Component implements OnInit {
         this.adminService.getOrderStatistics().subscribe({
             next: (response: any) => {
                 this.orderStatistics = response;
-                // console.log(this.orderStatistics);
-                // this.createOrdersStatisticChart();
             },
             error: (e) => {
                 console.log(e);

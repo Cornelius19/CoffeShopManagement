@@ -98,7 +98,7 @@ namespace CoffeBarManagement.Controllers
         }
 
         [Authorize(Roles = Dependencis.ADMIN_ROLE)]
-        [HttpGet("get-orders-statisticsos")]
+        [HttpGet("get-orders-statistics")]
         public async Task<GetOrdersStatistics> GetOrederStatistics()
         {
             double? total = 0;
