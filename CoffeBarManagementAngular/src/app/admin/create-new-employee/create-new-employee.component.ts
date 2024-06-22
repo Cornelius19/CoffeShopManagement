@@ -25,7 +25,7 @@ export class CreateNewEmployeeComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
             lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-            email: ['', [Validators.required, Validators.pattern('^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$'),Validators.maxLength(100)]],
+            email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),Validators.maxLength(100)]],
             salary: ['', [Validators.required,Validators.min(0)]],
             password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,30}$')]],
             employeeRole: ['Employee', [Validators.required]],

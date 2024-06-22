@@ -41,7 +41,7 @@ export class OrderHistoryComponent implements OnInit {
                         return b.orderDate.valueOf() - a.orderDate.valueOf();
                     });
 
-                    console.log(this.orderHistory);
+                    //console.log(this.orderHistory);
                 },
                 error: (error) => {
                     console.log(error);

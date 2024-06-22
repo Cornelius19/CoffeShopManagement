@@ -256,7 +256,7 @@
                 <button (click)="createOrder()" class="btn btn-dark btn-lg" >Create, pay later</button>
             </div>
             <div class="col-lg-6 col-sm-12 mb-2">
-                <button (click)="createAndPay(selectedValue)" class="btn btn-dark btn-lg" >Create and pay</button>
+                <button [disabled]="modifyOrderId != 0" (click)="createAndPay(selectedValue)" class="btn btn-dark btn-lg" >Create and pay</button>
             </div>
         </div>
     </div>

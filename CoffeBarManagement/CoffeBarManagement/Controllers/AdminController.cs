@@ -70,7 +70,7 @@ namespace CoffeBarManagement.Controllers
                 Email = model.Email.ToLower(),
                 Salary = model.Salary,
                 UserId = userToAdd.Id,
-                Role = role,
+                Role = role.ToLower(),
                 Lock = false
             };
 
