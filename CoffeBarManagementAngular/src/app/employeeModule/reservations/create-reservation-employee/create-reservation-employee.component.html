@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center ">
+<div class="d-flex justify-content-center">
     <div class="col-12 col-lg-5 acrylic shadow">
         <main class="form-reservation">
             <div class="text-center mb-5">
@@ -6,51 +6,143 @@
             </div>
             <form [formGroup]="reservationForm" (ngSubmit)="createReservation()">
                 <div class="form-floating mb-3">
-                    <input formControlName="firstName" type="text" placeholder="firstName" id="firstName" class="form-control"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('firstName')?.errors">
+                    <input
+                        formControlName="firstName"
+                        type="text"
+                        placeholder="firstName"
+                        id="firstName"
+                        class="form-control"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('firstName')?.errors"
+                    />
                     <label for="firstName">First name</label>
+                    @if (isSubmitted && reservationForm.get('firstName')?.hasError('required')) {
+                        <span class="text-danger">First name is required! </span>
+                    }
+                    @else if (isSubmitted && reservationForm.get('firstName')?.hasError('minlength') || isSubmitted && reservationForm.get('firstName')?.hasError('maxlength') ) {
+                        <span class="text-danger">First name must be at least 3 char long and max 20! </span>
+                    }
                 </div>
                 <div class="form-floating mb-3">
-                    <input formControlName="lastName" type="text" placeholder="lastName" id="lastName" class="form-control"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('lastName')?.errors">
+                    <input
+                        formControlName="lastName"
+                        type="text"
+                        placeholder="lastName"
+                        id="lastName"
+                        class="form-control"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('lastName')?.errors"
+                    />
                     <label for="lastName">Last name</label>
+                    @if (isSubmitted && reservationForm.get('lastName')?.hasError('required')) {
+                        <span class="text-danger">Last name is required! </span>
+                    }
+                    @else if (isSubmitted && reservationForm.get('lastName')?.hasError('minlength') || isSubmitted && reservationForm.get('lastName')?.hasError('maxlength') ) {
+                        <span class="text-danger">Last name must be at least 3 char long and max 20! </span>
+                    }
                 </div>
                 <div class="form-floating mb-3">
-                    <input formControlName="phoneNumber" type="text" placeholder="phoneNumber" id="phoneNumber" class="form-control"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('phoneNumber')?.errors">
+                    <input
+                        formControlName="phoneNumber"
+                        type="text"
+                        placeholder="phoneNumber"
+                        id="phoneNumber"
+                        class="form-control"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('phoneNumber')?.errors"
+                    />
                     <label for="phoneNumber">Phone number</label>
+                    @if (isSubmitted && reservationForm.get('phoneNumber')?.hasError('required')) {
+                        <span class="text-danger">Phone number is required! </span>
+                    }
+                    @else if (isSubmitted && reservationForm.get('phoneNumber')?.hasError('pattern')) {
+                        <span class="text-danger">Correct format: 0788888888 </span>
+                    }
                 </div>
                 <div class="form-floating mb-3">
-                    <input formControlName="guestNumber" type="number" max="99" min="1" placeholder="number" id="guestNumber" class="form-control"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('guestNumber')?.errors">
+                    <input
+                        formControlName="guestNumber"
+                        type="number"
+                        max="99"
+                        min="1"
+                        placeholder="number"
+                        id="guestNumber"
+                        class="form-control"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('guestNumber')?.errors"
+                    />
                     <label for="guestNumber">Select guest number</label>
+                    @if (isSubmitted && reservationForm.get('guestNumber')?.hasError('required')) {
+                        <span class="text-danger">Guest Number is required! </span>
+                    }
+                    @else if (isSubmitted && reservationForm.get('guestNumber')?.hasError('min') ||isSubmitted && reservationForm.get('guestNumber')?.hasError('max') ) {
+                        <span class="text-danger">Value between 1 and 99</span>
+                    }
                 </div>
                 <div class="form-floating mb-3">
-                    <select formControlName="tableId" class="form-select" id="tableId"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('tableId')?.errors">
-                        <option *ngFor="let table of tableList" value="{{table.tableID}}">Table: {{table.tableID}} Capacity: {{table.capacity}}</option>
+                    <select
+                        formControlName="tableId"
+                        class="form-select"
+                        id="tableId"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('tableId')?.errors"
+                    >
+                        <option *ngFor="let table of tableList" value="{{ table.tableID }}">
+                            Table: {{ table.tableID }} Capacity: {{ table.capacity }}
+                        </option>
                     </select>
                     <label for="tableId">Select table number</label>
+                    @if (isSubmitted && reservationForm.get('tableId')?.hasError('required')) {
+                        <span class="text-danger">Table is required! </span>
+                    }
                 </div>
                 <div class="form-floating mb-3">
-                    <input formControlName="duration" type="number" min="1" max="14" placeholder="duration" id="duration" class="form-control"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('duration')?.errors">
+                    <input
+                        formControlName="duration"
+                        type="number"
+                        min="1"
+                        max="14"
+                        placeholder="duration"
+                        id="duration"
+                        class="form-control"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('duration')?.errors"
+                    />
                     <label for="duration">Duration</label>
+                    @if (isSubmitted && reservationForm.get('duration')?.hasError('required')) {
+                        <span class="text-danger">Duration is required! </span>
+                    }
+                    @else if (isSubmitted && reservationForm.get('duration')?.hasError('min') ||isSubmitted && reservationForm.get('duration')?.hasError('max') ) {
+                        <span class="text-danger">Value between 1 and 14 hours</span>
+                    }
                 </div>
                 <div class="form-floating mb-3">
-                    <input formControlName="reservationDate" type="date" placeholder="reservationDate" id="reservationDate" class="form-control"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('reservationDate')?.errors">
+                    <input
+                        formControlName="reservationDate"
+                        type="date"
+                        placeholder="reservationDate"
+                        id="reservationDate"
+                        class="form-control"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('reservationDate')?.errors"
+                    />
                     <label for="reservationDate">Select reservation date</label>
+                    @if (isSubmitted && reservationForm.get('reservationDate')?.hasError('required')) {
+                        <span class="text-danger">Date is required! </span>
+                    }
                 </div>
                 <div class="form-floating mb-3">
-                    <input formControlName="reservationTime" type="time" min="08:00" max="22:00" placeholder="reservationTime" id="reservationTime" class="form-control"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('reservationTime')?.errors">
+                    <input
+                        formControlName="reservationTime"
+                        type="time"
+                        min="08:00"
+                        max="22:00"
+                        placeholder="reservationTime"
+                        id="reservationTime"
+                        class="form-control"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('reservationTime')?.errors"
+                    />
                     <label for="reservationTime">Select start time</label>
+                    @if (isSubmitted && reservationForm.get('reservationTime')?.hasError('required')) {
+                        <span class="text-danger">Time is required! </span>
+                    }
                 </div>
                 <div class="d-grid mt-4 px-1">
                     <button class="btn btn-lg btn-info mb-5">Create reservation</button>
                 </div>
-
             </form>
         </main>
     </div>

@@ -32,9 +32,9 @@ export class AddNewNonComplexProductComponent implements OnInit {
 
     initializeForm() {
         this.newProductForm = this.formBuilder.group({
-            name: ['', [Validators.required]],
+            name: ['', [Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
             unitPrice: ['', [Validators.required, Validators.min(0)]],
-            unitMeasure: ['', [Validators.required]],
+            unitMeasure: ['', [Validators.required,Validators.minLength(2),Validators.maxLength(10)]],
             availableForUser: ['', [Validators.required]],
             categoryId: ['', [Validators.required]],
             quantity: ['', [Validators.required, Validators.min(0)]],

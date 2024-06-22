@@ -84,88 +84,97 @@ export class QRCodeScannerComponent implements OnInit, OnDestroy, AfterViewInit 
         const orderIDString = localStorage.getItem(environment.orderID);
         if (userId && stringTableId) {
             const tableId = parseInt(stringTableId);
-            const listToConvert = this.ordersService.getCartItemsToList();
-            if (listToConvert) {
-                const model: OrderProductsClient[] = [];
-                for (let product of listToConvert) {
-                    const modelProduct: OrderProductsClient = {
-                        productId: product.productId,
-                        quantity: product.quantity,
-                        unitPrice: product.unitPrice,
-                    };
-                    model.push(modelProduct);
-                }
-                if (model) {
-                    const modelToSend: NewClientOrder = {
-                        products: model,
-                    };
-
-                    if (orderIDString) {
-                        //console.log(orderIDString);
-                        
-                        let status: number = 0;
-                        this.sharedService.checkOrderStatus(parseInt(orderIDString)).subscribe({
-                            next: (response: any) => {
-                                status = response.value.status;
-                                if (status <= 3) {
-                                    console.log(status);
-                                    const orderIDNumber = parseInt(orderIDString);
-                                    this.ordersService.addNewProductsToOrder(modelToSend, userId, orderIDNumber, tableId).subscribe({
-                                        next: (response: any) => {
-                                            this.resetList();
-                                            this.sharedService.showNotification(true, response.value.title, response.value.message);
-                                            localStorage.removeItem(environment.tableID);
-                                            this.router.navigateByUrl('/orders/active-order');
-                                        },
-                                        error: (error) => {
-                                            localStorage.removeItem(environment.tableID);
-                                            //this.router.navigateByUrl('/orders/cart');
-                                            this.sharedService.showNotificationAndReload(false, 'Error', error.error.value.message,true);   
-                                        },
-                                    });
-                                } else {
-                                    //console.log(status);
-                                    
-                                    localStorage.removeItem(environment.orderID);
-                                    this.ordersService.createNewClientOrder(modelToSend, userId, tableId).subscribe({
-                                        next: (response: any) => {
-                                            this.sharedService.showNotification(true, response.value.title, response.value.message);
-                                            this.resetList();
-                                            localStorage.removeItem(environment.tableID);
-                                            this.router.navigateByUrl('/orders/active-order');
-                                        },
-                                        error: (error) => {
-                                            this.sharedService.showNotificationAndReload(false, 'Error', error.error.value.message,true);
-                                            localStorage.removeItem(environment.tableID);
-                                            //this.router.navigateByUrl('/orders/cart');
-                                        },
-                                    });
-                                }
-                                
-                            },
-                            error: (error: any) => {
-                                status = 0;
-                            },
-                        });
-                        
-                    } else {
-                        this.ordersService.createNewClientOrder(modelToSend, userId, tableId).subscribe({
-                            next: (response: any) => {
-                                this.sharedService.showNotification(true, response.value.title, response.value.message);
-                                this.resetList();
-                                localStorage.removeItem(environment.tableID);
-                                this.router.navigateByUrl('/orders/active-order');
-                            },
-                            error: (error) => {
-                                this.sharedService.showNotification(false, error.error.value.title, error.error.value.message);
-                                localStorage.removeItem(environment.tableID);
-                                this.router.navigateByUrl('/orders/cart');
-                            },
-                        });
-                    }
-                }
+            if (Number.isNaN(tableId)) {
+                this.sharedService.showNotificationAndReload(
+                    false,
+                    'Error',
+                    'There was a error on scanning the qr code, please try again or ask an employee!',
+                    true,
+                );
             } else {
-                console.error('The product list is missing!');
+                const listToConvert = this.ordersService.getCartItemsToList();
+                if (listToConvert) {
+                    const model: OrderProductsClient[] = [];
+                    for (let product of listToConvert) {
+                        const modelProduct: OrderProductsClient = {
+                            productId: product.productId,
+                            quantity: product.quantity,
+                            unitPrice: product.unitPrice,
+                        };
+                        model.push(modelProduct);
+                    }
+                    if (model) {
+                        const modelToSend: NewClientOrder = {
+                            products: model,
+                        };
+
+                        if (orderIDString) {
+                            //console.log(orderIDString);
+
+                            let status: number = 0;
+                            this.sharedService.checkOrderStatus(parseInt(orderIDString)).subscribe({
+                                next: (response: any) => {
+                                    status = response.value.status;
+                                    if (status <= 3) {
+                                        console.log(status);
+                                        const orderIDNumber = parseInt(orderIDString);
+                                        this.ordersService.addNewProductsToOrder(modelToSend, userId, orderIDNumber, tableId).subscribe({
+                                            next: (response: any) => {
+                                                this.resetList();
+                                                this.sharedService.showNotification(true, 'Success', response.value.message);
+                                                localStorage.removeItem(environment.tableID);
+                                                this.router.navigateByUrl('/orders/active-order');
+                                            },
+                                            error: (error: any) => {
+                                                localStorage.removeItem(environment.tableID);
+                                                //this.router.navigateByUrl('/orders/cart');
+                                                this.sharedService.showNotificationAndReload(false, 'Error', error.error.value.message, true);
+                                            },
+                                        });
+                                    } else {
+                                        //console.log(status);
+
+                                        localStorage.removeItem(environment.orderID);
+                                        this.ordersService.createNewClientOrder(modelToSend, userId, tableId).subscribe({
+                                            next: (response: any) => {
+                                                this.sharedService.showNotification(true, 'Success', response.value.message);
+                                                this.resetList();
+                                                localStorage.removeItem(environment.tableID);
+                                                this.router.navigateByUrl('/orders/active-order');
+                                            },
+                                            error: (error) => {
+                                                this.sharedService.showNotificationAndReload(false, 'Error', error.error.value.message, true);
+                                                localStorage.removeItem(environment.tableID);
+                                                //this.router.navigateByUrl('/orders/cart');
+                                            },
+                                        });
+                                    }
+                                },
+                                error: (error: any) => {
+                                    status = 0;
+                                },
+                            });
+                        } else {
+                            this.ordersService.createNewClientOrder(modelToSend, userId, tableId).subscribe({
+                                next: (response: any) => {
+                                    this.sharedService.showNotification(true, 'Success', response.value.message);
+                                    this.resetList();
+                                    localStorage.removeItem(environment.tableID);
+                                    this.router.navigateByUrl('/orders/active-order');
+                                },
+                                error: (error: any) => {
+                                    console.log(1);
+
+                                    this.sharedService.showNotification(false, 'Error', error.error.value.message);
+                                    localStorage.removeItem(environment.tableID);
+                                    this.router.navigateByUrl('/orders/cart');
+                                },
+                            });
+                        }
+                    }
+                } else {
+                    console.error('The product list is missing!');
+                }
             }
         } else {
             console.error('Something went wrong!');

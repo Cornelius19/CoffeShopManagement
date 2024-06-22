@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center ">
+<div class="d-flex justify-content-center">
     <div class="col-12 col-lg-5">
         <main class="form-reservation">
             <div class="text-center mb-5">
@@ -7,37 +7,95 @@
             </div>
             <form [formGroup]="reservationForm" class="acrylic shadow" (ngSubmit)="createReservation()">
                 <div class="form-floating mb-3">
-                    <input formControlName="guestNumber" type="number" max="10" min="1" placeholder="number" class="form-control"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('guestNumber')?.errors">
-                    <label for="number">Select guest number</label>
+                    <input
+                        id="guestNumber"
+                        formControlName="guestNumber"
+                        type="number"
+                        max="10"
+                        min="1"
+                        placeholder="number"
+                        class="form-control"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('guestNumber')?.errors"
+                    />
+                    <label for="guestNumber">Select guest number</label>
+                    @if (isSubmitted && reservationForm.get('guestNumber')?.hasError('required')) {
+                    <span class="text-danger">Guest number is required!</span>
+                    } @else if (isSubmitted && reservationForm.get('guestNumber')?.hasError('min')) {
+                    <span class="text-danger">Minim guest number is 1</span>
+                    } @else if (isSubmitted && reservationForm.get('guestNumber')?.hasError('max')) {
+                    <span class="text-danger">Maxim guest number is 10</span>
+                    }
                 </div>
                 <div class="form-floating mb-3">
-                    <select formControlName="tableNumber" class="form-select"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('tableNumber')?.errors">
-                        <option *ngFor="let table of tableList" value="{{table.tableID}}">Masa: {{table.tableID}} Nr max de persoane: {{table.capacity}}</option>
+                    <select
+                        formControlName="tableNumber"
+                        class="form-select"
+                        id="tableNumber"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('tableNumber')?.errors"
+                    >
+                        <option *ngFor="let table of tableList" value="{{ table.tableID }}">
+                            Masa: {{ table.tableID }} Nr max de persoane: {{ table.capacity }}
+                        </option>
                     </select>
-                    <label for="number">Select table number</label>
+                    <label for="tableNumber">Select table number</label>
+                    @if (isSubmitted && reservationForm.get('tableNumber')?.hasError('required')) {
+                    <span class="text-danger"> Please select a table</span>
+                    }
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input formControlName="duration" type="number" min="1" max="4" placeholder="number" class="form-control"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('duration')?.errors">
-                    <label for="number">How many hours you will stay</label>
+                    <input
+                        id="duration"
+                        formControlName="duration"
+                        type="number"
+                        min="1"
+                        max="4"
+                        placeholder="number"
+                        class="form-control"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('duration')?.errors"
+                    />
+                    <label for="duration">How many hours you will stay</label>
+                    @if (isSubmitted && reservationForm.get('duration')?.hasError('required')) {
+                    <span class="text-danger">Duration time is required!</span>
+                    } @else if (isSubmitted && reservationForm.get('duration')?.hasError('min')) {
+                    <span class="text-danger">Min duration time is 1 hour</span>
+                    } @else if (isSubmitted && reservationForm.get('duration')?.hasError('max')) {
+                    <span class="text-danger">Maxim duration time is 4 hours</span>
+                    }
                 </div>
                 <div class="form-floating mb-3">
-                    <input formControlName="reservationDate" type="date" placeholder="date" class="form-control"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('reservationDate')?.errors">
-                    <label for="date">Select reservation date</label>
+                    <input
+                        id="reservationDate"
+                        formControlName="reservationDate"
+                        type="date"
+                        placeholder="date"
+                        class="form-control"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('reservationDate')?.errors"
+                    />
+                    <label for="reservationDate">Select reservation date</label>
+                    @if (isSubmitted && reservationForm.get('reservationDate')?.hasError('required')) {
+                    <span class="text-danger">Date is required!</span>
+                    }
                 </div>
                 <div class="form-floating mb-3">
-                    <input formControlName="reservationTime" type="time" min="08:00" max="22:00" placeholder="date" class="form-control"
-                    [class.is-invalid]="isSubmitted && reservationForm.get('reservationTime')?.errors">
-                    <label for="date">Select your time</label>
+                    <input
+                        id="reservationTime"
+                        formControlName="reservationTime"
+                        type="time"
+                        min="08:00"
+                        max="22:00"
+                        placeholder="date"
+                        class="form-control"
+                        [class.is-invalid1]="isSubmitted && reservationForm.get('reservationTime')?.errors"
+                    />
+                    <label for="reservationTime">Select your time</label>
+                    @if (isSubmitted && reservationForm.get('reservationTime')?.hasError('required')) {
+                    <span class="text-danger">Reservation time is required!</span>
+                    }
                 </div>
                 <div class="d-grid mt-4 px-1">
                     <button class="btn btn-lg btn-info">Create reservation</button>
                 </div>
-
             </form>
         </main>
     </div>

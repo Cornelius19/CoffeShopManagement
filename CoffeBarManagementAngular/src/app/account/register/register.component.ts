@@ -8,6 +8,7 @@ import { take } from 'rxjs';
 import { NotExpr } from '@angular/compiler';
 import { User } from '../../shared/models/user';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { Register } from '../../shared/models/register';
 
 @Component({
     selector: 'app-register',
@@ -59,8 +60,8 @@ export class RegisterComponent implements OnInit {
             {
                 firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]],
                 lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]],
-                email: ['', [Validators.required, Validators.pattern('^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$')]],
-                phoneNumber: ['', [Validators.required, Validators.pattern('^\\+40[1-9][0-9]{8,9}$')]],
+                email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
+                phoneNumber: ['', [Validators.required, Validators.pattern('^0[6-9][0-9]{8}$')]],
                 password: [
                     '',
                     [
@@ -77,19 +78,17 @@ export class RegisterComponent implements OnInit {
 
     register() {
         this.submitted = true;
-        this.errorMesseges = [];
-
         if (this.registerForm.valid) {
-            //subscribe is there because register frunction from accounservice returns an observabale object
-            this.accountService.register(this.registerForm.value).subscribe({
+            const model : Register = this.registerForm.value;
+            this.accountService.register(model).subscribe({
                 next: (response: any) => {
-                    this.sharedService.showNotification(true, response.value.title, response.value.message);
+                    this.sharedService.showNotification(true, 'Error', response.value.message);
+                    this.registerForm.reset();
                     this.router.navigateByUrl('/account/login');
                 },
                 error: (error: any) => {
-                    this.sharedService.showNotification(false, error.error.value.title, error.error.value.message);
+                    this.sharedService.showNotification(false, 'Error', error.error.value.message);
                     console.log(error);
-                    this.registerForm.reset();
                 },
             });
         }

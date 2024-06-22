@@ -39,7 +39,6 @@ export class ItemsComponent implements OnInit {
                 next: (response: any) => {
                     this.items = response;
                     // console.log(this.items);
-                    
                 },
                 error: (error) => {
                     console.log(error);
@@ -54,16 +53,20 @@ export class ItemsComponent implements OnInit {
         productListFromStorage = this.ordersService.getCartItemsToList();
         const existingProduct = productListFromStorage.find((p) => p.productId === itemProductId);
         if (existingProduct) {
-            existingProduct.quantity++;
-            existingProduct.total = existingProduct.quantity * existingProduct.unitPrice;
-            this.ordersService.addCartItemsToLocalStorage(productListFromStorage);
-            this.ordersService.updateCartCounter(productListFromStorage);
-            this.ordersService.getCounter();
-            this.sharedService.showNotification(
-                true,
-                'Quantity modified',
-                `Now quantity for ${existingProduct.productName} is set to ${existingProduct.quantity}!`,
-            );
+            if (existingProduct.quantity == 20) {
+                this.sharedService.showNotification(false, 'Quantity limit', 'Max quantity is set to 20!');
+            } else {
+                existingProduct.quantity++;
+                existingProduct.total = existingProduct.quantity * existingProduct.unitPrice;
+                this.ordersService.addCartItemsToLocalStorage(productListFromStorage);
+                this.ordersService.updateCartCounter(productListFromStorage);
+                this.ordersService.getCounter();
+                this.sharedService.showNotification(
+                    true,
+                    'Quantity modified',
+                    `Now quantity for ${existingProduct.productName} is set to ${existingProduct.quantity}!`,
+                );
+            }
         } else {
             const item = this.items.find((i) => i.productId == itemProductId);
             if (item) {
@@ -73,7 +76,7 @@ export class ItemsComponent implements OnInit {
                     unitPrice: item.productPrice,
                     quantity: 1,
                     total: item.productPrice,
-                    tva:item.tva
+                    tva: item.tva,
                 };
                 productListFromStorage.push(addItemToCart);
                 this.ordersService.addCartItemsToLocalStorage(productListFromStorage);

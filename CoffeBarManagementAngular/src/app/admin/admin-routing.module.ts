@@ -9,6 +9,8 @@ import { CreateNewEmployeeComponent } from './create-new-employee/create-new-emp
 import { EmployeesDataComponent } from './employees-data/employees-data.component';
 import { UsersComponent } from './users/users.component';
 import { TablesComponent } from './tables/tables.component';
+import { OrdersComponent } from './orders/orders.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 const routes : Routes = [
   {path:'dashboard', component: Dashboard1Component},
@@ -19,7 +21,9 @@ const routes : Routes = [
   {path:'create-employee', component: CreateNewEmployeeComponent},
   {path:'employees-data', component: EmployeesDataComponent},
   {path:'clients', component: UsersComponent},
-  {path:'tables', component: TablesComponent}
+  {path:'tables', component: TablesComponent},
+  {path:'orders', component: OrdersComponent},
+  {path:'reservations', component: ReservationsComponent},
 ]
 
 @NgModule({

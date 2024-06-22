@@ -251,13 +251,12 @@
             </table>
         </div>
         <strong style="font-size: 28px">Total to pay: {{ totalToPay | number : '1.2-2' }}$</strong>
-
         <div class="row text-center mt-5">
             <div class="col-lg-6 col-sm-12 mb-4">
-                <button (click)="createOrder()" class="btn btn-dark btn-lg">Create, pay later</button>
+                <button (click)="createOrder()" class="btn btn-dark btn-lg" >Create, pay later</button>
             </div>
             <div class="col-lg-6 col-sm-12 mb-2">
-                <button (click)="createAndPay(selectedValue)" class="btn btn-dark btn-lg">Create and pay</button>
+                <button [disabled]="modifyOrderId != 0" (click)="createAndPay(selectedValue)" class="btn btn-dark btn-lg" >Create and pay</button>
             </div>
         </div>
     </div>

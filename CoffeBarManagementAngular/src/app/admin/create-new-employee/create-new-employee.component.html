@@ -13,10 +13,13 @@
                         type="text"
                         placeholder="FirstName"
                         class="form-control"
-                        [class.is-invalid]="submitted && registerForm.get('firstName')?.errors"
+                        [class.is-invalid1]="submitted && registerForm.get('firstName')?.errors"
                     />
                     <label for="firstName">First Name</label>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('firstName')?.hasError('required')"> First Name is required </span>
+                    @if (submitted && registerForm.get('firstName')?.hasError('minlength') || submitted && registerForm.get('firstName')?.hasError('maxlength')) {
+                        <span class="text-danger">First name must be at least 2 char and max 50</span>
+                    }
                 </div>
 
                 <div class="form-floating mb-3">
@@ -26,10 +29,13 @@
                         type="text"
                         placeholder="LastName"
                         class="form-control"
-                        [class.is-invalid]="submitted && registerForm.get('lastName')?.errors"
+                        [class.is-invalid1]="submitted && registerForm.get('lastName')?.errors"
                     />
                     <label for="lastName">Last Name</label>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('lastName')?.hasError('required')"> Last Name is required </span>
+                    @if (submitted && registerForm.get('lastName')?.hasError('minlength') || submitted && registerForm.get('lastName')?.hasError('maxlength')) {
+                        <span class="text-danger">Last name must be at least 2 char and max 50</span>
+                    }
                 </div>
 
                 <div class="form-floating mb-3">
@@ -39,11 +45,15 @@
                         id="email"
                         placeholder="Email"
                         class="form-control"
-                        [class.is-invalid]="submitted && registerForm.get('email')?.errors"
+                        [class.is-invalid1]="submitted && registerForm.get('email')?.errors"
                     />
                     <label for="email">Email</label>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('email')?.hasError('required')"> Email is required </span>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('email')?.hasError('pattern')"> Invalid email address </span>
+                    @if (submitted && registerForm.get('email')?.hasError('maxlength')) {
+                        <span class="text-danger">Email can be max 100 char</span>
+                    }
+                    
                 </div>
 
                 <div class="form-floating mb-3">
@@ -53,10 +63,13 @@
                         type="text"
                         placeholder="salary"
                         class="form-control"
-                        [class.is-invalid]="submitted && registerForm.get('salary')?.errors"
+                        [class.is-invalid1]="submitted && registerForm.get('salary')?.errors"
                     />
                     <label for="salary">Salary</label>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('salary')?.hasError('required')"> Salary is required </span>
+                    @if (submitted && registerForm.get('salary')?.hasError('min')) {
+                        <span class="text-danger">Salary can be min 0</span>
+                    }
                 </div>
 
                 <div class="form-floating mb-3">
@@ -75,7 +88,7 @@
                         type="text"
                         placeholder="Password"
                         class="form-control"
-                        [class.is-invalid]="submitted && registerForm.get('password')?.errors"
+                        [class.is-invalid1]="submitted && registerForm.get('password')?.errors"
                     />
                     <label for="password">Password</label>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('password')?.hasError('required')"> Password is required </span>
@@ -91,7 +104,7 @@
                         type="text"
                         placeholder="RePassword"
                         class="form-control"
-                        [class.is-invalid]="submitted && registerForm.get('repassword')?.errors?.['mismatch']"
+                        [class.is-invalid1]="submitted && registerForm.get('repassword')?.errors?.['mismatch']"
                     />
                     <label for="repassword">RePassword</label>
                     <span

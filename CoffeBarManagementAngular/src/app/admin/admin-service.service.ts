@@ -23,6 +23,8 @@ import { ModifiedEmployeeModalComponent } from './formsModals/modified-employee-
 import { AddTableComponent } from './formsModals/add-table/add-table.component';
 import { ProductComponent } from '../shared/models/productComponent';
 import { GetComponentProducts } from '../shared/models/getComponentProducts';
+import { OrderProduct } from '../shared/models/orderProduct';
+import { OrderProductsModalComponent } from './formsModals/order-products-modal/order-products-modal.component';
 
 @Injectable({
     providedIn: 'root',
@@ -184,6 +186,15 @@ export class AdminService {
         this.bsModalRef = this.modalService.show(AddTableComponent, initialState);
     }
 
+    showOrderProductsModal(products: OrderProduct[]) {
+        const initialState: ModalOptions = {
+            initialState: {
+                products
+            },
+        };
+        this.bsModalRef = this.modalService.show(OrderProductsModalComponent, initialState);
+    }
+
     addNewBalanceCategory(model: AddBalanceCategory) {
         return this.http.post(`${environment.appUrl}/api/category/add-balance-category`, model);
     }
@@ -252,5 +263,21 @@ export class AdminService {
 
     getEmployeesOrders(){
         return this.http.get(`${environment.appUrl}/api/admin/get-orders-employees-chart`);
+    }
+
+    getSupplyCheckProducts(){
+        return this.http.get(`${environment.appUrl}/api/reports/get-lowStock-products-report`);
+    }
+
+    getOrderDetails(start:string,end:string){
+        return this.http.get<any>(`${environment.appUrl}/api/reports/get-orders-details/${start}/${end}`);
+    }
+
+    getAllReservationsBetweenDates(start:string, end:string){
+        return this.http.get<any>(`${environment.appUrl}/api/reservations/get-all-reservations-employee-between/${start}/${end}`);
+    }
+
+    getOrderStatistics(){
+        return this.http.get(`${environment.appUrl}/api/reports/get-orders-statistics`);
     }
 }

@@ -27,7 +27,7 @@ export class AddNewBalanceCategoryComponent implements OnInit {
 
     initializeForm() {
         this.formGroup = this.formBuilder.group({
-          removeCategoryName: ['', [Validators.required]],
+            removeCategoryName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         });
     }
 

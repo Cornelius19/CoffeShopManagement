@@ -5,6 +5,7 @@ import { AdminService } from '../admin-service.service';
 import { RegisterNewEmployeeDto } from '../../shared/models/registerEmployeeDto';
 import { SharedService } from '../../shared/shared.service';
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import { valHooks } from 'jquery';
 
 @Component({
     selector: 'app-create-new-employee',
@@ -22,10 +23,10 @@ export class CreateNewEmployeeComponent implements OnInit {
 
     initializeForm() {
         this.registerForm = this.formBuilder.group({
-            firstName: ['', [Validators.required]],
-            lastName: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.pattern('^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$')]],
-            salary: ['', [Validators.required]],
+            firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+            lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+            email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),Validators.maxLength(100)]],
+            salary: ['', [Validators.required,Validators.min(0)]],
             password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,30}$')]],
             employeeRole: ['Employee', [Validators.required]],
             repassword: ['', [Validators.required]],

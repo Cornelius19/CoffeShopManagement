@@ -9,6 +9,7 @@ import { OrderProduct } from '../../../shared/models/orderProduct';
 import { environment } from '../../../../environments/environment.development';
 import { CartProduct } from '../../../shared/models/cartProduct';
 import { SharedService } from '../../../shared/shared.service';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
     selector: 'app-order-details',
@@ -23,16 +24,16 @@ export class OrderDetailsComponent implements OnInit {
         public accountService: AccountService,
         public roles: Roles,
         private router: Router,
-        public sharedService: SharedService
+        public sharedService: SharedService,
     ) {}
 
     public activeOrder: GetTableOrderDetails[] = [];
     orderDetails: GetTableOrderDetails = {} as GetTableOrderDetails;
     searchInput: string = '';
+    faTrashCan = faTrashCan;
 
     ngOnInit(): void {
         this.getOrderDetails();
-        
     }
 
     showSearchResults() {
@@ -84,26 +85,32 @@ export class OrderDetailsComponent implements OnInit {
     changeStatusToDelivered(orderId: number) {
         //console.log(orderId);
         const userId = this.sharedService.getUserId();
-        if(userId){
-            this.posService.changeStatusToDelivered(orderId,userId).subscribe({
+        if (userId) {
+            this.posService.changeStatusToDelivered(orderId, userId).subscribe({
                 next: (response) => {
                     //console.log(response);
                 },
-                error: (e:any) => {
+                error: (e: any) => {
                     console.log(e);
-                    this.sharedService.showNotification(false,'Server error',e.error.value.message);
+                    this.sharedService.showNotification(false, 'Server error', e.error.value.message);
                 },
             });
             location.reload();
         }
-        
     }
 
     modifyOrder(orderId: number) {
-        localStorage.removeItem(environment.modifyingOrderId);
-        localStorage.setItem(environment.modifyingOrderId, JSON.stringify(orderId));
-        localStorage.removeItem(environment.modifyCartProducts);
-        this.router.navigateByUrl('/employees/pos');
+        this.posService.changeStatusToAccepted(orderId).subscribe({
+            next: (r) => {
+                localStorage.removeItem(environment.modifyingOrderId);
+                localStorage.setItem(environment.modifyingOrderId, JSON.stringify(orderId));
+                localStorage.removeItem(environment.modifyCartProducts);
+                this.router.navigateByUrl('/employees/pos');
+            },
+            error: (e) => {
+                this.sharedService.showNotification(false, 'Error', 'There was a error when trying to modify this order!');
+            },
+        });
     }
 
     finishOrder(orderId: number, products: OrderProduct[]) {
@@ -126,14 +133,16 @@ export class OrderDetailsComponent implements OnInit {
         this.router.navigateByUrl('/employees/payment');
     }
 
-    deleteProductFromOrder(orderId: number,productId:number){
-        this.posService.deleteProductFromOrder(orderId,productId).subscribe({
-            next: (response: any) => {
-                this.sharedService.showNotificationAndReload(true,'Error appeared',response.value.message, true)
-            },
-            error : (e: any) => {
-                this.sharedService.showNotification(false,'Error appeared',e.error.value.message)
-            }
-        });
+    deleteProductFromOrder(orderId: number, productId: number) {
+        if (confirm('Are you sure you want to delete this product, please add back to stock the quantity!')) {
+            this.posService.deleteProductFromOrder(orderId, productId).subscribe({
+                next: (response: any) => {
+                    this.sharedService.showNotificationAndReload(true, 'Error appeared', response.value.message, true);
+                },
+                error: (e: any) => {
+                    this.sharedService.showNotification(false, 'Error appeared', e.error.value.message);
+                },
+            });
+        }
     }
 }

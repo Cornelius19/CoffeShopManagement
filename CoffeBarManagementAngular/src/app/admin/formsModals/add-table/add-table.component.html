@@ -13,17 +13,18 @@
                 formControlName="capacity"
                 id="capacity"
                 placeholder="Table capacity"
-                [class.is-invalid]="isSubmitted && formGroup.get('capacity')?.errors"
+                [class.is-invalid1]="isSubmitted && formGroup.get('capacity')?.errors"
             />
             <label for="capacity">Table capacity</label>
             <span class="text-danger" *ngIf="isSubmitted && formGroup.get('capacity')?.hasError('required')"> Capacity is required </span>
+            @if (isSubmitted && formGroup.get('capacity')?.hasError('max') || isSubmitted && formGroup.get('capacity')?.hasError('min')) {
+                <span class="text-danger">Max value is 99 and min value is 1</span>
+            }
         </div>
         @if (modifyStatus == false) {
-            <button type="submit" class="col-12 btn btn-dark btn-lg">Add new table!</button>
+        <button type="submit" class="col-12 btn btn-dark btn-lg">Add new table!</button>
+        } @else {
+        <button type="submit" class="col-12 btn btn-dark btn-lg">Apply changes!</button>
         }
-        @else {
-            <button type="submit" class="col-12 btn btn-dark btn-lg">Apply changes!</button>
-        }
-        
     </form>
 </div>

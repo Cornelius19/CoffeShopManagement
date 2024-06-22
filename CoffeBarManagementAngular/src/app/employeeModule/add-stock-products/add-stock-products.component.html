@@ -10,10 +10,10 @@
                             formControlName="productId"
                             id="productId{{ i }}"
                             class="form-select"
-                            [class.is-invalid]="isSubmitted && componentProduct.get('productId')?.errors"
+                            [class.is-invalid1]="isSubmitted && componentProduct.get('productId')?.errors"
                         >
                             @for (item of allProducts; track item) {
-                            <option [value]="item.id">{{ item.name }}</option>
+                            <option [value]="item.id">{{ item.name }}: {{item.quantity}}</option>
                             }
                         </select>
                         <label for="productId{{ i }}">Select the product </label>
@@ -33,17 +33,21 @@
                         <span class="text-danger" *ngIf="isSubmitted && componentProduct.get('added_quantity')?.hasError('required')">
                             Quantity is required
                         </span>
-                        <span class="text-danger" *ngIf="isSubmitted && componentProduct.get('added_quantity')?.hasError('min')">
-                            Minimum value is 1
+                        <span class="text-danger" *ngIf="isSubmitted && componentProduct.get('added_quantity')?.hasError('min') || isSubmitted && componentProduct.get('added_quantity')?.hasError('max')">
+                            Minimum value is 1 and maxim value is 199
                         </span>
                     </div>
                     <div class="row">
                         <div class="col-5">
-                            <button type="button" class="col-12 btn btn-outline-primary btn-lg mb-3 p-1" (click)="addNewProduct()">Add new product</button>
+                            <button type="button" class="col-12 btn btn-outline-primary btn-lg mb-3 p-1" (click)="addNewProduct()">
+                                Add new product
+                            </button>
                         </div>
                         <div class="col-2"></div>
                         <div class="col-5">
-                            <button type="button" class="col-12 btn btn-outline-danger btn-lg mb-3 p-1" (click)="removeNewProduct(i)">Remove product</button>
+                            <button type="button" class="col-12 btn btn-outline-danger btn-lg mb-3 p-1" (click)="removeNewProduct(i)">
+                                Remove product
+                            </button>
                         </div>
                     </div>
                 </div>

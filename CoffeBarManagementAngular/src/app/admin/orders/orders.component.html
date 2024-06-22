@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="container col-12 mx-auto acrylic shadow">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="center table justify-content-center table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Order date</th>
+                    <th>Status</th>
+                    <th>Client</th>
+                    <th>Taken by</th>
+                    <th>Delievered by</th>
+                    <th>Table</th>
+                    <th>Total</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (order of orders; track order) {
+                <tr>
+                    <td>{{ order.orderId }}</td>
+                    <td>{{ order.orderDate | date: 'dd/MM/yyyy hh:mm a' }}</td>
+                    <td>{{ order.orderStatus }}</td>
+                    <td>
+                        @if (order.clientName == '') {
+                            Unknown
+                        }
+                        @else {
+                            {{ order.clientName }}
+                        }
+                    </td>
+                    <td>
+                        @if (order.takenBy == '') {
+                            Unknown
+                        }
+                        @else {
+                            {{ order.takenBy }}
+                        }
+                    </td>
+                    <td>
+                        @if (order.delieveredBy == '') {
+                            Unknown
+                        }
+                        @else {
+                            {{ order.delieveredBy }}
+                        }
+                    </td>
+                    <td>
+                        @if (order.tableId == null) {
+                            Bar
+                        }
+                        @else {
+                            {{ order.tableId }}
+                        }
+                    </td>
+                    <td>{{ order.orderValue.toFixed(2) | currency }}</td>   
+                    <td style="text-align: center;">
+                        <button (click)="showDetails(order.products)" class="btn btn-outline-warning btn-lg">
+                            <fa-icon [icon]="faCircleInfo"></fa-icon>
+                        </button>
+                    </td>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

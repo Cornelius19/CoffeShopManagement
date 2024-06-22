@@ -24,7 +24,7 @@ export class AddNewProductCategoryComponent implements OnInit {
 
     initializeForm(){
       this.formGroup = this.formBuilder.group({
-        name: ['', [Validators.required]],
+        name: ['', [Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
         availableMenu: ['', [Validators.required]],
       });
     }

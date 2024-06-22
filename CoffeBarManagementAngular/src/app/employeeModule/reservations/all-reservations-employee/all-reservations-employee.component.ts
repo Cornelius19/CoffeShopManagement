@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservationsEmployeeService } from '../reservations-employee.service';
 import { GetReservation } from '../../../shared/models/getReservation';
+import { SharedService } from '../../../shared/shared.service';
 
 @Component({
   selector: 'app-all-reservations-employee',
@@ -9,7 +10,7 @@ import { GetReservation } from '../../../shared/models/getReservation';
 })
 export class AllReservationsEmployeeComponent implements OnInit {
 
-  constructor(private reservationEmployeeService: ReservationsEmployeeService){}
+  constructor(private reservationEmployeeService: ReservationsEmployeeService,private sharedService: SharedService){}
   
   allReservations : GetReservation[] = [];
 
@@ -39,6 +40,17 @@ export class AllReservationsEmployeeComponent implements OnInit {
       }
     })
   }
+
+  cancelReservation(reservationId: number){
+    this.reservationEmployeeService.deleteReservation(reservationId).subscribe({
+        next: (response:any) => {
+            this.sharedService.showNotificationAndReload(true,'Reservation Cancelled',response.value.message,true);
+        },
+        error: e => {
+            console.log(e);
+        }
+    });
+}
 
 
 }

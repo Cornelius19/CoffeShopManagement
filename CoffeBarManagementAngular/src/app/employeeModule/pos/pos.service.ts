@@ -130,4 +130,8 @@ export class PosService {
     getPosCloseFiscalReport() {
         return this.http.get(`${environment.appUrl}/api/pos/pos-closing-fiscal-report`);
     }
+
+    changeStatusToAccepted(id:number){
+        return this.http.put(`${environment.appUrl}/api/orders/status-accepted-order/${id}`,null);
+    }
 }

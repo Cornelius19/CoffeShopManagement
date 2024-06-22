@@ -1,15 +1,17 @@
-<div class="container ">
+<div class="container">
     @if (reservationsToConfirm.length === 0) {
-    <h3 class="text-center mt-5" style="color: rgb(0, 0, 0)">There is no reservations to confirm! :(</h3>
+    <h3 class="text-center " style="color: rgb(0, 0, 0)">There is no reservations to confirm! :(</h3>
+    }@else {
+    <h3 class="text-center">There are {{ reservationsToConfirm.length }} reservations to confirm!</h3>
     }
-    <div class="col-lg-6 col-sm-12 mx-auto justify-content-center acrylic shadow">
+    <div class="col-lg-6 col-sm-12 mx-auto justify-content-center">
         @for (reservation of reservationsToConfirm; track $index) {
-        <div class="col-md-4 col-sm-12 mt-3">
+        <div class="col-md-7 col-sm-12 mx-auto mt-3 acrylic shadow">
             <h6>{{ $index + 1 }}.Reservation id: #{{ reservation.reservationId }}</h6>
             <div style="margin-left: 5%">
                 <h6>FirstName: {{ reservation.firstName }}</h6>
                 <h6>LastName: {{ reservation.lastName }}</h6>
-                <h6>Reservation Date: {{ reservation.reservationDate | date : 'medium' }}</h6>
+                <h6>Reservation Date: {{ reservation.reservationDate | date : 'dd/MM/yy hh:mm a' }}</h6>
                 <h6>PhoneNumber: {{ reservation.phoneNumber }}</h6>
                 <h6>Duration: {{ reservation.duration }} hour</h6>
                 <h6>Table number: {{ reservation.tableNumber }}</h6>
@@ -19,8 +21,18 @@
                 }@else {
                 <h6 class="text-primary">Status: Confirmed</h6>
                 }
-                <button class="col-md-6 col-12 btn btn-primary mb-2" (click)="confirmReservations(reservation.reservationId)">Confirm</button>
-                <button class="col-md-6 col-12 btn btn-danger mb-2">Cancel</button>
+                <div class="row">
+                    <div class="col-md-5 col-sm-12">
+                        <button class="col-12 btn btn-lg btn-primary mb-2" (click)="confirmReservations(reservation.reservationId)">
+                            Confirm
+                        </button>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5 col-sm-12">
+                        <button (click)="cancelReservation(reservation.reservationId)" class="col-12 btn btn-lg btn-danger mb-2">Cancel</button>
+                    </div>
+                    
+                </div>
             </div>
         </div>
         <hr />

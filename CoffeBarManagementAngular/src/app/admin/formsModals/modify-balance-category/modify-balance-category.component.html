@@ -1,4 +1,4 @@
-<div class="modal-header bg-primary">
+<div class="modal-header bg-dark">
     <h5 class="modal-title pull-center" style="color: white">Change the name for modification!</h5>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
         <span aria-hidden="true" class="visually-hidden">&times;</span>
@@ -13,11 +13,16 @@
                 formControlName="removeCategoryName"
                 id="removeCategoryName"
                 placeholder="Category name"
-                [class.is-invalid]="isSubmitted && formGroup.get('removeCategoryName')?.errors"
+                [class.is-invalid1]="isSubmitted && formGroup.get('removeCategoryName')?.errors"
             />
             <label for="removeCategoryName">Category name</label>
-            <span class="text-danger" *ngIf="isSubmitted && formGroup.get('removeCategoryName')?.hasError('required')"> Category name is required </span>
+            <span class="text-danger" *ngIf="isSubmitted && formGroup.get('removeCategoryName')?.hasError('required')">
+                Category name is required
+            </span>
+            @if (isSubmitted && formGroup.get('removeCategoryName')?.hasError('minlength') || isSubmitted && formGroup.get('removeCategoryName')?.hasError('maxlength')) {
+                <span class="text-danger">Name must be at least 3 char and max 50</span>
+            }
         </div>
-        <button type="submit" class="btn btn-primary">Modify balance category!</button>
+        <button type="submit" class="btn btn-dark btn-lg col-12">Modify balance category!</button>
     </form>
 </div>

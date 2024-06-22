@@ -1,4 +1,4 @@
-<div class="modal-header bg-primary">
+<div class="modal-header bg-dark">
     <h5 class="modal-title pull-center" style="color: white">Complete the form please!</h5>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
         <span aria-hidden="true" class="visually-hidden">&times;</span>
@@ -14,10 +14,13 @@
                 id="name"
                 autocomplete="false"
                 class="form-control"
-                [class.is-invalid]="isSubmitted && newProductForm.get('name')?.errors"
+                [class.is-invalid1]="isSubmitted && newProductForm.get('name')?.errors"
             />
             <label for="name">Product name</label>
             <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('name')?.hasError('required')"> Product name is required </span>
+            @if(isSubmitted && newProductForm.get('name')?.hasError('minlength') || isSubmitted && newProductForm.get('name')?.hasError('maxlength')){
+                <span class="text-danger">The name must be at least 3 char and max 50</span>
+            }
         </div>
 
         <div class="form-floating mb-3">
@@ -28,10 +31,13 @@
                 id="unitPrice"
                 autocomplete="false"
                 class="form-control"
-                [class.is-invalid]="isSubmitted && newProductForm.get('unitPrice')?.errors"
+                [class.is-invalid1]="isSubmitted && newProductForm.get('unitPrice')?.errors"
             />
             <label for="unitPrice">Unit price</label>
             <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('unitPrice')?.hasError('required')"> Unit price is required </span>
+            @if(isSubmitted && newProductForm.get('unitPrice')?.hasError('min')){
+                <span class="text-danger">Minim price can be 0</span>
+            }
         </div>
 
         <div class="form-floating mb-3">
@@ -42,10 +48,13 @@
                 id="unitMeasure"
                 autocomplete="false"
                 class="form-control"
-                [class.is-invalid]="isSubmitted && newProductForm.get('unitMeasure')?.errors"
+                [class.is-invalid1]="isSubmitted && newProductForm.get('unitMeasure')?.errors"
             />
             <label for="unitMeasure">Unit measure</label>
-            <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('unitMeasure')?.hasError('required')"> Product name is required </span>
+            <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('unitMeasure')?.hasError('required')"> Unit measure is required </span>
+            @if(isSubmitted && newProductForm.get('unitMeasure')?.hasError('minlength') || isSubmitted && newProductForm.get('unitMeasure')?.hasError('maxlength')){
+                <span class="text-danger">Unit measure must be at least 2 char and max 10 chars</span>
+            }
         </div>
 
         <span>The product is available for clients?</span>
@@ -64,7 +73,7 @@
                 formControlName="categoryId"
                 id="categoryId"
                 class="form-select"
-                [class.is-invalid]="isSubmitted && newProductForm.get('categoryId')?.errors"
+                [class.is-invalid1]="isSubmitted && newProductForm.get('categoryId')?.errors"
             >
                 @for (category of categoryList; track category) {
                 <option value="{{ category.categoryId }}">{{ category.categoryName }}</option>
@@ -74,7 +83,7 @@
             <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('categoryId')?.hasError('required')"> Select a category please </span>
         </div>
         <div class="form-floating mb-3 mt-3">
-            <select formControlName="tva" id="tva" class="form-select" [class.is-invalid]="isSubmitted && newProductForm.get('tva')?.errors">
+            <select formControlName="tva" id="tva" class="form-select" [class.is-invalid1]="isSubmitted && newProductForm.get('tva')?.errors">
                 <option [value]="9">9%</option>
                 <option [value]="19">19%</option>
             </select>
@@ -91,29 +100,27 @@
                 <div class="form-floating mb-3 mt-1">
                     <select
                         formControlName="id"
-                        id="id{{i}}"
+                        id="id{{ i }}"
                         class="form-select"
-                        [class.is-invalid]="isSubmitted && newProductForm.get('id')?.errors"
+                        [class.is-invalid1]="isSubmitted && newProductForm.get('id')?.errors"
                     >
                         @for (item of componentProductsList; track item) {
                         <option [value]="item.id">{{ item.name }}</option>
                         }
                     </select>
 
-                    <label for="id{{i}}">Component Product ID</label>
+                    <label for="id{{ i }}">Component Product ID</label>
 
-                    <span class="text-danger" *ngIf="isSubmitted && newProductForm.get('id')?.hasError('required')">
-                        Select a product please
-                    </span>
-
+                    <span class="text-danger" *ngIf="isSubmitted && componentProduct.get('id')?.hasError('required')"> Select a product please </span>
                 </div>
-
 
                 <div class="form-floating mb-3">
-                    <input formControlName="quantity" type="number" min="0" placeholder="Used Quantity" id="quantity{{i}}" class="form-control" />
-                    <label for="quantity{{i}}">Used Quantity</label>
-                </div>
+                    <input formControlName="quantity" type="number" min="0" placeholder="Used Quantity" id="quantity{{ i }}" class="form-control" />
+                    <label for="quantity{{ i }}">Used Quantity</label>
+                    <span class="text-danger" *ngIf="isSubmitted && componentProduct.get('quantity')?.hasError('required')"> Quantity is required </span>
+                    <span class="text-danger" *ngIf="isSubmitted && componentProduct.get('quantity')?.hasError('min')"> Min values can be 0 </span>
 
+                </div>
 
                 <button type="button" class="btn col-12 btn-danger mb-1" (click)="removeComponentProduct(i)">Remove product</button>
             </div>
@@ -121,12 +128,8 @@
         <hr />
         <button type="button" class="col-12 btn btn-warning mb-3" (click)="addComponentProduct()">Add new component product</button>
         <div class="modal-footer">
-            <button type="submit" class="col-12 btn btn-primary btn-lg mt-2" [disabled]="productComponenetsId.length == 0">
-                @if (modifyStatus) {
-                    Modify product
-                }@else {
-                    Create new complex product
-                }
+            <button type="submit" class="col-12 btn btn-dark btn-lg mt-2" [disabled]="productComponenetsId.length == 0">
+                @if (modifyStatus) { Modify product }@else { Create new complex product }
             </button>
         </div>
     </form>

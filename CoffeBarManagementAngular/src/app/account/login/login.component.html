@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center rounded p-3">
     <!--d-flex and justify-content-center is for centered content in bootstrap 5 -->
-    <div class="col-sm-12 col-lg-5  acrylic shadow">
+    <div class="col-sm-12 col-lg-5 acrylic shadow">
         <main class="form-signin">
             <form [formGroup]="loginForm" (ngSubmit)="login()">
                 <div class="text-center mb-4">
@@ -14,7 +14,7 @@
                         id="email"
                         autocomplete="false"
                         class="form-control"
-                        [class.is-invalid]="isSubmited && loginForm.get('email')?.errors"
+                        [class.is-invalid1]="isSubmited && loginForm.get('email')?.errors"
                     />
                     <label for="email">Email</label>
                     <span class="text-danger" *ngIf="isSubmited && loginForm.get('email')?.hasError('required')"> Email is required! </span>
@@ -27,7 +27,7 @@
                         type="{{ showPassword ? 'text' : 'password' }}"
                         placeholder="Password"
                         class="form-control"
-                        [class.is-invalid]="isSubmited && loginForm.get('password')?.errors"
+                        [class.is-invalid1]="isSubmited && loginForm.get('password')?.errors"
                     />
                     <label for="password">Password </label>
                     <ng-template #passwordHiddenTemplate>

@@ -63,7 +63,7 @@
                         </a>
                     </li>
                     @if ((accountService.user$ | async) !== null && accountService.getUserRole() === roles.Pos1 ) {
-                        <li class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                         <a class="nav-link" routerLink="/employees/stock-balance" role="button" aria-expanded="false">
                             <strong>Stock balance</strong>
                         </a>
@@ -74,7 +74,6 @@
                         </a>
                     </li>
                     }
-                    
                 </ul>
                 <ul class="navbar-nav" *ngIf="(accountService.user$ | async) !== null && accountService.getUserRole() === roles.Client1">
                     <li class="nav-item dropdown">
@@ -108,7 +107,7 @@
                         <li><a class="dropdown-item" routerLink="/admin/balancing-categories">Balancing categories</a></li>
                     </ul>
                 </li>
-                
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <strong>Employees</strong>
@@ -133,6 +132,12 @@
                     <a class="nav-link" routerLink="/employees/add-stock-balance" role="button" aria-expanded="false">
                         <strong>Add stock balance</strong>
                     </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/orders" routerLinkActive="active"><strong>Orders</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/reservations" routerLinkActive="active"><strong>Reservations</strong></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/admin/reports" routerLinkActive="active"><strong>Reports</strong></a>
@@ -185,6 +190,20 @@
                         <li><a class="dropdown-item" style="cursor: pointer" (click)="logout()">Log out</a></li>
                     </ul>
                 </li>
+                @if(((accountService.user$ | async) !== null) && accountService.getUserRole() != roles.Client1){
+                <li class="nav-item">
+                    @if (isFullScreen) {
+                    <a (click)="exitFullscreen()" class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <fa-icon [icon]="faMinimize"></fa-icon>
+                    </a>
+
+                    } @else {
+                    <a (click)="enterFullscreen()" class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <fa-icon [icon]="faMaximize"></fa-icon>
+                    </a>
+                    }
+                </li>
+                }
             </ul>
         </div>
     </div>

@@ -64,9 +64,9 @@ export class AddComplexProductComponent implements OnInit {
         if (this.modifyStatus == false) {
             this.newProductForm = this.formBuilder.group({
                 productId: [0],
-                name: ['', [Validators.required]],
+                name: ['', [Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
                 unitPrice: ['', [Validators.required, Validators.min(0)]],
-                unitMeasure: ['', [Validators.required]],
+                unitMeasure: ['', [Validators.required,Validators.minLength(2),Validators.maxLength(10)]],
                 availableForUser: ['', [Validators.required]],
                 categoryId: ['', [Validators.required]],
                 tva: ['', [Validators.required, Validators.min(0)]],
@@ -75,9 +75,9 @@ export class AddComplexProductComponent implements OnInit {
         } else {
             this.newProductForm = this.formBuilder.group({
                 productId: [this.productId],
-                name: [this.name, [Validators.required]],
+                name: [this.name, [Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
                 unitPrice: [this.unitPrice, [Validators.required, Validators.min(0)]],
-                unitMeasure: [this.unitMeasure, [Validators.required]],
+                unitMeasure: [this.unitMeasure, [Validators.required,Validators.minLength(2),Validators.maxLength(10)]],
                 availableForUser: [this.availableForUser, [Validators.required]],
                 categoryId: [this.categoryId, [Validators.required]],
                 tva: [this.tva, [Validators.required, Validators.min(0)]],

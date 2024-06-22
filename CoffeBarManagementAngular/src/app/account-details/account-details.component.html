@@ -1,6 +1,6 @@
 <div class="container acrylic shadow">
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-sm-12">
             <h3 class="text-center">Account details</h3>
             <div style="font-weight: bold">
                 <div class="container acrylic shadow mb-3">First name: {{ userDetails.firstName }}</div>
@@ -9,10 +9,10 @@
                 <div class="container acrylic shadow mb-3">Phone number: {{ userDetails.phoneNumber }}</div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 col-sm-12">
             <h3 class="text-center">Change password</h3>
             <div class="container acrylic shadow">
-                <div class="col-10 mx-auto mt-2 mb-2">
+                <div class="col-lg-10 col-sm-12 mx-auto mt-2 mb-2">
                     <form [formGroup]="changePasswordForm" (submit)="changePassword()">
                         <div class="form-floating mb-3">
                             <input
