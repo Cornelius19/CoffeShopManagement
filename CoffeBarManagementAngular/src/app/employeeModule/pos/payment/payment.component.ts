@@ -361,7 +361,7 @@ export class PaymentComponent implements OnInit {
                                         body: [
                                             [
                                                 { text: 'Description', style: 'tableHeader' },
-                                                { text: 'TVA', style: 'tableHeader' },
+                                                { text: 'TVA included', style: 'tableHeader' },
                                                 { text: 'Price ($)', style: 'tableHeader' },
                                             ],
                                             ...productsList,
