@@ -25,7 +25,8 @@ namespace CoffeBarManagement.Controllers
         public async Task<IActionResult> NewBalanceStockRecords(int productID, int categoryID, int quantity)
         {
             var productDetails = await _applicationContext.Products.FindAsync(productID);
-            if (productDetails != null) {
+            if (productDetails != null)
+            {
                 if (quantity > productDetails.Quantity) { return BadRequest(new JsonResult(new { message = "Removabale quantity is bigger than the stock quantity!" })); }
                 productDetails.Quantity -= quantity;
                 var stockBalanceToAdd = new StockBalance
@@ -47,7 +48,7 @@ namespace CoffeBarManagement.Controllers
         [Authorize(Roles = "Admin,POS")]
         [HttpPut("change-status-pos/{status}")]
         public async Task<IActionResult> OpenPos(bool status)
-        {   
+        {
             var date = DateTime.Now;
             DateTime dateForComarasing = new DateTime(date.Year, date.Month, date.Day);
 
@@ -121,7 +122,7 @@ namespace CoffeBarManagement.Controllers
                     var orderProducts = await _applicationContext.OrderProducts.Where(q => q.OrderId == order.OrderId).ToListAsync();
                     if (orderProducts.Count > 0)
                     {
-                        foreach(var product in orderProducts)
+                        foreach (var product in orderProducts)
                         {
                             totalOrdersValue += product.UnitPrice * product.Quantity;
                         }
@@ -131,7 +132,8 @@ namespace CoffeBarManagement.Controllers
 
                 var employeeDataList = new List<EmployeeOrdersDto>();
                 var allEmployees = await _applicationContext.Employees.ToListAsync();
-                if (allEmployees.Count > 0) {
+                if (allEmployees.Count > 0)
+                {
                     foreach (var employee in allEmployees)
                     {
                         var takenOrders = await _applicationContext.Orders.Where(q => q.OrderDate.HasValue &&
@@ -150,7 +152,7 @@ namespace CoffeBarManagement.Controllers
                             DelieveredOrders = delieveredOrders.Count
                         };
                         employeeDataList.Add(employeeToAdd);
-                    }  
+                    }
                 }
 
                 var productsData = new List<ProductSellPerDayDto>();
@@ -158,16 +160,17 @@ namespace CoffeBarManagement.Controllers
                 q.Order.OrderDate.Value.Year == dateForComarasing.Year &&
                 q.Order.OrderDate.Value.Month == dateForComarasing.Month &&
                 q.Order.OrderDate.Value.Day == dateForComarasing.Day && q.Order.OrderStatus == 4).ToListAsync();
-                if (allSelledProductPerDay.Count > 0) {
-                    var allProducts = await _applicationContext.Products.Where(q=> q.AvailableForUser == true).ToListAsync();
-                    foreach(var item in allProducts)
+                if (allSelledProductPerDay.Count > 0)
+                {
+                    var allProducts = await _applicationContext.Products.Where(q => q.AvailableForUser == true).ToListAsync();
+                    foreach (var item in allProducts)
                     {
                         int? selledQuantity = 0;
                         double? selledValue = 0;
                         var productName = item.Name;
                         foreach (var product in allSelledProductPerDay)
                         {
-                            if(product.ProductId == item.ProductId)
+                            if (product.ProductId == item.ProductId)
                             {
                                 selledQuantity += product.Quantity;
                                 selledValue += product.UnitPrice * product.Quantity;
@@ -180,14 +183,14 @@ namespace CoffeBarManagement.Controllers
                             selledQuantity = selledQuantity,
                             selledValue = selledValue,
                         };
-                        if(selledQuantity > 0)
+                        if (selledQuantity > 0)
                         {
-                        productsData.Add(productToAdd);
+                            productsData.Add(productToAdd);
 
                         }
                     }
 
-                    
+
                 }
 
 
@@ -218,15 +221,20 @@ namespace CoffeBarManagement.Controllers
                 q.OrderDate.Value.Year == dateForComarasing.Year &&
                 q.OrderDate.Value.Month == dateForComarasing.Month &&
                 q.OrderDate.Value.Day == dateForComarasing.Day && q.OrderStatus == 4).ToListAsync();
-            if (finishedOrders.Count > 0) {
+            if (finishedOrders.Count > 0)
+            {
                 double? totalOrdersValue9 = 0;
                 double? totalOrdersValue19 = 0;
-                foreach (var order in finishedOrders) {
+                foreach (var order in finishedOrders)
+                {
                     var orderProducts = await _applicationContext.OrderProducts.Where(q => q.OrderId == order.OrderId).ToListAsync();
-                    if (orderProducts.Count > 0) {
-                        foreach (var product in orderProducts) {
+                    if (orderProducts.Count > 0)
+                    {
+                        foreach (var product in orderProducts)
+                        {
                             var productDetails = await _applicationContext.Products.Where(q => q.ProductId == product.ProductId).FirstOrDefaultAsync();
-                            if (productDetails.Tva == 9) {
+                            if (productDetails.Tva == 9)
+                            {
                                 totalOrdersValue9 += product.UnitPrice * product.Quantity;
                             }
                             if (productDetails.Tva == 19)
@@ -260,10 +268,10 @@ namespace CoffeBarManagement.Controllers
 
         [Authorize(Roles = Dependencis.ADMIN_ROLE)]
         [HttpGet("pos-closing-report-between-dates/{startDate}/{endDate}/{orderBy}")]
-        public async Task<PosClosingReportDto> GetPosClosingReport(DateTime startDate, DateTime endDate,int orderBy)
+        public async Task<PosClosingReportDto> GetPosClosingReport(DateTime startDate, DateTime endDate, int orderBy)
         {
             DateTime start = startDate.Date;
-            DateTime end = endDate.Date.AddDays(1).AddTicks(-1); 
+            DateTime end = endDate.Date.AddDays(1).AddTicks(-1);
 
             double? totalOrdersValue = 0;
             var currentDate = DateTime.UtcNow;
@@ -328,12 +336,12 @@ namespace CoffeBarManagement.Controllers
                         selledQuantity = soldQuantity,
                         selledValue = soldValue
                     };
-                    
+
                     productsData.Add(productToAdd);
-                    
+
                 }
             }
-            if(orderBy == 1)
+            if (orderBy == 1)
             {
                 //Sorting products
                 var temp = new ProductSellPerDayDto();
@@ -400,8 +408,8 @@ namespace CoffeBarManagement.Controllers
             return reportData;
         }
     }
-    }
+}
 
 
-    
+
 

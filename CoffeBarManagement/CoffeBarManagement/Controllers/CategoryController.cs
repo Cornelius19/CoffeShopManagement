@@ -136,8 +136,5 @@ namespace CoffeBarManagement.Controllers
             await _applicationContext.SaveChangesAsync();
             return Ok(new JsonResult(new { message = "Modification was applied!" }));
         }
-
-
-
     }
 }

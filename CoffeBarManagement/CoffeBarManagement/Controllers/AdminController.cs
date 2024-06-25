@@ -97,21 +97,24 @@ namespace CoffeBarManagement.Controllers
             {
                 foreach (var employee in allEmployees)
                 {
-                    var totalTakenOrder = await _applicationContext.Orders.Where(q => q.TakenEmployeeId == employee.EmployeeId).ToListAsync();
-                    var totalDelieveredOrder = await _applicationContext.Orders.Where(q => q.DeliveredEmployeeId == employee.EmployeeId).ToListAsync();
-                    var employeeToAdd = new GetEmployeesDto
+                    if(employee.Role != "admin")
                     {
-                        FirstName = employee.FirstName,
-                        LastName = employee.LastName,
-                        Salary = employee.Salary,
-                        EmployeeId = employee.EmployeeId,
-                        EmployeeRole = employee.Role,
-                        TotalCreatedOrders = totalTakenOrder.Count,
-                        TotalDelieveredOrders = totalDelieveredOrder.Count,
-                        Email = employee.Email,
-                        Lock =employee.Lock,
-                    };
-                    listToReturn.Add(employeeToAdd);
+                        var totalTakenOrder = await _applicationContext.Orders.Where(q => q.TakenEmployeeId == employee.EmployeeId).ToListAsync();
+                        var totalDelieveredOrder = await _applicationContext.Orders.Where(q => q.DeliveredEmployeeId == employee.EmployeeId).ToListAsync();
+                        var employeeToAdd = new GetEmployeesDto
+                        {
+                            FirstName = employee.FirstName,
+                            LastName = employee.LastName,
+                            Salary = employee.Salary,
+                            EmployeeId = employee.EmployeeId,
+                            EmployeeRole = employee.Role,
+                            TotalCreatedOrders = totalTakenOrder.Count,
+                            TotalDelieveredOrders = totalDelieveredOrder.Count,
+                            Email = employee.Email,
+                            Lock = employee.Lock,
+                        };
+                        listToReturn.Add(employeeToAdd);
+                    }
                 }
                 return listToReturn;
             }
