@@ -280,4 +280,8 @@ export class AdminService {
     getOrderStatistics(){
         return this.http.get(`${environment.appUrl}/api/reports/get-orders-statistics`);
     }
+
+    getTablesOrders(){
+        return this.http.get(`${environment.appUrl}/api/reports/get-table-orders`);
+    }
 }

@@ -481,8 +481,18 @@ export class ReportPdfServiceService {
             next: async (response: any[]) => {
                 this.productStockReport = response;
                 if (this.productStockReport.length > 0) {
+                    this.productStockReport.sort((a, b) => {
+                        if (a.name < b.name) {
+                            return -1;
+                        }
+                        if (a.name > b.name) {
+                            return 1;
+                        }
+                        return 0;
+                    });
                     const productTableBody = [
                         [
+                            { text: 'Crt.', style: 'tableHeader' },
                             { text: 'Product Name', style: 'tableHeader' },
                             { text: 'Current stock', style: 'tableHeader' },
                             { text: 'Selling Price', style: 'tableHeader' },
@@ -492,8 +502,9 @@ export class ReportPdfServiceService {
                         ],
                     ];
 
-                    this.productStockReport.forEach((product) => {
+                    this.productStockReport.forEach((product,index) => {
                         productTableBody.push([
+                            { text: `${index+1}`, style: '' },
                             { text: `${product.name}`, style: '' },
                             { text: `${product.currentStock} ${product.uniteMeasure}`, style: '' },
                             { text: `${product.unit_price} $`, style: '' },
@@ -518,7 +529,7 @@ export class ReportPdfServiceService {
                             {
                                 style: 'table',
                                 table: {
-                                    widths: [100, 90, 80, 35, 70, 80],
+                                    widths: [30,100, 90, 80, 35, 70, 80],
                                     body: productTableBody,
                                 },
                             },
@@ -674,7 +685,7 @@ export class ReportPdfServiceService {
                         ],
                     ];
                     this.ordersDetails.sort((a: OrderDetailsDto, b: OrderDetailsDto) => {
-                        return a.orderDate.valueOf() - b.orderDate.valueOf();
+                        return b.orderDate.valueOf() - a.orderDate.valueOf();
                     });
 
                     this.ordersDetails.forEach((order, index) => {
@@ -860,6 +871,9 @@ export class ReportPdfServiceService {
                     };
                 });
                 if (this.allReservations.length > 0) {
+                    this.allReservations.sort((a, b) => {
+                        return new Date(a.reservationDate).getTime() - new Date(b.reservationDate).getTime();
+                    });
                     const logoBase64 = await this.imageService.convertImageToBase64(
                         '../assets/images/sdbar-high-resolution-logo-black-transparent.png',
                     );

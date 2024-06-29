@@ -205,6 +205,29 @@ namespace CoffeBarManagement.Controllers
 
         }
 
+        [Authorize(Roles = Dependencis.ADMIN_ROLE)]
+        [HttpGet("get-table-orders")]
+        public async Task<List<TableReportDto>> GetTablesOrders()
+        {
+            var listToReturn = new List<TableReportDto>();
+            var result = await _applicationContext.Tables.ToListAsync();
+            foreach (var item in result) 
+            {
+                var orders = await _applicationContext.Orders.Where(o => o.TableId == item.TableId).ToListAsync();
+                var objectToAdd = new TableReportDto
+                {
+                    TableId = item.TableId,
+                    OrdersCounter = orders.Count,
+                };
+                listToReturn.Add(objectToAdd);
+            }
+            var barOrders = await _applicationContext.Orders.Where(o => o.TableId == null).ToListAsync();
+            if (barOrders.Any()) 
+            {
+                listToReturn.Add(new TableReportDto { TableId = 0, OrdersCounter = barOrders.Count });
+            }
+            return listToReturn;
+        }
     }
 
 

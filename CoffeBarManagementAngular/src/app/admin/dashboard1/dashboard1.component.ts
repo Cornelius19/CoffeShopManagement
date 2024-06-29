@@ -5,6 +5,7 @@ import { OrdersStatisticsByMonth } from '../../shared/models/Reports/ordersByMon
 import { CurrencyPipe } from '@angular/common';
 import { EmployeesOrdersDay } from '../../shared/models/PosReport/EmployeesOrdersDay';
 import { OrderStatistics } from '../../shared/models/Reports/orderStatistics';
+import { TableOrders } from '../../shared/models/Reports/tablesOrders';
 
 @Component({
     selector: 'app-dashboard1',
@@ -20,17 +21,21 @@ export class Dashboard1Component implements OnInit {
     ordersStatistics: OrdersStatisticsByMonth[] = [];
     months: string[] = [];
     names: string[] = [];
+    tablesId: string[] = [];
+    tableOrdersCounter: number[] = [];
     takenOrders: number[] = [];
     delieveredOrders: number[] = [];
     ordersCounter: number[] = [];
     ordersValue: number[] = [];
     employeeOrders: EmployeesOrdersDay[] = [];
+    tableOrders: TableOrders[] = [];
     orderStatistics: OrderStatistics = {} as OrderStatistics;
 
     ngOnInit(): void {
         this.getOrdersByMonthStatistics();
         this.getEmployeesOrders();
         this.getOrderStatistics();
+        this.getTableOrders();
         //this.createChart();
     }
 
@@ -102,30 +107,26 @@ export class Dashboard1Component implements OnInit {
         });
     }
 
-    // createOrdersStatisticChart(): void {
-    //     const ctx = document.getElementById('myChart3') as HTMLCanvasElement;
-    //     new Chart(ctx, {
-    //       type: 'pie',
-    //       data: {
-    //           labels: ['Total Orders', 'Total Earnings'],
-    //           datasets: [{
-    //               data: [this.orderStatistics.ordersCounter, this.orderStatistics.orderTotal],
-    //               backgroundColor: [
-    //                   'rgba(255, 99, 132, 0.2)',
-    //                   'rgba(54, 162, 235, 0.2)'
-    //               ],
-    //               borderColor: [
-    //                   'rgba(255, 99, 132, 1)',
-    //                   'rgba(54, 162, 235, 1)'
-    //               ],
-    //               borderWidth: 1,
-    //           }]
-    //       },
-    //       options: {
-    //           responsive: true
-    //       }
-    //   });
-    // }
+    createTableOrdersChart(): void {
+        const ctx = document.getElementById('myChart3') as HTMLCanvasElement;
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: this.tablesId,
+                datasets: [
+                    {
+                        data: this.tableOrdersCounter,
+                        backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+                        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+            },
+        });
+    }
 
     getOrderStatistics() {
         this.adminService.getOrderStatistics().subscribe({
@@ -167,6 +168,27 @@ export class Dashboard1Component implements OnInit {
                     this.delieveredOrders.push(obj.delieveredOrders);
                 });
                 this.createEmployeesChart();
+            },
+            error: (e) => {
+                console.log(e);
+            },
+        });
+    }
+
+    getTableOrders() {
+        this.adminService.getTablesOrders().subscribe({
+            next: (response: any) => {
+                this.tableOrders = response;
+                this.tableOrders.forEach((item) => {
+                    if (item.tableId == 0) {
+                        this.tablesId.push(`Bar`);
+                        this.tableOrdersCounter.push(item.ordersCounter);
+                    } else {
+                        this.tablesId.push(`Table ${item.tableId}`);
+                        this.tableOrdersCounter.push(item.ordersCounter);
+                    }
+                });
+                this.createTableOrdersChart();
             },
             error: (e) => {
                 console.log(e);
