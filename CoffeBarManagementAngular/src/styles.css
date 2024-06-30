@@ -1,3 +1,20 @@
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 .acrylic {
     padding: 1em 1em;
     position: relative;
@@ -69,3 +86,4 @@ strong {
 button{
     font-family: 'RobotoBold';
 }
+

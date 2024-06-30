@@ -6,6 +6,8 @@ import { Config } from 'datatables.net';
 import { Subject } from 'rxjs';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { SharedService } from '../../shared/shared.service';
+import * as XLSX from 'xlsx';
+
 
 @Component({
     selector: 'app-reservations',
@@ -23,6 +25,12 @@ export class ReservationsComponent implements OnInit {
         this.getAllReservations();
         this.dtOptions = {
             pagingType: 'full_numbers',
+            lengthMenu: [
+                [10, 50, 100, -1],
+                [10, 50, 100, 'All'],
+            ],
+            order:[2,'desc'],
+            scrollY:'500'
         };
     }
 
@@ -50,6 +58,18 @@ export class ReservationsComponent implements OnInit {
                 console.log(e);
             },
         });
+    }
+
+    exportToExcel() {
+        let element = document.getElementById('excel-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+        /* save to file */
+        XLSX.writeFile(wb, 'Orders.xlsx');
     }
 
     deleteReservation(reservationId: number) {

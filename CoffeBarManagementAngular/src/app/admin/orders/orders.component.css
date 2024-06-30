@@ -1,0 +1,6 @@
+table.dataTable td,
+table.dataTable th {
+  text-align: left; /* Align all table cells to the left */
+}
+
+

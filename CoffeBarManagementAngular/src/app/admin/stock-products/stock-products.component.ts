@@ -11,6 +11,8 @@ import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { SharedService } from '../../shared/shared.service';
 import { ProductComponent } from '../../shared/models/productComponent';
 import { GetComponentProducts } from '../../shared/models/getComponentProducts';
+import * as XLSX from 'xlsx';
+
 
 @Component({
     selector: 'app-stock-products',
@@ -36,6 +38,12 @@ export class StockProductsComponent implements OnInit {
         this.getStock();
         this.dtOptions = {
             pagingType: 'full_numbers',
+            lengthMenu: [
+                [10, 50, 100, -1],
+                [10, 50, 100, 'All'],
+            ],
+            order:[1,'asc'],
+            scrollY:'500'
         };
     }
 
@@ -50,6 +58,18 @@ export class StockProductsComponent implements OnInit {
                 console.log(error);
             },
         });
+    }
+
+    exportToExcel() {
+        let element = document.getElementById('excel-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+        /* save to file */
+        XLSX.writeFile(wb, 'Orders.xlsx');
     }
 
     createNonComplexProduct() {
