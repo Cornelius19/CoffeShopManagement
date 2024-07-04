@@ -29,7 +29,7 @@ const routes: Routes = [
         path: 'employees',
         loadChildren: () => import('./employeeModule/employee.module').then((module) => module.EmployeeModule),
         canActivate: [RoleGuard],
-        data: { roles: [Roles.Employee,Roles.Pos,Roles.Admin] },
+        data: { roles: [Roles.Employee, Roles.Pos, Roles.Admin] },
     },
 
     //admin paths
@@ -44,7 +44,7 @@ const routes: Routes = [
         path: 'account-details',
         component: AccountDetailsComponent,
         canActivate: [RoleGuard],
-        data: { roles: [Roles.Admin,Roles.Client,Roles.Employee,Roles.Pos] },
+        data: { roles: [Roles.Admin, Roles.Client, Roles.Employee, Roles.Pos] },
     },
 
     //shared paths

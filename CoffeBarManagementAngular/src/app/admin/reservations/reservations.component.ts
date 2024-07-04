@@ -50,7 +50,7 @@ export class ReservationsComponent implements OnInit {
                         tableNumber: reservation.tableNumber,
                     };
                 });
-                console.log(this.allReservations);
+                //console.log(this.allReservations);
                 
                 this.dtTrigger.next(null);
             },
@@ -69,7 +69,7 @@ export class ReservationsComponent implements OnInit {
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
         /* save to file */
-        XLSX.writeFile(wb, 'Orders.xlsx');
+        XLSX.writeFile(wb, 'Reservations.xlsx');
     }
 
     deleteReservation(reservationId: number) {

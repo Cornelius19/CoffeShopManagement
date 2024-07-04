@@ -44,7 +44,7 @@ export class EmployeesDataComponent implements OnInit {
         next: (response:any) => {
           this.employeeData = response;
           this.dtTrigger.next(null);
-          console.log(this.employeeData);
+          //console.log(this.employeeData);
           
           
         },
@@ -63,7 +63,7 @@ export class EmployeesDataComponent implements OnInit {
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
       /* save to file */
-      XLSX.writeFile(wb, 'Orders.xlsx');
+      XLSX.writeFile(wb, 'EmployeesData.xlsx');
   }
 
     lockUnlockEmployee(employeeId: number,status:boolean){

@@ -78,8 +78,8 @@ export class AdminService {
         quantity: number,
         supplyCheck: number,
         tva: number,
-        componentProducts:GetComponentProducts[],
-        modifyStatus:boolean
+        componentProducts: GetComponentProducts[],
+        modifyStatus: boolean,
     ) {
         const initialState: ModalOptions = {
             initialState: {
@@ -94,7 +94,7 @@ export class AdminService {
                 supplyCheck,
                 tva,
                 componentProducts,
-                modifyStatus
+                modifyStatus,
             },
         };
         this.bsModalRef = this.modalService.show(AddComplexProductComponent, initialState);
@@ -103,8 +103,8 @@ export class AdminService {
         return this.http.put(`${environment.appUrl}/api/products/modify-nonComplexProduct`, model);
     }
 
-    modifyComplexProduct(model: AddComplexProduct){
-        return this.http.put(`${environment.appUrl}/api/products/modify-complex-product`,model)
+    modifyComplexProduct(model: AddComplexProduct) {
+        return this.http.put(`${environment.appUrl}/api/products/modify-complex-product`, model);
     }
 
     showAddNewNonComplexProduct() {
@@ -154,7 +154,7 @@ export class AdminService {
         this.bsModalRef = this.modalService.show(ModifyBalanceCategoryComponent, initialState);
     }
 
-    showModifyEmployee(employeeId: number, salary: number, role:string) {
+    showModifyEmployee(employeeId: number, salary: number, role: string) {
         const initialState: ModalOptions = {
             initialState: {
                 employeeId,
@@ -165,7 +165,7 @@ export class AdminService {
         this.bsModalRef = this.modalService.show(ModifiedEmployeeModalComponent, initialState);
     }
 
-    showAddNewTable(capacity: number,modifyStatus:boolean) {
+    showAddNewTable(capacity: number, modifyStatus: boolean) {
         const initialState: ModalOptions = {
             initialState: {
                 capacity,
@@ -175,12 +175,12 @@ export class AdminService {
         this.bsModalRef = this.modalService.show(AddTableComponent, initialState);
     }
 
-    showModifyTable(tableId:number,capacity: number,modifyStatus:boolean) {
+    showModifyTable(tableId: number, capacity: number, modifyStatus: boolean) {
         const initialState: ModalOptions = {
             initialState: {
                 capacity,
                 modifyStatus,
-                tableId
+                tableId,
             },
         };
         this.bsModalRef = this.modalService.show(AddTableComponent, initialState);
@@ -189,7 +189,7 @@ export class AdminService {
     showOrderProductsModal(products: OrderProduct[]) {
         const initialState: ModalOptions = {
             initialState: {
-                products
+                products,
             },
         };
         this.bsModalRef = this.modalService.show(OrderProductsModalComponent, initialState);
@@ -207,7 +207,6 @@ export class AdminService {
         this.bsModalRef = this.modalService.show(AddComplexProductComponent);
     }
 
-
     getComponentProducts() {
         return this.http.get(`${environment.appUrl}/api/products/get-component-products`);
     }
@@ -216,72 +215,75 @@ export class AdminService {
         return this.http.post(`${environment.appUrl}/api/products/add-new-product-complex`, model);
     }
 
-    getStockProductsReportData(categoryId: number){
+    getStockProductsReportData(categoryId: number) {
         return this.http.get<any[]>(`${environment.appUrl}/api/reports/get-stock-products-report/${categoryId}`);
     }
 
-    registerNewEmployee(model: RegisterNewEmployeeDto){
-        return this.http.post(`${environment.appUrl}/api/admin/register-employee`,model);
+    registerNewEmployee(model: RegisterNewEmployeeDto) {
+        return this.http.post(`${environment.appUrl}/api/admin/register-employee`, model);
     }
 
-
-    getEmployeeData(){
+    getEmployeeData() {
         return this.http.get(`${environment.appUrl}/api/admin/get-employees`);
     }
 
-    lockUnlockEmployee(employeeId: number,status:boolean){
-        return this.http.put(`${environment.appUrl}/api/admin/lock-unlock-employee/${employeeId}/${status}`,null);
+    lockUnlockEmployee(employeeId: number, status: boolean) {
+        return this.http.put(`${environment.appUrl}/api/admin/lock-unlock-employee/${employeeId}/${status}`, null);
     }
 
-    lockUnlockClients(clientId: number,status:boolean){
-        return this.http.put(`${environment.appUrl}/api/admin/lock-unlock-client/${clientId}/${status}`,null);
+    lockUnlockClients(clientId: number, status: boolean) {
+        return this.http.put(`${environment.appUrl}/api/admin/lock-unlock-client/${clientId}/${status}`, null);
     }
 
-    modifyEmployeeData(model: Object){
-        return this.http.put(`${environment.appUrl}/api/admin/modify-employee`,model);
+    modifyEmployeeData(model: Object) {
+        return this.http.put(`${environment.appUrl}/api/admin/modify-employee`, model);
     }
 
-    getOrdersByMonthsStatistic(){
+    getOrdersByMonthsStatistic() {
         return this.http.get(`${environment.appUrl}/api/admin/get-orders-data-chart`);
     }
 
-    addNewTable(model:Object){
-        return this.http.post(`${environment.appUrl}/api/tables/add-table`,model);
+    addNewTable(model: Object) {
+        return this.http.post(`${environment.appUrl}/api/tables/add-table`, model);
     }
 
-    modifyTableCapacity(tableId: number, model: Object){
-        return this.http.put(`${environment.appUrl}/api/tables/change-table-capacity/${tableId}`,model);
+    modifyTableCapacity(tableId: number, model: Object) {
+        return this.http.put(`${environment.appUrl}/api/tables/change-table-capacity/${tableId}`, model);
     }
 
-    deleteTable(tableId:number){
+    deleteTable(tableId: number) {
         return this.http.delete(`${environment.appUrl}/api/tables/delete-table/${tableId}`);
     }
 
-    getClientData(){
+    getClientData() {
         return this.http.get(`${environment.appUrl}/api/admin/get-clients-data`);
     }
 
-    getEmployeesOrders(){
+    getEmployeesOrders() {
         return this.http.get(`${environment.appUrl}/api/admin/get-orders-employees-chart`);
     }
 
-    getSupplyCheckProducts(){
+    getSupplyCheckProducts() {
         return this.http.get(`${environment.appUrl}/api/reports/get-lowStock-products-report`);
     }
 
-    getOrderDetails(start:string,end:string){
+    getOrderDetails(start: string, end: string) {
         return this.http.get<any>(`${environment.appUrl}/api/reports/get-orders-details/${start}/${end}`);
     }
 
-    getAllReservationsBetweenDates(start:string, end:string){
+    getAllReservationsBetweenDates(start: string, end: string) {
         return this.http.get<any>(`${environment.appUrl}/api/reservations/get-all-reservations-employee-between/${start}/${end}`);
     }
 
-    getOrderStatistics(){
+    getOrderStatistics() {
         return this.http.get(`${environment.appUrl}/api/reports/get-orders-statistics`);
     }
 
-    getTablesOrders(){
+    getTablesOrders() {
         return this.http.get(`${environment.appUrl}/api/reports/get-table-orders`);
+    }
+
+    getStockBalanceData() {
+        return this.http.get(`${environment.appUrl}/api/admin/get-stock-balance-data`);
     }
 }

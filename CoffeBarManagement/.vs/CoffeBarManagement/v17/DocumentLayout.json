@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "D:\\Licenta\\CoffeBarManagement\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\dtos\\admin\\stockbalancedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\dtos\\admin\\stockbalancedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\licenta\\coffebarmanagement\\coffebarmanagement\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -23,6 +35,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "StockBalanceDto.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Admin\\StockBalanceDto.cs",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\DTOs\\Admin\\StockBalanceDto.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Admin\\StockBalanceDto.cs",
+              "RelativeToolTip": "CoffeBarManagement\\DTOs\\Admin\\StockBalanceDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAcAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-04T09:48:33.985Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\Controllers\\AdminController.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "CoffeBarManagement\\Controllers\\AdminController.cs",
+              "ViewState": "AQIAAPMAAAAAAAAAAAAiwIkBAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-04T09:44:50.945Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OrdersController.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\OrdersController.cs",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\Controllers\\OrdersController.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\OrdersController.cs",
+              "RelativeToolTip": "CoffeBarManagement\\Controllers\\OrdersController.cs",
+              "ViewState": "AQIAANgCAAAAAAAAAADwvwIDAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-04T08:41:32.693Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "TableReportDto.cs",
               "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\DTOs\\Report\\TableReportDto.cs",
               "RelativeDocumentMoniker": "CoffeBarManagement\\DTOs\\Report\\TableReportDto.cs",
@@ -34,7 +85,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "ReportsController.cs",
               "DocumentMoniker": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\ReportsController.cs",
               "RelativeDocumentMoniker": "CoffeBarManagement\\Controllers\\ReportsController.cs",

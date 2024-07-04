@@ -390,5 +390,28 @@ namespace CoffeBarManagement.Controllers
             }
             return listToReturn;
         }
+
+        [HttpGet("get-stock-balance-data")]
+        public async Task<List<StockBalanceDto>> GetStockBalanceData()
+        {
+            var listToReturn = new List<StockBalanceDto>();
+            var result = await _applicationContext.StockBalances.ToListAsync();
+            foreach (var item in result) 
+            {
+                var productName = await _applicationContext.Products.Where(q => q.ProductId == item.ProductId).FirstOrDefaultAsync();
+                var categoryName = await _applicationContext.RemoveCategories.Where(q => q.RemoveCategoryId == item.RemoveCategoryId).FirstOrDefaultAsync();
+                var stockBalanceRecord = new StockBalanceDto
+                {
+                    StockBalanceDate = item.BalanceDate,
+                    ProductName = productName.Name,
+                    CategoryName = categoryName.RemoveCategoryName,
+                    RemovedQuantity = item.RemoveQuantity,
+                };
+                listToReturn.Add(stockBalanceRecord);
+            }
+            return listToReturn;
+
+        }   
+
     }
 }
