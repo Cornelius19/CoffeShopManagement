@@ -6,6 +6,8 @@ import { MenuService } from '../../../menu/menu.service';
 import { resetFakeAsyncZone } from '@angular/core/testing';
 import { faTrashCan, faEdit } from '@fortawesome/free-regular-svg-icons';
 import { AdminService } from '../../admin-service.service';
+import * as XLSX from 'xlsx';
+
 
 @Component({
     selector: 'app-product-categories',
@@ -25,6 +27,11 @@ export class ProductCategoriesComponent implements OnInit {
         this.getCategories();
         this.dtOptions = {
             pagingType: 'full_numbers',
+            lengthMenu: [
+                [10, 50, 100, -1],
+                [10, 50, 100, 'All'],
+            ],
+            order:[1,'asc'],
         };
     }
 
@@ -49,5 +56,16 @@ export class ProductCategoriesComponent implements OnInit {
         this.adminService.showModifyProductCategory(categoryId,name,availableMenu);
     }
 
+    exportToExcel() {
+        let element = document.getElementById('excel-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+        /* save to file */
+        XLSX.writeFile(wb, 'ProductCategories.xlsx');
+    }
     deleteCategory() {}
 }

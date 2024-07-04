@@ -5,6 +5,7 @@ import { Config } from 'datatables.net';
 import { Subject } from 'rxjs';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { OrderProduct } from '../../shared/models/orderProduct';
+import * as XLSX from 'xlsx';
 
 @Component({
     selector: 'app-orders',
@@ -15,13 +16,20 @@ export class OrdersComponent implements OnInit {
     constructor(private adminService: AdminService) {}
     orders: OrderDetailsDto[] = [];
     dtOptions: Config = {};
+    all: number = 999999999;
     dtTrigger: Subject<any> = new Subject<any>();
-  faCircleInfo = faCircleInfo;
+    faCircleInfo = faCircleInfo;
     ngOnInit(): void {
         this.getAllOrders();
         this.dtOptions = {
-          pagingType: 'full_numbers',
-      };
+            pagingType: 'full_numbers',
+            lengthMenu: [
+                [10, 50, 100, -1],
+                [10, 50, 100, 'All'],
+            ],
+            order:[2,'desc'],
+            scrollY:'500'
+        };
     }
 
     getAllOrders() {
@@ -45,7 +53,19 @@ export class OrdersComponent implements OnInit {
         });
     }
 
-    showDetails(products:OrderProduct[]){
-      this.adminService.showOrderProductsModal(products);
+    exportToExcel() {
+        let element = document.getElementById('excel-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+        /* save to file */
+        XLSX.writeFile(wb, 'Orders.xlsx');
+    }
+
+    showDetails(products: OrderProduct[]) {
+        this.adminService.showOrderProductsModal(products);
     }
 }

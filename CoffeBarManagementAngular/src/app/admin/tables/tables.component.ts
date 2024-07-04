@@ -8,6 +8,8 @@ import { AdminService } from '../admin-service.service';
 import { PosService } from '../../employeeModule/pos/pos.service';
 import { SharedService } from '../../shared/shared.service';
 import { GetTables } from '../../shared/models/getTables';
+import * as XLSX from 'xlsx';
+
 
 @Component({
     selector: 'app-tables',
@@ -27,6 +29,12 @@ export class TablesComponent implements OnInit {
         this.getTables();
         this.dtOptions = {
             pagingType: 'full_numbers',
+            lengthMenu: [
+                [10, 50, 100, -1],
+                [10, 50, 100, 'All'],
+            ],
+            order:[2,'desc'],
+            scrollY:'500'
         };
     }
 
@@ -40,6 +48,17 @@ export class TablesComponent implements OnInit {
                 console.log(error);
             },
         });
+    }
+    exportToExcel() {
+        let element = document.getElementById('excel-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+        /* save to file */
+        XLSX.writeFile(wb, 'Tables.xlsx');
     }
 
     async deleteTable(tableId: number) {

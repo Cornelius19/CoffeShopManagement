@@ -1,7 +1,7 @@
-<div class="container ">
+<div class="container">
     <div class="container mx-auto col-8 acrylic shadow">
         <h3 class="text-center">Product categories</h3>
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-bordered">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="excel-table" class="table table-hover table-bordered">
             <thead class="text-center">
                 <tr>
                     <th style="text-align: center">Id</th>
@@ -20,18 +20,15 @@
                     <td>
                         {{ category.categoryName }}
                     </td>
-                    <td>
-                        @if (category.availableMenu == true) {
-                            Yes
-                        }
-                        @else {
-                            No
-                        }
-                    </td>
+                    <td>@if (category.availableMenu == true) { Yes } @else { No }</td>
                     <td style="text-align: center">
-                        <button class="btn btn-outline-dark" (click)="modifyCategory(category.categoryId, category.categoryName, category.availableMenu)" style="cursor: pointer"
-                            ><fa-icon [icon]="faEdit"></fa-icon
-                        ></button>
+                        <button
+                            class="btn btn-outline-dark"
+                            (click)="modifyCategory(category.categoryId, category.categoryName, category.availableMenu)"
+                            style="cursor: pointer"
+                        >
+                            <fa-icon [icon]="faEdit"></fa-icon>
+                        </button>
                     </td>
                     <!-- <td style="text-align: center">
                         <span (click)="deleteCategory()" style="cursor: pointer"><fa-icon [icon]="faTrashCan"></fa-icon></span>
@@ -40,8 +37,13 @@
                 }
             </tbody>
         </table>
-        <div class="col-8">
-            <button class="btn btn-dark btn-lg mt-3" (click)="addNewCategory()">Add a new category</button>
+        <div class="row">
+            <div class="col-8">
+                <button class="btn btn-dark btn-lg mt-2" (click)="addNewCategory()">Add a new category</button>
+            </div>
+            <div class="col-4">
+                <button class="btn col-12 btn-dark btn-lg mt-2" (click)="exportToExcel()">Export to excel</button>
+            </div>
         </div>
     </div>
 </div>

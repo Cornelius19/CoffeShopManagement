@@ -26,6 +26,7 @@ import { AddTableComponent } from './formsModals/add-table/add-table.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderProductsModalComponent } from './formsModals/order-products-modal/order-products-modal.component';
 import { ReservationsComponent } from './reservations/reservations.component';
+import { StockBalanceDataComponent } from './stock-balance-data/stock-balance-data.component';
 
 
 
@@ -53,6 +54,7 @@ import { ReservationsComponent } from './reservations/reservations.component';
     OrdersComponent,
     OrderProductsModalComponent,
     ReservationsComponent,
+    StockBalanceDataComponent,
   ],
   imports: [
     CommonModule,

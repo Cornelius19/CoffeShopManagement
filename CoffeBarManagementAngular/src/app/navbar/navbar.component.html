@@ -124,14 +124,22 @@
                     <a class="nav-link" routerLink="/admin/tables" routerLinkActive="active"><strong>Tables</strong></a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link" routerLink="/employees/stock-balance" role="button" aria-expanded="false">
-                        <strong>Stock balance</strong>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <strong>Stock balancing</strong>
                     </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link" routerLink="/employees/add-stock-balance" role="button" aria-expanded="false">
-                        <strong>Add stock balance</strong>
-                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="nav-link" routerLink="/employees/stock-balance" role="button" aria-expanded="false">New stock balance </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" routerLink="/employees/add-stock-balance" role="button" aria-expanded="false"> Add stock products </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" routerLink="/admin/stock-balance-data" role="button" aria-expanded="false">
+                                Stock balance data
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/admin/orders" routerLinkActive="active"><strong>Orders</strong></a>

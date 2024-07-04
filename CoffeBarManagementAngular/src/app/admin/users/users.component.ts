@@ -6,6 +6,8 @@ import { faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { Config } from 'datatables.net';
 import { Subject } from 'rxjs';
 import { SharedService } from '../../shared/shared.service';
+import * as XLSX from 'xlsx';
+
 
 @Component({
     selector: 'app-users',
@@ -28,6 +30,12 @@ export class UsersComponent implements OnInit {
         this.getClientData();
         this.dtOptions = {
           pagingType: 'full_numbers',
+          lengthMenu: [
+              [10, 50, 100, -1],
+              [10, 50, 100, 'All'],
+          ],
+          order:[0,'asc'],
+          scrollY:'500'
       };
     }
 
@@ -41,6 +49,18 @@ export class UsersComponent implements OnInit {
         }
       });
     }
+
+    exportToExcel() {
+      let element = document.getElementById('excel-table');
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+      /* generate workbook and add the worksheet */
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+      /* save to file */
+      XLSX.writeFile(wb, 'Users.xlsx');
+  }
 
     getClientData() {
         this.adminService.getClientData().subscribe({

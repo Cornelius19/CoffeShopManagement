@@ -7,6 +7,8 @@ import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { SharedService } from '../../shared/shared.service';
+import * as XLSX from 'xlsx';
+
 
 
 @Component({
@@ -26,9 +28,15 @@ export class EmployeesDataComponent implements OnInit {
 
     ngOnInit(): void {
       this.getEmployeesData();
-        this.dtOptions = {
-            pagingType: 'full_numbers',
-        };
+      this.dtOptions = {
+        pagingType: 'full_numbers',
+        lengthMenu: [
+            [10, 50, 100, -1],
+            [10, 50, 100, 'All'],
+        ],
+        order:[0,'asc'],
+        scrollY:'500'
+    };
     }
 
     getEmployeesData(){
@@ -36,7 +44,7 @@ export class EmployeesDataComponent implements OnInit {
         next: (response:any) => {
           this.employeeData = response;
           this.dtTrigger.next(null);
-          console.log(this.employeeData);
+          //console.log(this.employeeData);
           
           
         },
@@ -45,6 +53,18 @@ export class EmployeesDataComponent implements OnInit {
         }
       });
     }
+
+    exportToExcel() {
+      let element = document.getElementById('excel-table');
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+      /* generate workbook and add the worksheet */
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+      /* save to file */
+      XLSX.writeFile(wb, 'EmployeesData.xlsx');
+  }
 
     lockUnlockEmployee(employeeId: number,status:boolean){
       this.adminService.lockUnlockEmployee(employeeId,status).subscribe({

@@ -37,7 +37,6 @@ export class ReportPdfServiceService {
     clientsData: GetClientDataDto[] = [];
     allReservations: GetReservation[] = [];
 
-
     async generateSelledProductsBetweenDatesPdf(report: PosClosedReport) {
         const logoBase64 = await this.imageService.convertImageToBase64('../assets/images/sdbar-high-resolution-logo-black-transparent.png');
         const today = new Date();
@@ -384,7 +383,7 @@ export class ReportPdfServiceService {
                     },
                 };
 
-                pdfMake.createPdf(docDefinition).download();
+                pdfMake.createPdf(docDefinition).open();
             },
             error: (e) => {
                 console.log(e);
@@ -482,8 +481,18 @@ export class ReportPdfServiceService {
             next: async (response: any[]) => {
                 this.productStockReport = response;
                 if (this.productStockReport.length > 0) {
+                    this.productStockReport.sort((a, b) => {
+                        if (a.name < b.name) {
+                            return -1;
+                        }
+                        if (a.name > b.name) {
+                            return 1;
+                        }
+                        return 0;
+                    });
                     const productTableBody = [
                         [
+                            { text: 'Crt.', style: 'tableHeader' },
                             { text: 'Product Name', style: 'tableHeader' },
                             { text: 'Current stock', style: 'tableHeader' },
                             { text: 'Selling Price', style: 'tableHeader' },
@@ -493,8 +502,9 @@ export class ReportPdfServiceService {
                         ],
                     ];
 
-                    this.productStockReport.forEach((product) => {
+                    this.productStockReport.forEach((product,index) => {
                         productTableBody.push([
+                            { text: `${index+1}`, style: '' },
                             { text: `${product.name}`, style: '' },
                             { text: `${product.currentStock} ${product.uniteMeasure}`, style: '' },
                             { text: `${product.unit_price} $`, style: '' },
@@ -519,7 +529,7 @@ export class ReportPdfServiceService {
                             {
                                 style: 'table',
                                 table: {
-                                    widths: [100, 90, 80, 35, 70, 80],
+                                    widths: [30,100, 90, 80, 35, 70, 80],
                                     body: productTableBody,
                                 },
                             },
@@ -630,9 +640,8 @@ export class ReportPdfServiceService {
                         },
                     };
                     pdfMake.createPdf(docDefinition).open();
-                }
-                else{
-                    this.sharedService.showNotification(true,'Good news','There are 0 products that need supply!')
+                } else {
+                    this.sharedService.showNotification(true, 'Good news', 'There are 0 products that need supply!');
                 }
             },
             error: (e) => {
@@ -641,14 +650,14 @@ export class ReportPdfServiceService {
         });
     }
 
-    async generateOrdersBetweenTwoDates(start:Date,end:Date){
+    async generateOrdersBetweenTwoDates(start: Date, end: Date) {
         const stringStart = this.sharedService.convertDateToYYMMDD(start);
         const stringEnd = this.sharedService.convertDateToYYMMDD(end);
         //console.log(stringEnd);
         //console.log(stringStart);
-        
-        this.adminService.getOrderDetails(stringStart,stringEnd).subscribe({
-            next:async (response: any) => {
+
+        this.adminService.getOrderDetails(stringStart, stringEnd).subscribe({
+            next: async (response: any) => {
                 this.ordersDetails = response.map((order: OrderDetailsDto) => {
                     return {
                         orderId: order.orderId,
@@ -662,7 +671,7 @@ export class ReportPdfServiceService {
                         products: order.products,
                     };
                 });
-                if(this.ordersDetails.length > 0){
+                if (this.ordersDetails.length > 0) {
                     const ordersTableBody = [
                         [
                             { text: 'Id.', style: 'tableHeader' },
@@ -675,26 +684,26 @@ export class ReportPdfServiceService {
                             { text: 'Total', style: 'tableHeader' },
                         ],
                     ];
-                    this.ordersDetails.sort((a:OrderDetailsDto,b:OrderDetailsDto) => {
-                        return a.orderDate.valueOf() - b.orderDate.valueOf();
+                    this.ordersDetails.sort((a: OrderDetailsDto, b: OrderDetailsDto) => {
+                        return b.orderDate.valueOf() - a.orderDate.valueOf();
                     });
 
                     this.ordersDetails.forEach((order, index) => {
-                        let orderDate = this.sharedService.convertDateToYYMMDDHHMMSS(order.orderDate)
+                        let orderDate = this.sharedService.convertDateToYYMMDDHHMMSS(order.orderDate);
                         let clientName = 'Unknown';
-                        if(order.clientName != ''){
+                        if (order.clientName != '') {
                             clientName = order.clientName;
                         }
                         let takenBy = 'Unknown';
-                        if(order.takenBy != ''){
+                        if (order.takenBy != '') {
                             takenBy = order.takenBy;
                         }
                         let delieveredBy = 'Unknown';
-                        if(order.delieveredBy != ''){
+                        if (order.delieveredBy != '') {
                             delieveredBy = order.delieveredBy;
                         }
                         let table = 'Bar';
-                        if(order.tableId != null){
+                        if (order.tableId != null) {
                             table = order.tableId.toString();
                         }
                         ordersTableBody.push([
@@ -739,26 +748,27 @@ export class ReportPdfServiceService {
                         },
                     };
                     pdfMake.createPdf(docDefinition).open();
-                }
-                else{
-                    this.sharedService.showNotification(true,'Empty','There are no orders in this period!')
+                } else {
+                    this.sharedService.showNotification(true, 'Empty', 'There are no orders in this period!');
                 }
             },
-            error: e =>{
-                this.sharedService.showNotification(false,'Error','Something went wrong!')
-            }
+            error: (e) => {
+                this.sharedService.showNotification(false, 'Error', 'Something went wrong!');
+            },
         });
     }
 
-    async generateUsersDataReport(){
+    async generateUsersDataReport() {
         this.adminService.getClientData().subscribe({
             next: async (response: any) => {
                 this.clientsData = response;
-                if(this.clientsData.length > 0){
-                    const logoBase64 = await this.imageService.convertImageToBase64('../assets/images/sdbar-high-resolution-logo-black-transparent.png');
+                if (this.clientsData.length > 0) {
+                    const logoBase64 = await this.imageService.convertImageToBase64(
+                        '../assets/images/sdbar-high-resolution-logo-black-transparent.png',
+                    );
                     const today = new Date();
                     const createdAt = this.sharedService.convertDateToYYMMDDHHMMSS(today);
-            
+
                     const clientTableBody = [
                         [
                             { text: 'Id', style: 'tableHeader' },
@@ -773,7 +783,7 @@ export class ReportPdfServiceService {
                     this.clientsData.forEach((client, index) => {
                         clientTableBody.push([
                             {
-                                text: (client.clientId).toString(),
+                                text: client.clientId.toString(),
                                 style: '',
                             },
                             {
@@ -802,7 +812,7 @@ export class ReportPdfServiceService {
                             },
                         ]);
                     });
-            
+
                     const docDefinition: any = {
                         pageOrientation: 'landscape',
                         content: [
@@ -830,29 +840,22 @@ export class ReportPdfServiceService {
                         },
                         defaultStyles: {},
                     };
-            
+
                     pdfMake.createPdf(docDefinition).open();
-                }
-                else{
-                    this.sharedService.showNotification(false,'No data provided','Something went wrong when trying to get the needed data!')
+                } else {
+                    this.sharedService.showNotification(false, 'No data provided', 'Something went wrong when trying to get the needed data!');
                 }
             },
             error: (e: any) => {
                 console.log(e);
             },
         });
-        
-        
-        
-
-
-
     }
 
-    async generateReservationReport(start:Date,end:Date){
+    async generateReservationReport(start: Date, end: Date) {
         const stringStart = this.sharedService.convertDateToYYMMDD(start);
         const stringEnd = this.sharedService.convertDateToYYMMDD(end);
-        this.adminService.getAllReservationsBetweenDates(stringStart,stringEnd).subscribe({
+        this.adminService.getAllReservationsBetweenDates(stringStart, stringEnd).subscribe({
             next: async (response: any[]) => {
                 this.allReservations = response.map((reservation) => {
                     return {
@@ -866,13 +869,17 @@ export class ReportPdfServiceService {
                         duration: reservation.duration,
                         tableNumber: reservation.tableNumber,
                     };
-                    
                 });
-                if(this.allReservations.length > 0){
-                    const logoBase64 = await this.imageService.convertImageToBase64('../assets/images/sdbar-high-resolution-logo-black-transparent.png');
+                if (this.allReservations.length > 0) {
+                    this.allReservations.sort((a, b) => {
+                        return new Date(a.reservationDate).getTime() - new Date(b.reservationDate).getTime();
+                    });
+                    const logoBase64 = await this.imageService.convertImageToBase64(
+                        '../assets/images/sdbar-high-resolution-logo-black-transparent.png',
+                    );
                     const today = new Date();
                     const createdAt = this.sharedService.convertDateToYYMMDDHHMMSS(today);
-            
+
                     const reservationTableBody = [
                         [
                             { text: 'Id', style: 'tableHeader' },
@@ -888,17 +895,16 @@ export class ReportPdfServiceService {
                     ];
                     this.allReservations.forEach((reservation, index) => {
                         let reservationStatus;
-                        const reservationDate = this.sharedService.convertDateToYYMMDDHHMMSS(reservation.reservationDate)
-                        if(reservation.reservationStatus == true){
-                            reservationStatus = 'Confirmed'
+                        const reservationDate = this.sharedService.convertDateToYYMMDDHHMMSS(reservation.reservationDate);
+                        if (reservation.reservationStatus == true) {
+                            reservationStatus = 'Confirmed';
+                        } else {
+                            reservationStatus = 'Unconfirmed';
                         }
-                        else{
-                            reservationStatus = 'Unconfirmed'
-                        }
-                        
+
                         reservationTableBody.push([
                             {
-                                text: (reservation.reservationId).toString(),
+                                text: reservation.reservationId.toString(),
                                 style: '',
                             },
                             {
@@ -935,7 +941,7 @@ export class ReportPdfServiceService {
                             },
                         ]);
                     });
-            
+
                     const docDefinition: any = {
                         pageOrientation: 'landscape',
                         content: [
@@ -947,7 +953,7 @@ export class ReportPdfServiceService {
                             {
                                 style: 'table',
                                 table: {
-                                    widths: [40, 90, 90, 90, 90, 90, 80,50,50],
+                                    widths: [40, 90, 90, 90, 90, 90, 80, 50, 50],
                                     body: reservationTableBody,
                                 },
                             },
@@ -963,11 +969,10 @@ export class ReportPdfServiceService {
                         },
                         defaultStyles: {},
                     };
-            
+
                     pdfMake.createPdf(docDefinition).open();
-                }
-                else{
-                    this.sharedService.showNotification(false,'No data','There are 0 reservations in that period!')
+                } else {
+                    this.sharedService.showNotification(false, 'No data', 'There are 0 reservations in that period!');
                 }
             },
             error: (e) => {
@@ -976,7 +981,7 @@ export class ReportPdfServiceService {
         });
     }
 
-    async generateEmployeesReport(report: PosClosedReport){
+    async generateEmployeesReport(report: PosClosedReport) {
         const logoBase64 = await this.imageService.convertImageToBase64('../assets/images/sdbar-high-resolution-logo-black-transparent.png');
         const today = new Date();
         const createdAt = this.sharedService.convertDateToYYMMDDHHMMSS(today);
@@ -1007,7 +1012,6 @@ export class ReportPdfServiceService {
             ]);
         });
 
-
         const docDefinition: any = {
             content: [
                 { image: logoBase64, width: 50, height: 30, alignment: 'right' },
@@ -1036,6 +1040,5 @@ export class ReportPdfServiceService {
         };
 
         pdfMake.createPdf(docDefinition).open();
-
     }
 }

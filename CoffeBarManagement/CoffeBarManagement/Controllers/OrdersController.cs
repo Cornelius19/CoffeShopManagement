@@ -529,6 +529,28 @@ namespace CoffeBarManagement.Controllers
                     };
                     await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
                 }
+                else
+                {
+                    var productComponents = await _applicationContext.ComplexProductsComponents.Where(q => q.TargetProductId == product.productId).ToListAsync();
+                    foreach (var component in productComponents)
+                    {
+                        if (component.UsageQuantity > 0)
+                        {
+                            var result = await _applicationContext.Products.FindAsync(component.ComponentProductId);
+                            if (result == null) { return NotFound(new JsonResult( new { message = "Component product was not found!" })); }
+                            result.Quantity -= component.UsageQuantity;
+                            var stockBalanceRecord = new StockBalance
+                            {
+                                BalanceDate = DateTime.Now,
+                                ProductId = result.ProductId,
+                                RemoveQuantity = component.UsageQuantity,
+                                RemoveCategoryId = 1,
+                            };
+                            await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
+                            await _applicationContext.SaveChangesAsync();
+                        }
+                    }
+                }
                 await _applicationContext.OrderProducts.AddAsync(orderProduct);
                 await _applicationContext.SaveChangesAsync();
             }
@@ -726,6 +748,29 @@ namespace CoffeBarManagement.Controllers
                     };
 
                     await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
+                }
+                else
+                {
+                    var productComponents = await _applicationContext.ComplexProductsComponents.Where(q => q.TargetProductId == product.productId).ToListAsync();
+                    foreach (var component in productComponents)
+                    {
+                        if (component.UsageQuantity > 0)
+                        {
+                            var result = await _applicationContext.Products.FindAsync(component.ComponentProductId);
+                            if (result == null) { return NotFound(new JsonResult(new { message = "Component product was not found!" })); }
+                            result.Quantity -= component.UsageQuantity;
+                            var stockBalanceRecord = new StockBalance
+                            {
+                                BalanceDate = DateTime.Now,
+                                ProductId = result.ProductId,
+                                RemoveQuantity = component.UsageQuantity,
+                                RemoveCategoryId = 1,
+                            };
+                            await _applicationContext.StockBalances.AddAsync(stockBalanceRecord);
+                            await _applicationContext.SaveChangesAsync();
+                        }
+                    }
+
                 }
 
                 await _applicationContext.SaveChangesAsync();

@@ -23,7 +23,7 @@ namespace CoffeBarManagement.Controllers
         }
 
 
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("add-new-product-noncomplex")]
         public async Task<IActionResult> AddNewProduct(StockProducts model)
         {
@@ -54,7 +54,7 @@ namespace CoffeBarManagement.Controllers
             return Ok(new JsonResult(new { message = $"Product {model.Name} was successfuly added!" }));
         }
 
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("add-new-product-complex")]
         public async Task<IActionResult> AddNewComplexProduct(ComplexProductDto model)
         {
