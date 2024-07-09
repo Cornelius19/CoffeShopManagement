@@ -1,0 +1,30 @@
+<div class="container">
+    <h2 class="text-center">Stock balance data</h2>
+    <div class="container col-12 mx-auto acrylic shadow">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="excel-table" class="center table justify-content-center table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Nr.</th>
+                    <th>Date</th>
+                    <th>Product name</th>
+                    <th>Category name</th>
+                    <th>Removed quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (item of stockBalanceData; track $index) {
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ item.stockBalanceDate | date: 'dd/MM/yyyy hh:mm a' }}</td>
+                    <td>{{ item.productName }}</td>
+                    <td>{{ item.categoryName }}</td>
+                    <td>{{ item.removedQuantity }}</td>
+                    
+                }
+            </tbody>
+        </table>
+        <div class="text-end">
+            <button class="btn btn-dark btn-lg mt-2" (click)="exportToExcel()">Export to excel</button>
+        </div>
+    </div>
+</div>

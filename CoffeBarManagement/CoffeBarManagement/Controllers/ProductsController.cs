@@ -62,18 +62,24 @@ namespace CoffeBarManagement.Controllers
             var result = await _applicationContext.Products.Where(p => p.Name == model.Name).FirstOrDefaultAsync();
             if (result != null) { return BadRequest(new JsonResult(new { message = "A prduct with this name already exist!" })); }
             var idArray = model.ProductComponenetsId.ToList();
-            foreach (var id in idArray)
+            if (idArray.Count() != 0)
             {
-                var checkExitence = await _applicationContext.Products.FindAsync(id.id);
-                if (checkExitence == null)
+                foreach (var id in idArray)
                 {
-                    return BadRequest("Components contain an id from an unexistence product!");
+                    var checkExitence = await _applicationContext.Products.FindAsync(id.id);
+                    if (checkExitence == null)
+                    {
+                        return BadRequest("Components contain an id from an unexistence product!");
+                    }
+
                 }
 
+                bool areUnique = idArray.Distinct().Count() == idArray.Count;
+                if (!areUnique) return BadRequest(new JsonResult(new { message = "You can't duplicate components items!" }));
             }
-            if (idArray.Count == 0) { return BadRequest(new JsonResult(new { message = "A complex product should have some products to be made of" })); }
-            bool areUnique = idArray.Distinct().Count() == idArray.Count;
-            if (!areUnique) return BadRequest(new JsonResult(new { message = "You can't duplicate components items!" }));
+
+            //if (idArray.Count == 0) { return BadRequest(new JsonResult(new { message = "A complex product should have some products to be made of" })); }
+
             try
             {
                 var productToAdd = new Product
@@ -91,17 +97,22 @@ namespace CoffeBarManagement.Controllers
                 await _applicationContext.Products.AddAsync(productToAdd);
                 await _applicationContext.SaveChangesAsync();
 
-                foreach (var item in idArray)
+
+                if (idArray.Count() != 0)
                 {
-                    var componentProduct = new ComplexProductsComponent
+                    foreach (var item in idArray)
                     {
-                        TargetProductId = productToAdd.ProductId,
-                        ComponentProductId = item.id,
-                        UsageQuantity = item.quantity,
-                    };
-                    await _applicationContext.ComplexProductsComponents.AddAsync(componentProduct);
-                    await _applicationContext.SaveChangesAsync();
+                        var componentProduct = new ComplexProductsComponent
+                        {
+                            TargetProductId = productToAdd.ProductId,
+                            ComponentProductId = item.id,
+                            UsageQuantity = item.quantity,
+                        };
+                        await _applicationContext.ComplexProductsComponents.AddAsync(componentProduct);
+                        await _applicationContext.SaveChangesAsync();
+                    }
                 }
+
 
             }
             catch
@@ -127,16 +138,16 @@ namespace CoffeBarManagement.Controllers
             productToModify.AvailableForUser = model.AvailableForUser;
             await _applicationContext.SaveChangesAsync();
             var componentProducts = await _applicationContext.ComplexProductsComponents.Where(q => q.TargetProductId == productToModify.ProductId).ToListAsync();
-            foreach(var item in componentProducts)
+            foreach (var item in componentProducts)
             {
                 _applicationContext.ComplexProductsComponents.Remove(item);
                 await _applicationContext.SaveChangesAsync();
             }
-            
-            foreach(var item in model.ProductComponenetsId)
+
+            foreach (var item in model.ProductComponenetsId)
             {
                 var result = await _applicationContext.ComplexProductsComponents.Where(q => q.TargetProductId == model.ProductId && q.ComponentProductId == item.id).FirstOrDefaultAsync();
-                if (result == null) 
+                if (result == null)
                 {
                     var componentToAdd = new ComplexProductsComponent
                     {
@@ -148,7 +159,7 @@ namespace CoffeBarManagement.Controllers
                     await _applicationContext.SaveChangesAsync();
                     continue;
                 }
-                if(result.UsageQuantity == item.quantity)
+                if (result.UsageQuantity == item.quantity)
                 {
                     continue;
                 }
@@ -159,7 +170,7 @@ namespace CoffeBarManagement.Controllers
                 }
             }
             return Ok(new JsonResult(new { message = "Product was modified succesfully" }));
-            
+
 
         }
 
@@ -231,7 +242,7 @@ namespace CoffeBarManagement.Controllers
         [HttpGet("get-menu-products/{categoryId}")]
         public async Task<List<GetMenuProductDto>> GetMenuProducts(int categoryId)
         {
-            var result = await _applicationContext.Products.Where(q => q.CategoryId == categoryId && q.AvailableForUser == true).ToListAsync();
+            var result = await _applicationContext.Products.Where(q => q.CategoryId == categoryId && q.AvailableForUser == true).OrderBy(q => q.Name).ToListAsync();
             if (result == null) return new List<GetMenuProductDto>();
             var categoryProducts = new List<GetMenuProductDto>();
             foreach (var item in result)
@@ -304,7 +315,7 @@ namespace CoffeBarManagement.Controllers
             {
                 var itemToAdd = new GetProductComponentDto
                 {
-                    id= item.ProductId,
+                    id = item.ProductId,
                     name = item.Name,
                 };
                 listToReturn.Add(itemToAdd);
