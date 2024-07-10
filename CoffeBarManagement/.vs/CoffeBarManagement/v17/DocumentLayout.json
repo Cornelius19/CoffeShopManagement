@@ -48,7 +48,7 @@
               "RelativeDocumentMoniker": "CoffeBarManagement\\Controllers\\PosController.cs",
               "ToolTip": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\Controllers\\PosController.cs",
               "RelativeToolTip": "CoffeBarManagement\\Controllers\\PosController.cs",
-              "ViewState": "AQIAALAAAAAAAAAAAADwv8QAAABAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAMQAAABAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-10T13:39:21.521Z",
               "EditorCaption": ""
@@ -63,8 +63,7 @@
               "RelativeToolTip": "CoffeBarManagement\\Controllers\\ProductsController.cs",
               "ViewState": "AQIAAN8AAAAAAAAAAAA2wPgAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-09T12:58:13.935Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-09T12:58:13.935Z"
             },
             {
               "$type": "Document",
@@ -124,8 +123,7 @@
               "RelativeToolTip": "CoffeBarManagement\\Controllers\\ReportsController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAANAAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-25T14:20:28.914Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-25T14:20:28.914Z"
             }
           ]
         }
