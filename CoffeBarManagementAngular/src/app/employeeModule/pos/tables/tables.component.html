@@ -8,7 +8,7 @@
     <div class="row">
         @for (item of allTables; track item) {
         <div class="col-lg-3 col-sm-12">
-            <div class="card mt-3" [class.free]="item.tableStatus == false" [class.not-free]="item.tableStatus == true" style="width: 18rem">
+            <div class="card mt-3" [class.free]="item.tableStatus == false" [class.not-free]="item.tableStatus == true" style="width: 16rem">
                 <div class="card-body">
                     <h5 class="card-title">Table: {{ item.tableID }}</h5>
                     @if (item.tableStatus == true) {

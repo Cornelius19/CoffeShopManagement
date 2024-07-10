@@ -17,6 +17,8 @@ import { GetProducts } from './shared/models/getProducts';
 import { OrderDetailsDto } from './shared/models/orderDetailsDto';
 import { GetClientDataDto } from './shared/models/getClientsDataDto';
 import { GetReservation } from './shared/models/getReservation';
+import { AccountService } from './account/account.service';
+import { Roles } from '../dependencies/roles';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Injectable({
@@ -28,6 +30,7 @@ export class ReportPdfServiceService {
         private sharedService: SharedService,
         private posService: PosService,
         private adminService: AdminService,
+        private accountService: AccountService
     ) {}
     orderNoteData: OrderNoteData = {} as OrderNoteData;
     posCloseFiscalReport: ClosePosFiscalReport = {} as ClosePosFiscalReport;
@@ -141,6 +144,8 @@ export class ReportPdfServiceService {
                 { text: 'Sold Value', style: 'tableHeader' },
             ],
         ];
+        
+
         report.products.forEach((product) => {
             productsTableBody.push([
                 {
@@ -382,8 +387,13 @@ export class ReportPdfServiceService {
                         lineHeight: 1.5,
                     },
                 };
-
-                pdfMake.createPdf(docDefinition).open();
+                let role = this.accountService.getUserRole();
+                if(role == Roles.Client){
+                    pdfMake.createPdf(docDefinition).download();
+                }
+                else{
+                    pdfMake.createPdf(docDefinition).open();
+                }
             },
             error: (e) => {
                 console.log(e);
@@ -521,6 +531,7 @@ export class ReportPdfServiceService {
                     const formattedDate = this.sharedService.convertDateToYYMMDDHHMMSS(date);
 
                     const docDefinition: any = {
+                        pageOrientation: 'landscape',
                         content: [
                             { image: logoBase64, width: 70, height: 40, alignment: 'left' },
                             { text: 'Stock Products Report', style: 'header', margin: [0, 10, 0, 20], alignment: 'center' },
@@ -529,7 +540,7 @@ export class ReportPdfServiceService {
                             {
                                 style: 'table',
                                 table: {
-                                    widths: [30,100, 90, 80, 35, 70, 80],
+                                    widths: [40,'*', '*', '*', '*', '*', '*'],
                                     body: productTableBody,
                                 },
                             },
