@@ -131,7 +131,7 @@ namespace CoffeBarManagement.Controllers
 
 
                 var employeeDataList = new List<EmployeeOrdersDto>();
-                var allEmployees = await _applicationContext.Employees.ToListAsync();
+                var allEmployees = await _applicationContext.Employees.Where(q => q.Role != "admin").ToListAsync();
                 if (allEmployees.Count > 0)
                 {
                     foreach (var employee in allEmployees)
@@ -187,6 +187,19 @@ namespace CoffeBarManagement.Controllers
                         {
                             productsData.Add(productToAdd);
 
+                        }
+                    }
+
+                    for (int i = 0; i < productsData.Count; i++)
+                    {
+                        for (int j = 0; j < productsData.Count - 1 - i; j++)
+                        {
+                            if (productsData[j].selledQuantity < productsData[j + 1].selledQuantity)
+                            {
+                                var obj = productsData[j];
+                                productsData[j] = productsData[j + 1];
+                                productsData[j + 1] = obj;
+                            }
                         }
                     }
 

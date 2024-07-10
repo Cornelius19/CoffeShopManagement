@@ -115,6 +115,7 @@ export class Dashboard1Component implements OnInit {
                 labels: this.tablesId,
                 datasets: [
                     {
+                        label: 'Table orders',
                         data: this.tableOrdersCounter,
                         backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
                         borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
