@@ -272,7 +272,7 @@ export class PaymentComponent implements OnInit {
                     },
                 };
 
-                pdfMake.createPdf(docDefinition).download();
+                pdfMake.createPdf(docDefinition).open();
             },
             error: (e) => {
                 console.log(e);

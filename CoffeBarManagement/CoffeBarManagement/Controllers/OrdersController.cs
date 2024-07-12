@@ -373,10 +373,6 @@ namespace CoffeBarManagement.Controllers
         }
 
 
-
-
-
-
         [Authorize(Policy = "CheckOpenStatus")]
         [Authorize(Roles = Dependencis.DEFAULT_ROLE)]
         [HttpPost("add-new-product-to-order/{clientId}/{orderId}/{tableId}")]

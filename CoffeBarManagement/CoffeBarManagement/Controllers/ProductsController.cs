@@ -170,10 +170,7 @@ namespace CoffeBarManagement.Controllers
                 }
             }
             return Ok(new JsonResult(new { message = "Product was modified succesfully" }));
-
-
         }
-
 
 
         [Authorize(Roles = Dependencis.ADMIN_ROLE)]

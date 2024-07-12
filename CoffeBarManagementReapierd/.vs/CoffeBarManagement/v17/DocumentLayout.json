@@ -1,0 +1,118 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\CoffeBarManagementReapierd\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\coffebarmanagementreapierd\\coffebarmanagement\\data\\applicationcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\data\\applicationcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\coffebarmanagementreapierd\\coffebarmanagement\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\coffebarmanagementreapierd\\coffebarmanagement\\coffebarmanagement.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\coffebarmanagement.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\coffebarmanagementreapierd\\coffebarmanagement\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\coffebarmanagementreapierd\\coffebarmanagement\\coffebarmanagement.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\coffebarmanagement.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|d:\\coffebarmanagementreapierd\\coffebarmanagement\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{03790804-FDA6-46E4-A77C-0085AFA7F0A8}|CoffeBarManagement\\CoffeBarManagement.csproj|solutionrelative:coffebarmanagement\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ApplicationContext.cs",
+              "DocumentMoniker": "D:\\CoffeBarManagementReapierd\\CoffeBarManagement\\Data\\ApplicationContext.cs",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\Data\\ApplicationContext.cs",
+              "ToolTip": "D:\\CoffeBarManagementReapierd\\CoffeBarManagement\\Data\\ApplicationContext.cs",
+              "RelativeToolTip": "CoffeBarManagement\\Data\\ApplicationContext.cs",
+              "ViewState": "AQIAAB8AAAAAAAAAAAAkwCoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-11T07:22:14.125Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CoffeBarManagement.http",
+              "DocumentMoniker": "D:\\CoffeBarManagementReapierd\\CoffeBarManagement\\CoffeBarManagement.http",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\CoffeBarManagement.http",
+              "ToolTip": "D:\\CoffeBarManagementReapierd\\CoffeBarManagement\\CoffeBarManagement.http",
+              "RelativeToolTip": "CoffeBarManagement\\CoffeBarManagement.http",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2024-07-10T21:38:28.479Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\CoffeBarManagementReapierd\\CoffeBarManagement\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\appsettings.Development.json",
+              "ToolTip": "D:\\CoffeBarManagementReapierd\\CoffeBarManagement\\appsettings.Development.json",
+              "RelativeToolTip": "CoffeBarManagement\\appsettings.Development.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAABNAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-07-10T21:11:36.233Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\CoffeBarManagementReapierd\\CoffeBarManagement\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\Properties\\launchSettings.json",
+              "ToolTip": "D:\\CoffeBarManagementReapierd\\CoffeBarManagement\\Properties\\launchSettings.json",
+              "RelativeToolTip": "CoffeBarManagement\\Properties\\launchSettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-07-10T21:05:22.553Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CoffeBarManagement.csproj",
+              "DocumentMoniker": "D:\\CoffeBarManagementReapierd\\CoffeBarManagement\\CoffeBarManagement.csproj",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\CoffeBarManagement.csproj",
+              "ToolTip": "D:\\CoffeBarManagementReapierd\\CoffeBarManagement\\CoffeBarManagement.csproj",
+              "RelativeToolTip": "CoffeBarManagement\\CoffeBarManagement.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-07-10T21:05:19.038Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\CoffeBarManagementReapierd\\CoffeBarManagement\\appsettings.json",
+              "RelativeDocumentMoniker": "CoffeBarManagement\\appsettings.json",
+              "ToolTip": "D:\\CoffeBarManagementReapierd\\CoffeBarManagement\\appsettings.json",
+              "RelativeToolTip": "CoffeBarManagement\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-07-10T21:05:11.078Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

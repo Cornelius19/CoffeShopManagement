@@ -389,9 +389,13 @@ export class ReportPdfServiceService {
                 };
                 let role = this.accountService.getUserRole();
                 if(role == Roles.Client){
+                    console.log(role);
+                    
                     pdfMake.createPdf(docDefinition).download();
                 }
                 else{
+                    console.log(role);
+
                     pdfMake.createPdf(docDefinition).open();
                 }
             },

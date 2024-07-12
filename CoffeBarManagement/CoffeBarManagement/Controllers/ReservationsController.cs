@@ -321,7 +321,7 @@ namespace CoffeBarManagement.Controllers
         [HttpGet("get-all-reservations-employee")]
         public async Task<List<GetReservationDto>> GetAllReservationEmployee()
         {
-            var allReservations = await _applicationContext.Reservations.ToListAsync();
+            var allReservations = await _applicationContext.Reservations.OrderBy(q => q.ReservationDate).ToListAsync();
             var allReservationsToShow = new List<GetReservationDto>();
             if (allReservations == null) return new List<GetReservationDto>();
             foreach(var reservation in allReservations)

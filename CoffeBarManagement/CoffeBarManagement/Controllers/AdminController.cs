@@ -122,7 +122,6 @@ namespace CoffeBarManagement.Controllers
         }
 
 
-
         [HttpDelete("delete-client/{id}")]
         public async Task<IActionResult> DeleteClientById(int id)
         {
@@ -340,7 +339,7 @@ namespace CoffeBarManagement.Controllers
         public async Task<List<EmployeeOrdersDto>> GetEmployeeOrderStatistics()
         {
             var listToReturn = new List<EmployeeOrdersDto>();
-            var employees = await _applicationContext.Employees.Where(e => e.Lock == false).ToListAsync();
+            var employees = await _applicationContext.Employees.Where(e => e.Lock == false && e.Role != "admin").ToListAsync();
             if(employees.Count > 0)
             {
                 foreach (var employee in employees) {
