@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CoffeBarManagement")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7d359be2563768d1dbbbd8471d559604f4157c0a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a2490d74543b7f9bffe27e8d8679aed7f13188f")]
 [assembly: System.Reflection.AssemblyProductAttribute("CoffeBarManagement")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CoffeBarManagement")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

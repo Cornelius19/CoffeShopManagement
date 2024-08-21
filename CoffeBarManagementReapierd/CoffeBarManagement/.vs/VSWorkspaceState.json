@@ -1,6 +1,15 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Controllers",
+    "\\Data",
+    "\\Data\\IdentityDbContext",
+    "\\DTOs",
+    "\\DTOs\\Account",
+    "\\Models",
+    "\\Models\\IdentityModels",
+    "\\Services"
   ],
+  "SelectedNode": "\\Controllers\\AccountController.cs",
   "PreviewInSolutionExplorer": false
 }

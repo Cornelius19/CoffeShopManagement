@@ -1,7 +1,48 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Licenta\\CoffeBarManagement\\CoffeBarManagement\\",
-  "Documents": [],
+  "WorkspaceRootPath": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Controllers\\AccountController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\AccountController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\DTOs\\Account\\RegisterDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\Account\\RegisterDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\DTOs\\Account\\LoginDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\Account\\LoginDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Models\\IdentityModels\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\IdentityModels\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Data\\IdentityDbContext\\Context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Data\\IdentityDbContext\\Context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Controllers\\AdminController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\AdminController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Dependencis.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Dependencis.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Services\\JWTService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\JWTService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\appsettings.Development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:appsettings.Development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +50,130 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 7,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RegisterDto.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\DTOs\\Account\\RegisterDto.cs",
+              "RelativeDocumentMoniker": "DTOs\\Account\\RegisterDto.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\DTOs\\Account\\RegisterDto.cs",
+              "RelativeToolTip": "DTOs\\Account\\RegisterDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAABLAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-04T14:06:07.391Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoginDto.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\DTOs\\Account\\LoginDto.cs",
+              "RelativeDocumentMoniker": "DTOs\\Account\\LoginDto.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\DTOs\\Account\\LoginDto.cs",
+              "RelativeToolTip": "DTOs\\Account\\LoginDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-02T11:05:59.714Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "Controllers\\AdminController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-02T10:19:58.997Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Context.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Data\\IdentityDbContext\\Context.cs",
+              "RelativeDocumentMoniker": "Data\\IdentityDbContext\\Context.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Data\\IdentityDbContext\\Context.cs",
+              "RelativeToolTip": "Data\\IdentityDbContext\\Context.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-01T10:04:39.129Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Models\\IdentityModels\\User.cs",
+              "RelativeDocumentMoniker": "Models\\IdentityModels\\User.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Models\\IdentityModels\\User.cs",
+              "RelativeToolTip": "Models\\IdentityModels\\User.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-01T10:00:56.571Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "JWTService.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Services\\JWTService.cs",
+              "RelativeDocumentMoniker": "Services\\JWTService.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Services\\JWTService.cs",
+              "RelativeToolTip": "Services\\JWTService.cs",
+              "ViewState": "AQIAADkAAAAAAAAAAAAAAFIAAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-01T10:00:29.024Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Dependencis.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Dependencis.cs",
+              "RelativeDocumentMoniker": "Dependencis.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Dependencis.cs",
+              "RelativeToolTip": "Dependencis.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-01T10:00:12.179Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\AccountController.cs",
+              "ViewState": "AQIAAFEAAAAAAAAAAAAAAGgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-01T09:38:45.497Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAADMAAAAAAAAAAAAAAD0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-31T14:19:58.901Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "appsettings.Development.json",
+              "ToolTip": "D:\\Licenta\\CoffeBarManagementReapierd\\CoffeBarManagement\\appsettings.Development.json",
+              "RelativeToolTip": "appsettings.Development.json",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAgAAACkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-07-31T14:11:31.031Z"
             }
           ]
         }
